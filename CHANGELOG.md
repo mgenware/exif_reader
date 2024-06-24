@@ -2,6 +2,7 @@
 
 - Add missing tags found in DNG files
 - Add some JXL tags
+- Support more compression values.
 
 ## 3.3.0
 

@@ -1,7 +1,7 @@
 @TestOn('vm')
 import 'dart:io' as io;
 
-import 'package:exif_dart/exif.dart';
+import 'package:exif_reader/exif.dart';
 import 'package:test/test.dart';
 
 void main() {

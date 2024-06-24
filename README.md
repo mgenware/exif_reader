@@ -1,7 +1,7 @@
-# exif_dart
+# exif_reader
 
-[![Pub Package](https://img.shields.io/pub/v/exif_dart.svg)](https://pub.dev/packages/exif_dart)
-[![Dart CI](https://github.com/mgenware/exif_dart/actions/workflows/dart.yml/badge.svg)](https://github.com/mgenware/exif_dart/actions/workflows/dart.yml)
+[![Pub Package](https://img.shields.io/pub/v/exif_reader.svg)](https://pub.dev/packages/exif_reader)
+[![Dart CI](https://github.com/mgenware/exif_reader/actions/workflows/dart.yml/badge.svg)](https://github.com/mgenware/exif_reader/actions/workflows/dart.yml)
 
 Dart package to decode Exif data from TIFF, JPEG, HEIC, PNG and WebP files.
 

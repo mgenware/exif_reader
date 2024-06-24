@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:exif_dart/exif.dart';
+import 'package:exif_reader/exif.dart';
 
 void usage(int exitStatus) {
   const msg = 'Usage: EXIF [OPTIONS] file1 [file2 ...]\n'

@@ -1,8 +1,8 @@
-name: exif_dart
+name: exif_reader
 version: 3.4.0
 description: >-
   Decode Exif metadata from digital image files.
-homepage: https://www.github.com/mgenware/exif_dart
+homepage: https://www.github.com/mgenware/exif_reader
 environment:
   sdk: ">=2.12.0 <4.0.0"
 dependencies:
