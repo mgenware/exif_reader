@@ -1,8 +1,1 @@
-include: package:lints/recommended.yaml
-
-linter:
-  rules:
-    avoid_print: false
-    avoid_catching_errors: false
-    avoid_classes_with_only_static_members: false
-    require_trailing_commas: false
+include: package:mgenware_dart_lints/lints.yaml

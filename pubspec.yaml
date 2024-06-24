@@ -16,7 +16,7 @@ dev_dependencies:
   build_runner: ^2.1.4
   http: ">=1.0.0 <2.0.0"
   json_serializable: ^6.0.0
-  lints: ^2.0.1
+  mgenware_dart_lints: ^5.0.0
   path: ^1.8.0
   stream_channel: ^2.1.0
   test: ^1.16.8
