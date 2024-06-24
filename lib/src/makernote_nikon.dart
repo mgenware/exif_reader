@@ -1,6 +1,5 @@
 import 'exif_types.dart';
-import 'tags_info.dart'
-    show MakerTag, MakerTagFunc, TagsBase;
+import 'tags_info.dart' show MakerTag, MakerTagFunc, TagsBase;
 import 'util.dart';
 import 'package:sprintf/sprintf.dart' show sprintf;
 

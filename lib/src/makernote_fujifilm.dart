@@ -1,5 +1,4 @@
-import 'tags_info.dart'
-    show MakerTag, MakerTagFunc, TagsBase;
+import 'tags_info.dart' show MakerTag, MakerTagFunc, TagsBase;
 import 'util.dart';
 
 // Makernote (proprietary) tag definitions for FujiFilm.
