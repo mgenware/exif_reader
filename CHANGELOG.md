@@ -1,3 +1,8 @@
+## 3.4.0
+
+- Add missing tags found in DNG files
+- Add some JXL tags
+
 ## 3.3.0
 
 - Add WebP Support
