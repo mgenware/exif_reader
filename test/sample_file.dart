@@ -8,12 +8,12 @@ part 'sample_file.g.dart';
 @JsonSerializable()
 class SampleFile {
   String name;
-  String encodedContent = "";
+  String encodedContent = '';
   String? dump;
 
   List<int> getContent() => base64.decode(encodedContent);
 
-  SampleFile({this.name = "", this.dump = "", Uint8List? content}) {
+  SampleFile({this.name = '', this.dump = '', Uint8List? content}) {
     if (content != null) {
       encodedContent = base64.encode(content);
     }

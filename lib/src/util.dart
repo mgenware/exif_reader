@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type, inference_failure_on_instance_creation
+
 import 'dart:math';
 
 import 'package:collection/collection.dart' show ListEquality;
@@ -28,6 +30,7 @@ bool listHasPrefix(List list, List prefix, {int start = 0}) {
 bool listContainedIn<T>(List<T> a, List<List<T>> b) =>
     b.any((i) => listEqual(i, a));
 
+// ignore: avoid_print
 void printf(String a, List b) => print(sprintf(a, b));
 
 // Don't throw an exception when given an out of range character.
@@ -35,7 +38,7 @@ String makeString(List<int> seq) {
   String s = String.fromCharCodes(seq.where((c) => 32 <= c && c < 256));
   if (s.isEmpty) {
     if (seq.isEmpty || seq.reduce(max) == 0) {
-      return "";
+      return '';
     }
     s = seq.map((e) => e.toString()).join();
   }
@@ -46,7 +49,7 @@ String makeString(List<int> seq) {
 // First 8 bytes gives coding system e.g. ASCII vs. JIS vs Unicode.
 String makeStringUc(List<int> seq) {
   if (seq.length <= 8) {
-    return "";
+    return '';
   }
 
   // Remove code from sequence only if it is valid

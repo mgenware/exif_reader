@@ -1,10 +1,10 @@
-import 'package:exif/src/exif_thumbnail.dart';
-import 'package:exif/src/exif_types.dart';
-import 'package:exif/src/field_types.dart';
-import 'package:exif/src/reader.dart';
-import 'package:exif/src/tags.dart';
-import 'package:exif/src/tags_info.dart';
-import 'package:exif/src/values_to_printable.dart';
+import 'exif_thumbnail.dart';
+import 'exif_types.dart';
+import 'field_types.dart';
+import 'reader.dart';
+import 'tags.dart';
+import 'tags_info.dart';
+import 'values_to_printable.dart';
 import 'package:sprintf/sprintf.dart' show sprintf;
 
 const defaultStopTag = 'UNDEF';
@@ -72,7 +72,7 @@ class ExifHeader {
     try {
       entries = file.readIfdEntries(ifd, relative: relative);
     } catch (e) {
-      warnings.add("Possibly corrupted IFD: $ifd");
+      warnings.add('Possibly corrupted IFD: $ifd');
       return;
     }
 
@@ -128,7 +128,7 @@ class ExifHeader {
     final printable = ValuesToPrintable.convert(values, entry,
         tagEntry: tagEntry, truncateTags: truncateTags);
     if (printable.malformed) {
-      warnings.add("Possibly corrupted field $tagName in $ifdName IFD");
+      warnings.add('Possibly corrupted field $tagName in $ifdName IFD');
     }
 
     final makerTags = tagEntry?.tags;

@@ -1,6 +1,8 @@
+// ignore_for_file: strict_raw_type
+
 import 'dart:convert';
 
-import "package:stream_channel/stream_channel.dart";
+import 'package:stream_channel/stream_channel.dart';
 
 import 'read_samples.dart';
 
@@ -9,5 +11,5 @@ Future hybridMain(StreamChannel channel) async {
     channel.sink.add(const JsonEncoder().convert(file));
   }
 
-  channel.sink.close();
+  await channel.sink.close();
 }

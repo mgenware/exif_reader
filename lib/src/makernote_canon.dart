@@ -1,4 +1,4 @@
-import 'package:exif/src/tags_info.dart' show MakerTag, TagsBase;
+import 'tags_info.dart' show MakerTag, TagsBase;
 import 'package:sprintf/sprintf.dart' show sprintf;
 
 // Makernote (proprietary) tag definitions for Canon.
@@ -619,11 +619,11 @@ class MakerNoteCanon extends TagsBase {
   };
 
   static String addOneFunc(int value) {
-    return "${value + 1}";
+    return '${value + 1}';
   }
 
   static String subtractOneFunc(int value) {
-    return "${value - 1}";
+    return '${value - 1}';
   }
 
   static String convertTempFunc(int value) {

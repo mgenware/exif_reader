@@ -1,5 +1,5 @@
-import 'package:exif/src/file_interface.dart';
-import 'package:exif/src/read_exif.dart';
+import 'file_interface.dart';
+import 'read_exif.dart';
 
 Future<String> printExifOfBytes(List<int> bytes,
     {String? stopTag,
@@ -10,10 +10,10 @@ Future<String> printExifOfBytes(List<int> bytes,
       readExifFromFileReader(FileReader.fromBytes(bytes), stopTag: stopTag);
 
   if (data.tags.isEmpty) {
-    return "No EXIF information found";
+    return 'No EXIF information found';
   }
 
-  final prints = [];
+  final prints = <String>[];
 
   // prints.addAll(data.warnings);
 
@@ -31,8 +31,8 @@ Future<String> printExifOfBytes(List<int> bytes,
 
   for (final key in tagKeys) {
     final tag = data.tags[key];
-    prints.add("$key (${tag!.tagType}): $tag");
+    prints.add('$key (${tag!.tagType}): $tag');
   }
 
-  return prints.join("\n");
+  return prints.join('\n');
 }

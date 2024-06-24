@@ -1,16 +1,18 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
-import 'package:exif/exif.dart';
+import 'package:exif_dart/exif.dart';
 
-Future main(List<String> arguments) async {
+Future<void> main(List<String> arguments) async {
   for (final filename in arguments) {
-    print("read $filename ..");
+    print('read $filename ..');
 
     final fileBytes = File(filename).readAsBytesSync();
     final data = await readExifFromBytes(fileBytes);
 
     if (data.isEmpty) {
-      print("No EXIF information found");
+      print('No EXIF information found');
       return;
     }
 
@@ -20,7 +22,7 @@ Future main(List<String> arguments) async {
     var lngVal = gpsValuesToFloat(data['GPS GPSLongitude']?.values);
 
     if (latRef == null || latVal == null || lngRef == null || lngVal == null) {
-      print("GPS information not found");
+      print('GPS information not found');
       return;
     }
 
@@ -32,8 +34,8 @@ Future main(List<String> arguments) async {
       lngVal *= -1;
     }
 
-    print("lat = $latVal");
-    print("lng = $lngVal");
+    print('lat = $latVal');
+    print('lng = $lngVal');
   }
 }
 

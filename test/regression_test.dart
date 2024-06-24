@@ -1,8 +1,8 @@
-import 'package:exif/exif.dart';
-import "package:test/test.dart";
+import 'package:exif_dart/exif.dart';
+import 'package:test/test.dart';
 
 void main() {
-  test("range error", () async {
+  test('range error', () async {
     final data = [
       '',
       '\xFF',
@@ -17,7 +17,7 @@ void main() {
 
     for (final x in data) {
       final exifDump = await printExifOfBytes(x.codeUnits);
-      expect(exifDump, equals("No EXIF information found"), reason: x);
+      expect(exifDump, equals('No EXIF information found'), reason: x);
     }
   });
 }

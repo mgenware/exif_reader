@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:exif/src/exif_types.dart';
-import 'package:exif/src/field_types.dart';
-import 'package:exif/src/reader.dart';
-import 'package:exif/src/tags_info.dart';
+import 'exif_types.dart';
+import 'field_types.dart';
+import 'reader.dart';
+import 'tags_info.dart';
 
 class ValuesToPrintable {
   final String value;
@@ -55,7 +55,7 @@ class ValuesToPrintable {
     if (entry.count > 50 && values.length > 20) {
       if (truncateTags) {
         final s = values.toList().sublist(0, 20).toString();
-        return ValuesToPrintable("${s.substring(0, s.length - 1)}, ... ]");
+        return ValuesToPrintable('${s.substring(0, s.length - 1)}, ... ]');
       }
     }
 
@@ -76,7 +76,7 @@ class ValuesToPrintable {
 
         if (e < 32 || e >= 128) {
           final hex = e.toRadixString(16).padLeft(2, '0');
-          return "\\x$hex";
+          return '\\x$hex';
         }
 
         return String.fromCharCode(e);

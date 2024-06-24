@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:exif/src/file_interface.dart';
-import 'package:exif/src/util.dart';
+import 'file_interface.dart';
+import 'util.dart';
 
 class HeicBox {
   final String name;
@@ -12,7 +12,7 @@ class HeicBox {
   int size = 0;
   int after = 0;
   int pos = 0;
-  List compat = [];
+  List<dynamic> compat = [];
 
   // this is full of boxes, but not in a predictable order.
   Map<String, HeicBox> subs = {};
@@ -45,7 +45,7 @@ class HEICExifFinder {
   Uint8List getBytes(int nbytes) {
     final bytes = fileReader.readSync(nbytes);
     if (bytes.length != nbytes) {
-      throw Exception("Bad size");
+      throw Exception('Bad size');
     }
     return Uint8List.fromList(bytes);
   }
@@ -64,7 +64,7 @@ class HEICExifFinder {
     if (size == 0) {
       return 0;
     }
-    throw Exception("Bad size");
+    throw Exception('Bad size');
   }
 
   Uint8List getString() {
@@ -93,7 +93,7 @@ class HEICExifFinder {
     final box = HeicBox(kind);
     if (size == 0) {
       //  signifies 'to the end of the file', we shouldn't see this.
-      throw Exception("Unknown error");
+      throw Exception('Unknown error');
     }
     if (size == 1) {
       // 64-bit size follows type.
@@ -176,7 +176,7 @@ class HEICExifFinder {
     } else if (box.version == 2) {
       box.itemCount = ByteData.view(getBytes(4).buffer).getInt32(0);
     } else {
-      throw Exception("Box version 2, ${box.version}");
+      throw Exception('Box version 2, ${box.version}');
     }
     box.locs = {};
     for (var i = 0; i < box.itemCount; i += 1) {
@@ -186,7 +186,7 @@ class HEICExifFinder {
       } else if (box.version == 2) {
         itemId = ByteData.view(getBytes(4).buffer).getInt32(0);
       } else {
-        throw Exception("Box version 2, ${box.version}");
+        throw Exception('Box version 2, ${box.version}');
       }
 
       if (box.version == 1 || box.version == 2) {

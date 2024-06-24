@@ -12,12 +12,12 @@ import 'sample_file.dart';
 Stream<SampleFile> readSamples() async* {
   yield* readIanareSamples();
 
-  yield await readSampleFile("test/data/heic-test.heic");
+  yield await readSampleFile('test/data/heic-test.heic');
 }
 
 Future<SampleFile> readSampleFile(String filename) async {
   final fileBytes = await io.File(filename).readAsBytes();
-  final dump = await io.File("$filename.dump").readAsString();
+  final dump = await io.File('$filename.dump').readAsString();
 
   return SampleFile(
     name: filename,
@@ -27,19 +27,19 @@ Future<SampleFile> readSampleFile(String filename) async {
 }
 
 Stream<SampleFile> readIanareSamples() async* {
-  const commit = "2a62d69683c154ffe03b4502bdfa3248d8a1b05c";
-  final filenamePrefix = p.join("test", "data", "$commit-");
+  const commit = '2a62d69683c154ffe03b4502bdfa3248d8a1b05c';
+  final filenamePrefix = p.join('test', 'data', '$commit-');
 
   final dumpFile = await downloadUrl(
     filenamePrefix,
-    "https://raw.githubusercontent.com/ianare/exif-samples/$commit/dump",
+    'https://raw.githubusercontent.com/ianare/exif-samples/$commit/dump',
   );
 
   final nameToDumps = readDumpFile(dumpFile);
 
   final path = await downloadUrl(
     filenamePrefix,
-    "https://github.com/ianare/exif-samples/archive/$commit.tar.gz",
+    'https://github.com/ianare/exif-samples/archive/$commit.tar.gz',
   );
 
   final data = io.File(path).readAsBytesSync();
@@ -48,7 +48,7 @@ Stream<SampleFile> readIanareSamples() async* {
 
   for (final file in ar) {
     file.name =
-        file.name.replaceAll("exif-samples-$commit", "exif-samples-master");
+        file.name.replaceAll('exif-samples-$commit', 'exif-samples-master');
 
     if (!file.name.endsWith('.jpg') && !file.name.endsWith('.tiff')) {
       continue;
@@ -67,16 +67,16 @@ Stream<SampleFile> readIanareSamples() async* {
 }
 
 Map<String, String> readDumpFile(String dumpFile) {
-  final fileDumps = io.File(dumpFile).readAsStringSync().trim().split("\n\n");
+  final fileDumps = io.File(dumpFile).readAsStringSync().trim().split('\n\n');
 
-  final nameAndDumps = fileDumps.map((e) => e.split("\n")).map((e) => MapEntry(
-      e[0].split("Opening: ")[1],
+  final nameAndDumps = fileDumps.map((e) => e.split('\n')).map((e) => MapEntry(
+      e[0].split('Opening: ')[1],
       e
           .sublist(1)
           .where((e) =>
-              !e.startsWith("Possibly corrupted ") &&
-              !e.startsWith("No values found for "))
-          .join("\n")));
+              !e.startsWith('Possibly corrupted ') &&
+              !e.startsWith('No values found for '))
+          .join('\n')));
 
   return Map.fromEntries(nameAndDumps);
 }
@@ -85,6 +85,7 @@ Future<String> downloadUrl(String filenamePrefix, String url) async {
   final filename = filenamePrefix + Uri.parse(url).pathSegments.last;
 
   if (!await io.File(filename).exists()) {
+    // ignore: avoid_print
     print('downloading $filename ..');
     final res = await http.get(Uri.parse(url));
     await io.File(filename).writeAsBytes(res.bodyBytes);

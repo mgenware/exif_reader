@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type
+
 import 'dart:typed_data';
 
 class IfdTag {
@@ -46,7 +48,7 @@ class IfdNone extends IfdValues {
   int firstAsInt() => 0;
 
   @override
-  String toString() => "[]";
+  String toString() => '[]';
 }
 
 class IfdRatios extends IfdValues {

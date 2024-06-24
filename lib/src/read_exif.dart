@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:exif/src/exif_decode_makernote.dart';
-import 'package:exif/src/exif_types.dart';
-import 'package:exif/src/exifheader.dart';
-import 'package:exif/src/file_interface.dart';
-import 'package:exif/src/heic.dart';
-import 'package:exif/src/linereader.dart';
-import 'package:exif/src/reader.dart';
-import 'package:exif/src/util.dart';
+import 'exif_decode_makernote.dart';
+import 'exif_types.dart';
+import 'exifheader.dart';
+import 'file_interface.dart';
+import 'heic.dart';
+import 'linereader.dart';
+import 'reader.dart';
+import 'util.dart';
 
 int _incrementBase(List<int> data, int base) {
   return (data[base + 2]) * 256 + (data[base + 3]) + 2;
@@ -76,10 +76,10 @@ ExifData readExifFromFileReader(FileReader f,
   } else if (_isWebp(header)) {
     readParams = _webpReadParams(f);
   } else {
-    return ExifData.withWarning("File format not recognized.");
+    return ExifData.withWarning('File format not recognized.');
   }
 
-  if (readParams.error != "") {
+  if (readParams.error != '') {
     return ExifData.withWarning(readParams.error);
   }
 
@@ -150,7 +150,9 @@ void _parseXmpTags(FileReader f, ExifHeader hdr) {
     final reader = LineReader(f);
     while (true) {
       String line = reader.readLine();
-      if (line.isEmpty) break;
+      if (line.isEmpty) {
+        break;
+      }
 
       final openTag = line.indexOf('<x:xmpmeta');
       final closeTag = line.indexOf('</x:xmpmeta>');
@@ -213,7 +215,7 @@ ReadParams _heicReadParams(FileReader f) {
   final heic = HEICExifFinder(f);
   final res = heic.findExif();
   if (res.length != 2) {
-    return ReadParams.error("Possibly corrupted heic data");
+    return ReadParams.error('Possibly corrupted heic data');
   }
   final int offset = res[0];
   final Endian endian = Reader.endianOfByte(res[1]);
@@ -231,7 +233,7 @@ ReadParams _jpegReadParams(FileReader f) {
   const headerLength = 12;
   var data = f.readSync(headerLength);
   if (data.length != headerLength) {
-    return ReadParams.error("File format not recognized.");
+    return ReadParams.error('File format not recognized.');
   }
 
   var base = 2;
@@ -279,7 +281,7 @@ ReadParams _jpegReadParams(FileReader f) {
       // print("**   APP1 at base $base");
       // print("**   Length: (${data[base + 2]}, ${data[base + 3]})");
       // print("**   Code: ${new String.fromCharCodes(data.sublist(base + 4,base + 8))}");
-      if (listRangeEqual(data, base + 4, base + 8, "Exif".codeUnits)) {
+      if (listRangeEqual(data, base + 4, base + 8, 'Exif'.codeUnits)) {
         // print("**  Decrement base by 2 to get to pre-segment header (for compatibility with later code)");
         base -= 2;
         break;
@@ -327,7 +329,7 @@ ReadParams _jpegReadParams(FileReader f) {
         base += _incrementBase(data, base);
       } on RangeError {
         return ReadParams.error(
-            "Unexpected/unhandled segment type or file content.");
+            'Unexpected/unhandled segment type or file content.');
       }
     }
   }
@@ -357,7 +359,7 @@ ReadParams _jpegReadParams(FileReader f) {
     // print("** No EXIF header expected data[2+base]==0xFF and data[6+base:10+base]===Exif (or Duck)");
     // printf("** Did get 0x%X and %s",
     //              [data[2 + base], data.sublist(6 + base,10 + base + 1)]);
-    return ReadParams.error("No EXIF information found");
+    return ReadParams.error('No EXIF information found');
   }
 
   return ReadParams(endian: endian, offset: offset, fakeExif: fakeExif);
@@ -369,10 +371,10 @@ ReadParams _pngReadParams(FileReader f) {
     final data = f.readSync(8);
     final chunk = String.fromCharCodes(data.sublist(4, 8));
 
-    if (chunk.isEmpty || chunk == "IEND") {
+    if (chunk.isEmpty || chunk == 'IEND') {
       break;
     }
-    if (chunk == "eXIf") {
+    if (chunk == 'eXIf') {
       final offset = f.positionSync();
       final endian = Reader.endianOfByte(f.readByteSync());
       return ReadParams(endian: endian, offset: offset);
@@ -383,7 +385,7 @@ ReadParams _pngReadParams(FileReader f) {
     f.setPositionSync(f.positionSync() + chunkSize + 4);
   }
 
-  return ReadParams.error("No EXIF information found");
+  return ReadParams.error('No EXIF information found');
 }
 
 ReadParams _webpReadParams(FileReader f) {
@@ -398,9 +400,9 @@ ReadParams _webpReadParams(FileReader f) {
   while (true) {
     final header = f.readSync(8);
     if (header.isEmpty) {
-      return ReadParams.error("No EXIF information found");
+      return ReadParams.error('No EXIF information found');
     } else if (header.length < 8) {
-      return ReadParams.error("Invalid RIFF encoding");
+      return ReadParams.error('Invalid RIFF encoding');
     }
 
     final tag = String.fromCharCodes(header.sublist(0, 4));
@@ -411,7 +413,7 @@ ReadParams _webpReadParams(FileReader f) {
 
     // According to exiftool's RIFF documentation, WebP uses "EXIF" as tag
     // name while other RIFF-based files tend to use "Exif".
-    if (tag == "EXIF") {
+    if (tag == 'EXIF') {
       // Look for Exif\x00\x00, and skip it if present. The WebP implementation
       // in Exiv2 also handles a \xFF\x01\xFF\xE1\x00\x00 prefix, but with no
       // explanation or test file present, so we ignore that for now.
@@ -450,7 +452,7 @@ class ReadParams {
     required this.offset,
     // by default do not fake an EXIF beginning
     this.fakeExif = false,
-  }) : error = "";
+  }) : error = '';
 
   ReadParams.error(this.error)
       : endian = Endian.little,

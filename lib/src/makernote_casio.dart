@@ -1,4 +1,4 @@
-import 'package:exif/src/tags_info.dart' show MakerTag, TagsBase;
+import 'tags_info.dart' show MakerTag, TagsBase;
 
 // Makernote (proprietary) tag definitions for casio.
 

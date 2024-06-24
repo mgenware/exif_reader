@@ -19,7 +19,7 @@ class MakerTagsWithName {
   String name;
   Map<int, MakerTag> tags;
 
-  MakerTagsWithName({this.name = "", this.tags = const {}});
+  MakerTagsWithName({this.name = '', this.tags = const {}});
 }
 
 class TagsBase {}

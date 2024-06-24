@@ -1,6 +1,7 @@
-import 'package:exif/src/exif_types.dart';
-import 'package:exif/src/tags_info.dart' show MakerTag, MakerTagFunc, TagsBase;
-import 'package:exif/src/util.dart';
+import 'exif_types.dart';
+import 'tags_info.dart'
+    show MakerTag, MakerTagFunc, TagsBase;
+import 'util.dart';
 import 'package:sprintf/sprintf.dart' show sprintf;
 
 // Makernote (proprietary) tag definitions for Nikon.

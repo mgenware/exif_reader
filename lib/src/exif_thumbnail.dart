@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:exif/src/exifheader.dart';
-import 'package:exif/src/field_types.dart';
-import 'package:exif/src/reader.dart';
+import 'exifheader.dart';
+import 'field_types.dart';
+import 'reader.dart';
 
 class Thumbnail {
   final Map<String, IfdTagImpl> tags;

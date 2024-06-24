@@ -1,5 +1,6 @@
-import 'package:exif/src/tags_info.dart' show MakerTag, MakerTagFunc, TagsBase;
-import 'package:exif/src/util.dart';
+import 'tags_info.dart'
+    show MakerTag, MakerTagFunc, TagsBase;
+import 'util.dart';
 
 // Makernote (proprietary) tag definitions for FujiFilm.
 // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/FujiFilm.html

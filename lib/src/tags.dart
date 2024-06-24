@@ -1,6 +1,6 @@
-import 'package:exif/src/tags_info.dart'
+import 'tags_info.dart'
     show MakerTag, MakerTagFunc, TagsBase, MakerTagsWithName;
-import 'package:exif/src/util.dart';
+import 'util.dart';
 
 // Standard tag definitions.
 
