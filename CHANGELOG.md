@@ -1,3 +1,8 @@
+## 3.5.0
+
+- Remove CLI
+- Trim dependencies
+
 ## 3.4.0
 
 - Add missing tags found in DNG files
