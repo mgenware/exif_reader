@@ -1,15 +1,14 @@
-# exif
+# exif_dart
 
-[![Pub Package](https://img.shields.io/pub/v/exif.svg)](https://pub.dev/packages/exif)
-[![Dart CI](https://github.com/bigflood/dartexif/actions/workflows/dart.yml/badge.svg)](https://github.com/bigflood/dartexif/actions/workflows/dart.yml)
+[![Pub Package](https://img.shields.io/pub/v/exif_dart.svg)](https://pub.dev/packages/exif_dart)
+[![Dart CI](https://github.com/mgenware/exif_dart/actions/workflows/dart.yml/badge.svg)](https://github.com/mgenware/exif_dart/actions/workflows/dart.yml)
 
 Dart package to decode Exif data from TIFF, JPEG, HEIC, PNG and WebP files.
 
-Dart port of ianaré sévi's EXIF library: <https://github.com/ianare/exif-py>.
+Fork of [exifdart](https://github.com/bigflood/dartexif)
 
 ## Usage
 
-* Simple example:
 ```dart
 printExifOf(String path) async {
 
@@ -36,5 +35,3 @@ printExifOf(String path) async {
 
 }
 ```
-
-* example app: https://github.com/bigflood/exifviewer
