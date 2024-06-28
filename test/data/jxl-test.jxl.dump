@@ -1,0 +1,5 @@
+Image ImageDescription (ASCII): Your description here
+Image ResolutionUnit (Short): Pixels/Inch
+Image XResolution (Ratio): 72
+Image YCbCrPositioning (Short): Centered
+Image YResolution (Ratio): 72

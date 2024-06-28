@@ -30,6 +30,14 @@ void main() {
     expect(output, equals(expected.trim()));
   });
 
+  test('read jxl file test', () async {
+    const filename = 'test/data/jxl-test.jxl';
+    final file = io.File(filename);
+    final output = tagsToString(await readExifFromFile(file));
+    final expected = await io.File('$filename.dump').readAsString();
+    expect(output, equals(expected.trim()));
+  });
+
   test('read webp file test', () async {
     const filename = 'test/data/webp-test.webp';
     final file = io.File(filename);

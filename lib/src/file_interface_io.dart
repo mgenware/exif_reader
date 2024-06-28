@@ -4,10 +4,10 @@ import 'dart:typed_data';
 
 import 'file_interface.dart';
 
-class _FileReader implements FileReader {
+class RafFileReader implements FileReader {
   final RandomAccessFile file;
 
-  _FileReader(this.file);
+  RafFileReader(this.file);
 
   @override
   Future<int> position() async {
@@ -32,7 +32,7 @@ class _FileReader implements FileReader {
 
 Future<FileReader> createFileReaderFromFile(dynamic file) async {
   if (file is RandomAccessFile) {
-    return _FileReader(file);
+    return RafFileReader(file);
   } else if (file is File) {
     final data = await file.readAsBytes();
     return FileReader.fromBytes(data);

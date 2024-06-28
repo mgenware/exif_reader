@@ -6,7 +6,9 @@ import 'exif_decode_makernote.dart';
 import 'exif_types.dart';
 import 'exifheader.dart';
 import 'file_interface.dart';
+import 'file_interface_io.dart';
 import 'heic.dart';
+import 'jxl.dart';
 import 'linereader.dart';
 import 'reader.dart';
 import 'util.dart';
@@ -85,6 +87,8 @@ Future<ExifData> readExifFromFileReaderAsync(
     readParams = await _pngReadParams(f);
   } else if (_isWebp(header)) {
     readParams = await _webpReadParams(f);
+  } else if (_isJxl(header)) {
+    readParams = await _jxlReadParams(f);
   } else {
     return ExifData.withWarning('File format not recognized.');
   }
@@ -222,6 +226,13 @@ bool _isHeic(List<int> header) =>
 bool _isAvif(List<int> header) =>
     listRangeEqual(header, 4, 12, 'ftypavif'.codeUnits);
 
+bool _isJxl(List<int> header) => listRangeEqual(
+      header,
+      0,
+      12,
+      [0x00, 0x00, 0x00, 0x0C, 0x4A, 0x58, 0x4C, 0x20, 0x0D, 0x0A, 0x87, 0x0A],
+    );
+
 bool _isJpeg(List<int> header) =>
     listRangeEqual(header, 0, 2, '\xFF\xD8'.codeUnits);
 
@@ -242,6 +253,22 @@ Future<ReadParams> _heicReadParams(FileReader f) async {
   final int offset = res[0];
   final Endian endian = Reader.endianOfByte(res[1]);
   return ReadParams(endian: endian, offset: offset);
+}
+
+Future<ReadParams> _jxlReadParams(FileReader f) async {
+  if (f is RafFileReader) {
+    final jxlReader = JxlExifReader(f.file);
+    var offset = await jxlReader.findExif();
+    if (offset == null) {
+      return ReadParams.error('No exif found');
+    }
+    await f.read(4);
+    final endianByte = await f.readByte();
+    final endian = Reader.endianOfByte(endianByte);
+    offset += 4;
+    return ReadParams(endian: endian, offset: offset);
+  }
+  throw Exception('JXL bytes reader is not supported yet.');
 }
 
 Future<ReadParams> _jpegReadParams(FileReader f) async {

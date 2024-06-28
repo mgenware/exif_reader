@@ -1,3 +1,8 @@
+## 3.6.0
+
+- Add support for JPEG XL EXIF (uncompressed)
+- Migrate file IO to async functions
+
 ## 3.5.0
 
 - Remove CLI

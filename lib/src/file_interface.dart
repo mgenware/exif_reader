@@ -11,7 +11,7 @@ abstract class FileReader {
   }
 
   factory FileReader.fromBytes(List<int> bytes) {
-    return _BytesReader(bytes);
+    return BytesFileReader(bytes);
   }
 
   Future<int> readByte();
@@ -23,11 +23,11 @@ abstract class FileReader {
   Future<void> setPosition(int position);
 }
 
-class _BytesReader implements FileReader {
+class BytesFileReader implements FileReader {
   List<int> bytes;
   int readPos = 0;
 
-  _BytesReader(this.bytes);
+  BytesFileReader(this.bytes);
 
   @override
   Future<int> position() async {
