@@ -62,15 +62,20 @@ class ExifHeader {
   });
 
   // Return a list of entries in the given IFD.
-  void dumpIfd(int ifd, String ifdName,
-      {Map<int, MakerTag>? tagDict, bool relative = false, String? stopTag}) {
+  Future<void> dumpIfd(
+    int ifd,
+    String ifdName, {
+    Map<int, MakerTag>? tagDict,
+    bool relative = false,
+    String? stopTag,
+  }) async {
     stopTag ??= defaultStopTag;
     tagDict ??= StandardTags.tags;
 
     // make sure we can process the entries
     List<IfdEntry> entries;
     try {
-      entries = file.readIfdEntries(ifd, relative: relative);
+      entries = await file.readIfdEntries(ifd, relative: relative);
     } catch (e) {
       warnings.add('Possibly corrupted IFD: $ifd');
       return;
@@ -88,14 +93,15 @@ class ExifHeader {
 
       // ignore certain tags for faster processing
       if (detailed || !ignoreTags.contains(entry.tag)) {
-        processTag(
-            ifd: ifd,
-            ifdName: ifdName,
-            tagEntry: tagEntry,
-            entry: entry,
-            tagName: tagName,
-            relative: relative,
-            stopTag: stopTag);
+        await processTag(
+          ifd: ifd,
+          ifdName: ifdName,
+          tagEntry: tagEntry,
+          entry: entry,
+          tagName: tagName,
+          relative: relative,
+          stopTag: stopTag,
+        );
 
         if (tagName == stopTag) {
           break;
@@ -104,29 +110,38 @@ class ExifHeader {
     }
   }
 
-  void processTag(
-      {required int ifd,
-      required String ifdName,
-      required MakerTag? tagEntry,
-      required IfdEntry entry,
-      required String tagName,
-      required bool relative,
-      required String? stopTag}) {
+  Future<void> processTag({
+    required int ifd,
+    required String ifdName,
+    required MakerTag? tagEntry,
+    required IfdEntry entry,
+    required String tagName,
+    required bool relative,
+    required String? stopTag,
+  }) async {
     // unknown field type
     if (!entry.fieldType.isValid) {
       if (!strict) {
         return;
       } else {
-        throw FormatException(sprintf(
-            'Unknown type %d in tag 0x%04X', [entry.fieldType, entry.tag]));
+        throw FormatException(
+          sprintf(
+            'Unknown type %d in tag 0x%04X',
+            [entry.fieldType, entry.tag],
+          ),
+        );
       }
     }
 
-    final values = file.readField(entry, tagName: tagName);
+    final values = await file.readField(entry, tagName: tagName);
 
     // now 'values' is either a string or an array
-    final printable = ValuesToPrintable.convert(values, entry,
-        tagEntry: tagEntry, truncateTags: truncateTags);
+    final printable = ValuesToPrintable.convert(
+      values,
+      entry,
+      tagEntry: tagEntry,
+      truncateTags: truncateTags,
+    );
     if (printable.malformed) {
       warnings.add('Possibly corrupted field $tagName in $ifdName IFD');
     }
@@ -134,33 +149,38 @@ class ExifHeader {
     final makerTags = tagEntry?.tags;
     if (makerTags != null) {
       try {
-        dumpIfd(values.firstAsInt(), makerTags.name,
-            tagDict: makerTags.tags, stopTag: stopTag);
+        await dumpIfd(
+          values.firstAsInt(),
+          makerTags.name,
+          tagDict: makerTags.tags,
+          stopTag: stopTag,
+        );
       } on RangeError {
         warnings.add('No values found for ${makerTags.name} SubIFD');
       }
     }
 
     tags['$ifdName $tagName'] = IfdTagImpl(
-        printable: printable.value,
-        tag: entry.tag,
-        fieldType: entry.fieldType,
-        values: values,
-        fieldOffset: entry.fieldOffset,
-        fieldLength: entry.count * entry.fieldType.length);
+      printable: printable.value,
+      tag: entry.tag,
+      fieldType: entry.fieldType,
+      values: values,
+      fieldOffset: entry.fieldOffset,
+      fieldLength: entry.count * entry.fieldType.length,
+    );
 
     // var t = tags[ifd_name + ' ' + tag_name];
   }
 
-  void extractTiffThumbnail(int thumbIfd) {
-    final values = Thumbnail(tags, file).extractTiffThumbnail(thumbIfd);
+  Future<void> extractTiffThumbnail(int thumbIfd) async {
+    final values = await Thumbnail(tags, file).extractTiffThumbnail(thumbIfd);
     if (values != null) {
       tags['TIFFThumbnail'] = IfdTagImpl(values: IfdBytes.fromList(values));
     }
   }
 
-  void extractJpegThumbnail() {
-    final values = Thumbnail(tags, file).extractJpegThumbnail();
+  Future<void> extractJpegThumbnail() async {
+    final values = await Thumbnail(tags, file).extractJpegThumbnail();
     if (values != null) {
       tags['JPEGThumbnail'] = IfdTagImpl(values: IfdBytes.fromList(values));
     }

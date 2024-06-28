@@ -17,8 +17,12 @@ class MakerNoteCasio extends TagsBase {
       5: 'Landscape',
     }),
     0x0002: _withMap('Quality', {1: 'Economy', 2: 'Normal', 3: 'Fine'}),
-    0x0003: _withMap('FocusingMode',
-        {2: 'Macro', 3: 'Auto Focus', 4: 'Manual Focus', 5: 'Infinity'}),
+    0x0003: _withMap('FocusingMode', {
+      2: 'Macro',
+      3: 'Auto Focus',
+      4: 'Manual Focus',
+      5: 'Infinity',
+    }),
     0x0004: _withMap('FlashMode', {
       1: 'Auto',
       2: 'On',
@@ -34,7 +38,7 @@ class MakerNoteCasio extends TagsBase {
       3: 'Daylight',
       4: 'Fluorescent',
       5: 'Shade',
-      129: 'Manual'
+      129: 'Manual',
     }),
     0x000B: _withMap('Sharpness', {
       0: 'Normal',
@@ -57,7 +61,7 @@ class MakerNoteCasio extends TagsBase {
       100: 'High',
       125: '+1.0',
       244: '+3.0',
-      250: '+2.0'
+      250: '+2.0',
     }),
   };
 }

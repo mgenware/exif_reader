@@ -158,7 +158,7 @@ class StandardTags extends TagsBase {
       5: 'Mirrored horizontal then rotated 90 CCW',
       6: 'Rotated 90 CW',
       7: 'Mirrored horizontal then rotated 90 CW',
-      8: 'Rotated 90 CCW'
+      8: 'Rotated 90 CCW',
     }),
     0x0115: _make('SamplesPerPixel'),
     0x0116: _make('RowsPerStrip'),
@@ -181,8 +181,11 @@ class StandardTags extends TagsBase {
     0x0123: _make('GrayResponseCurve'),
     0x0124: _make('T4Options'),
     0x0125: _make('T6Options'),
-    0x0128: _withMap('ResolutionUnit',
-        const {1: 'Not Absolute', 2: 'Pixels/Inch', 3: 'Pixels/Centimeter'}),
+    0x0128: _withMap('ResolutionUnit', const {
+      1: 'Not Absolute',
+      2: 'Pixels/Inch',
+      3: 'Pixels/Centimeter',
+    }),
     0x0129: _make('PageNumber'),
     0x012C: _make('ColorResponseUnit'),
     0x012D: _make('TransferFunction'),
@@ -201,8 +204,11 @@ class StandardTags extends TagsBase {
     0x0144: _make('TileOffsets'),
     0x0145: _make('TileByteCounts'),
     0x0146: _make('BadFaxLines'),
-    0x0147: _withMap(
-        'CleanFaxData', const {0: 'Clean', 1: 'Regenerated', 2: 'Unclean'}),
+    0x0147: _withMap('CleanFaxData', const {
+      0: 'Clean',
+      1: 'Regenerated',
+      2: 'Unclean',
+    }),
     0x0148: _make('ConsecutiveBadFaxLines'),
     0x014A: _make('SubIFDs'),
     0x014C: _withMap('InkSet', const {1: 'CMYK', 2: 'Not CMYK'}),
@@ -213,7 +219,7 @@ class StandardTags extends TagsBase {
     0x0152: _withMap('ExtraSamples', const {
       0: 'Unspecified',
       1: 'Associated Alpha',
-      2: 'Unassociated Alpha'
+      2: 'Unassociated Alpha',
     }),
     0x0153: _withMap('SampleFormat', const {
       1: 'Unsigned',
@@ -221,7 +227,7 @@ class StandardTags extends TagsBase {
       3: 'Float',
       4: 'Undefined',
       5: 'Complex int',
-      6: 'Complex float'
+      6: 'Complex float',
     }),
     0x0154: _make('SMinSampleValue'),
     0x0155: _make('SMaxSampleValue'),
@@ -254,7 +260,7 @@ class StandardTags extends TagsBase {
       5: 'Program Creative',
       6: 'Program Action',
       7: 'Portrait Mode',
-      8: 'Landscape Mode'
+      8: 'Landscape Mode',
     }),
     0x8824: _make('SpectralSensitivity'),
     0x8825: _withTags('GPSInfo', _gpsInfo), // GPS tags
@@ -268,7 +274,7 @@ class StandardTags extends TagsBase {
       4: 'Standard Output Sensitivity and Recommended Exposure Index',
       5: 'Standard Output Sensitivity and ISO Speed',
       6: 'Recommended Exposure Index and ISO Speed',
-      7: 'Standard Output Sensitivity, Recommended Exposure Index and ISO Speed'
+      7: 'Standard Output Sensitivity, Recommended Exposure Index and ISO Speed',
     }),
     0x8832: _make('RecommendedExposureIndex'),
     0x8833: _make('ISOSpeed'),
@@ -285,7 +291,7 @@ class StandardTags extends TagsBase {
       3: 'Cr',
       4: 'Red',
       5: 'Green',
-      6: 'Blue'
+      6: 'Blue',
     }),
     0x9102: _make('CompressedBitsPerPixel'),
     0x9201: _make('ShutterSpeedValue'),
@@ -302,7 +308,7 @@ class StandardTags extends TagsBase {
       4: 'MultiSpot',
       5: 'Pattern',
       6: 'Partial',
-      255: 'other'
+      255: 'other',
     }),
     0x9208: _withMap('LightSource', const {
       0: 'Unknown',
@@ -325,7 +331,7 @@ class StandardTags extends TagsBase {
       22: 'D75',
       23: 'D50',
       24: 'ISO studio tungsten',
-      255: 'other light source'
+      255: 'other light source',
     }),
     0x9209: _withMap('Flash', const {
       0: 'Flash did not fire',
@@ -349,7 +355,7 @@ class StandardTags extends TagsBase {
       79: 'Flash fired, compulsory flash mode, red-eye reduction mode, return light detected',
       89: 'Flash fired, auto mode, red-eye reduction mode',
       93: 'Flash fired, auto mode, return light not detected, red-eye reduction mode',
-      95: 'Flash fired, auto mode, return light detected, red-eye reduction mode'
+      95: 'Flash fired, auto mode, return light detected, red-eye reduction mode',
     }),
     0x920A: _make('FocalLength'),
     0x9214: _make('SubjectArea'),
@@ -362,13 +368,18 @@ class StandardTags extends TagsBase {
     // used by Windows Explorer
     0x9C9B: _make('XPTitle'),
     0x9C9C: _make('XPComment'),
-    0x9C9D: _withFunc('XPAuthor',
-        makeString), // const [gnored by Windows Explorer if Artist exists]
+    0x9C9D: _withFunc(
+      'XPAuthor',
+      makeString,
+    ), // const [ignored by Windows Explorer if Artist exists]
     0x9C9E: _make('XPKeywords'),
     0x9C9F: _make('XPSubject'),
     0xA000: _withFunc('FlashPixVersion', makeString),
-    0xA001: _withMap(
-        'ColorSpace', const {1: 'sRGB', 2: 'Adobe RGB', 65535: 'Uncalibrated'}),
+    0xA001: _withMap('ColorSpace', const {
+      1: 'sRGB',
+      2: 'Adobe RGB',
+      65535: 'Uncalibrated',
+    }),
     0xA002: _make('ExifImageWidth'),
     0xA003: _make('ExifImageLength'),
     0xA004: _make('RelatedSoundFile'),
@@ -388,29 +399,36 @@ class StandardTags extends TagsBase {
       4: 'Three-chip color area',
       5: 'Color sequential area',
       7: 'Trilinear',
-      8: 'Color sequential linear'
+      8: 'Color sequential linear',
     }),
     0xA300: _withMap('FileSource', const {
       1: 'Film Scanner',
       2: 'Reflection Print Scanner',
-      3: 'Digital Camera'
+      3: 'Digital Camera',
     }),
     0xA301: _withMap('SceneType', const {1: 'Directly Photographed'}),
     0xA302: _make('CVAPattern'),
     0xA401: _withMap('CustomRendered', const {0: 'Normal', 1: 'Custom'}),
-    0xA402: _withMap('ExposureMode',
-        const {0: 'Auto Exposure', 1: 'Manual Exposure', 2: 'Auto Bracket'}),
+    0xA402: _withMap('ExposureMode', const {
+      0: 'Auto Exposure',
+      1: 'Manual Exposure',
+      2: 'Auto Bracket',
+    }),
     0xA403: _withMap('WhiteBalance', const {0: 'Auto', 1: 'Manual'}),
     0xA404: _make('DigitalZoomRatio'),
     0xA405: _make('FocalLengthIn35mmFilm'),
-    0xA406: _withMap('SceneCaptureType',
-        const {0: 'Standard', 1: 'Landscape', 2: 'Portrait', 3: 'Night]'}),
+    0xA406: _withMap('SceneCaptureType', const {
+      0: 'Standard',
+      1: 'Landscape',
+      2: 'Portrait',
+      3: 'Night]',
+    }),
     0xA407: _withMap('GainControl', const {
       0: 'None',
       1: 'Low gain up',
       2: 'High gain up',
       3: 'Low gain down',
-      4: 'High gain down'
+      4: 'High gain down',
     }),
     0xA408: _withMap('Contrast', const {0: 'Normal', 1: 'Soft', 2: 'Hard'}),
     0xA409: _withMap('Saturation', const {0: 'Normal', 1: 'Soft', 2: 'Hard'}),

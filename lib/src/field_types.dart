@@ -6,8 +6,14 @@ class FieldType {
   final bool isValid;
   final bool isSigned;
 
-  const FieldType(this._value, this.length, this.abbr, this.name,
-      {this.isValid = true, this.isSigned = false});
+  const FieldType(
+    this._value,
+    this.length,
+    this.abbr,
+    this.name, {
+    this.isValid = true,
+    this.isSigned = false,
+  });
 
   factory FieldType.ofValue(int v) {
     if (v < 0 || v >= fieldTypes.length) {

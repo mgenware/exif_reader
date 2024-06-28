@@ -149,7 +149,7 @@ class MakerNoteNikon extends TagsBase {
         0x12: 'Timer, exposure bracketing',
         0x40: 'Single frame, white balance bracketing',
         0x41: 'Continuous, white balance bracketing',
-        0x42: 'Timer, white balance bracketing'
+        0x42: 'Timer, white balance bracketing',
       }),
       0x008A: _make('AutoBracketRelease'),
       0x008B: _make('LensFStops'),

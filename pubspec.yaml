@@ -13,7 +13,7 @@ dependencies:
 dev_dependencies:
   archive: ^3.1.2
   http: ">=1.0.0 <2.0.0"
-  mgenware_dart_lints: ^5.0.0
+  mgenware_dart_lints: ^6.5.1
   path: ^1.8.0
   stream_channel: ^2.1.0
   test: ^1.16.8

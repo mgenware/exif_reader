@@ -25,7 +25,7 @@ class MakerNoteFujifilm extends TagsBase {
       0x5: 'Hard2',
       0x82: 'Medium Soft',
       0x84: 'Medium Hard',
-      0x8000: 'Film Simulation'
+      0x8000: 'Film Simulation',
     }),
     0x1002: _withMap('WhiteBalance', {
       0x0: 'Auto',
@@ -44,7 +44,7 @@ class MakerNoteFujifilm extends TagsBase {
       0xf02: 'Custom3',
       0xf03: 'Custom4',
       0xf04: 'Custom5',
-      0xff0: 'Kelvin'
+      0xff0: 'Kelvin',
     }),
     0x1003: _withMap('Saturation', {
       0x0: 'Normal',
@@ -58,7 +58,7 @@ class MakerNoteFujifilm extends TagsBase {
       0x303: 'B&W Green Filter',
       0x310: 'B&W Sepia',
       0x400: 'Low 2',
-      0x8000: 'Film Simulation'
+      0x8000: 'Film Simulation',
     }),
     0x1004: _withMap('Contrast', {
       0x0: 'Normal',
@@ -66,13 +66,17 @@ class MakerNoteFujifilm extends TagsBase {
       0x100: 'High',
       0x180: 'Medium Low',
       0x200: 'Low',
-      0x8000: 'Film Simulation'
+      0x8000: 'Film Simulation',
     }),
     0x1005: _make('ColorTemperature'),
     0x1006: _withMap('Contrast', {0x0: 'Normal', 0x100: 'High', 0x300: 'Low'}),
     0x100a: _make('WhiteBalanceFineTune'),
-    0x1010: _withMap(
-        'FlashMode', {0: 'Auto', 1: 'On', 2: 'Off', 3: 'Red Eye Reduction'}),
+    0x1010: _withMap('FlashMode', {
+      0: 'Auto',
+      1: 'On',
+      2: 'Off',
+      3: 'Red Eye Reduction',
+    }),
     0x1011: _make('FlashStrength'),
     0x1020: _withMap('Macro', {0: 'Off', 1: 'On'}),
     0x1021: _withMap('FocusMode', {0: 'Auto', 1: 'Manual'}),
@@ -88,7 +92,7 @@ class MakerNoteFujifilm extends TagsBase {
       6: 'Program AE',
       256: 'Aperture Priority AE',
       512: 'Shutter Priority AE',
-      768: 'Manual Exposure'
+      768: 'Manual Exposure',
     }),
     0x1032: _make('ExposureCount'),
     0x1100: _withMap('MotorOrBracket', {0: 'Off', 1: 'On'}),

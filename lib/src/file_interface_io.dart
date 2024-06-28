@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'file_interface.dart';
 
@@ -9,23 +10,23 @@ class _FileReader implements FileReader {
   _FileReader(this.file);
 
   @override
-  int positionSync() {
-    return file.positionSync();
+  Future<int> position() async {
+    return await file.position();
   }
 
   @override
-  int readByteSync() {
-    return file.readByteSync();
+  Future<int> readByte() async {
+    return await file.readByte();
   }
 
   @override
-  List<int> readSync(int bytes) {
-    return file.readSync(bytes).toList(growable: false);
+  Future<Uint8List> read(int bytes) async {
+    return await file.read(bytes);
   }
 
   @override
-  void setPositionSync(int position) {
-    file.setPositionSync(position);
+  Future<void> setPosition(int position) async {
+    await file.setPosition(position);
   }
 }
 

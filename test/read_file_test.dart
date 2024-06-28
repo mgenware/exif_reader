@@ -1,3 +1,4 @@
+// ignore: library_annotations
 @TestOn('vm')
 import 'dart:io' as io;
 

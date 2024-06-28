@@ -13,9 +13,9 @@ class Reader {
 
   Reader(this.file, this.baseOffset, this.endian);
 
-  List<int> readSlice(int relativePos, int length) {
-    file.setPositionSync(baseOffset + relativePos);
-    return file.readSync(length);
+  Future<List<int>> readSlice(int relativePos, int length) async {
+    await file.setPosition(baseOffset + relativePos);
+    return await file.read(length);
   }
 
   // Convert slice to integer, based on sign and endian flags.
@@ -23,8 +23,8 @@ class Reader {
   // start of the EXIF information.
   // For some cameras that use relative tags, this offset may be relative
   // to some other starting point.
-  int readInt(int offset, int length, {bool signed = false}) {
-    final sliced = readSlice(offset, length);
+  Future<int> readInt(int offset, int length, {bool signed = false}) async {
+    final sliced = await readSlice(offset, length);
     int val;
 
     if (endian == Endian.little) {
@@ -36,9 +36,9 @@ class Reader {
     return val;
   }
 
-  Ratio readRatio(int offset, {required bool signed}) {
-    final n = readInt(offset, 4, signed: signed);
-    final d = readInt(offset + 4, 4, signed: signed);
+  Future<Ratio> readRatio(int offset, {required bool signed}) async {
+    final n = await readInt(offset, 4, signed: signed);
+    final d = await readInt(offset + 4, 4, signed: signed);
     return Ratio(n, d);
   }
 
@@ -71,12 +71,12 @@ class IfdReader {
   IfdReader(this.file, {required this.fakeExif});
 
   // Return first IFD.
-  int _firstIfd() => file.readInt(4, 4);
+  Future<int> _firstIfd() => file.readInt(4, 4);
 
   // Return the pointer to next IFD.
-  int _nextIfd(int ifd) {
-    final entries = file.readInt(ifd, 2);
-    final nextIfd = file.readInt(ifd + 2 + 12 * entries, 4);
+  Future<int> _nextIfd(int ifd) async {
+    final entries = await file.readInt(ifd, 2);
+    final nextIfd = await file.readInt(ifd + 2 + 12 * entries, 4);
     if (nextIfd == ifd) {
       return 0;
     } else {
@@ -85,25 +85,29 @@ class IfdReader {
   }
 
   // Return the list of IFDs in the header.
-  List<int> listIfd() {
-    int i = _firstIfd();
+  Future<List<int>> listIfd() async {
+    int i = await _firstIfd();
     final List<int> ifds = [];
     while (i > 0) {
       ifds.add(i);
-      i = _nextIfd(i);
+      i = await _nextIfd(i);
     }
     return ifds;
   }
 
-  List<IfdEntry> readIfdEntries(int ifd, {required bool relative}) {
-    final numEntries = file.readInt(ifd, 2);
+  Future<List<IfdEntry>> readIfdEntries(
+    int ifd, {
+    required bool relative,
+  }) async {
+    final numEntries = await file.readInt(ifd, 2);
 
-    return List<IfdEntry>.generate(numEntries, (i) {
+    final entries = <IfdEntry>[];
+    for (int i = 0; i < numEntries; i++) {
       // entry is index of start of this IFD in the file
       final offset = ifd + 2 + 12 * i;
-      final tag = file.readInt(offset, 2);
-      final fieldType = FieldType.ofValue(file.readInt(offset + 2, 2));
-      final count = file.readInt(offset + 4, 4);
+      final tag = await file.readInt(offset, 2);
+      final fieldType = FieldType.ofValue(await file.readInt(offset + 2, 2));
+      final count = await file.readInt(offset + 4, 4);
 
       final typeLength = fieldType.length;
 
@@ -121,21 +125,24 @@ class IfdReader {
         // other relative offsets, which would have to be computed here
         // slightly differently.
         if (relative) {
-          fieldOffset = file.readInt(fieldOffset, 4) + ifd - 8;
+          fieldOffset = await file.readInt(fieldOffset, 4) + ifd - 8;
           if (fakeExif) {
             fieldOffset += 18;
           }
         } else {
-          fieldOffset = file.readInt(fieldOffset, 4);
+          fieldOffset = await file.readInt(fieldOffset, 4);
         }
       }
 
-      return IfdEntry(
-          fieldOffset: fieldOffset,
-          tag: tag,
-          fieldType: fieldType,
-          count: count);
-    });
+      final entry = IfdEntry(
+        fieldOffset: fieldOffset,
+        tag: tag,
+        fieldType: fieldType,
+        count: count,
+      );
+      entries.add(entry);
+    }
+    return entries;
   }
 
   Endian get endian => file.endian;
@@ -150,36 +157,41 @@ class IfdReader {
     file.baseOffset = v;
   }
 
-  int readInt(int offset, int length, {bool signed = false}) {
+  Future<int> readInt(int offset, int length, {bool signed = false}) async {
     return file.readInt(offset, length, signed: signed);
   }
 
-  List<int> readSlice(int relativePos, int length) {
+  Future<List<int>> readSlice(int relativePos, int length) async {
     return file.readSlice(relativePos, length);
   }
 
-  IfdRatios _readIfdRatios(IfdEntry entry) {
+  Future<IfdRatios> _readIfdRatios(IfdEntry entry) async {
     final List<Ratio> values = [];
     var pos = entry.fieldOffset;
     for (int dummy = 0; dummy < entry.count; dummy++) {
-      values.add(file.readRatio(pos, signed: entry.fieldType.isSigned));
+      values.add(await file.readRatio(pos, signed: entry.fieldType.isSigned));
       pos += entry.fieldType.length;
     }
     return IfdRatios(values);
   }
 
-  IfdInts _readIfdInts(IfdEntry entry) {
+  Future<IfdInts> _readIfdInts(IfdEntry entry) async {
     final List<int> values = [];
     var pos = entry.fieldOffset;
     for (int dummy = 0; dummy < entry.count; dummy++) {
-      values.add(file.readInt(pos, entry.fieldType.length,
-          signed: entry.fieldType.isSigned));
+      values.add(
+        await file.readInt(
+          pos,
+          entry.fieldType.length,
+          signed: entry.fieldType.isSigned,
+        ),
+      );
       pos += entry.fieldType.length;
     }
     return IfdInts(values);
   }
 
-  IfdBytes _readAscii(IfdEntry entry) {
+  Future<IfdBytes> _readAscii(IfdEntry entry) async {
     var count = entry.count;
     // special case: null-terminated ASCII string
     // XXX investigate
@@ -194,7 +206,7 @@ class IfdReader {
 
     try {
       // and count < (2**31))  // 2E31 is hardware dependant. --gd
-      var values = file.readSlice(entry.fieldOffset, count);
+      var values = await file.readSlice(entry.fieldOffset, count);
       // Drop any garbage after a null.
       final i = values.indexOf(0);
       if (i >= 0) {
@@ -207,7 +219,7 @@ class IfdReader {
     }
   }
 
-  IfdValues readField(IfdEntry entry, {required String tagName}) {
+  Future<IfdValues> readField(IfdEntry entry, {required String tagName}) async {
     if (entry.fieldType == FieldType.ascii) {
       return _readAscii(entry);
     }

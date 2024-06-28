@@ -23,7 +23,7 @@ class LineReader {
     return s;
   }
 
-  String readLine() {
+  Future<String> readLine() async {
     int endOfLine = _buffer.indexOf(10);
     if (endOfLine >= 0) {
       return popString(endOfLine + 1);
@@ -34,7 +34,7 @@ class LineReader {
     }
 
     while (true) {
-      final r = file.readSync(1024 * 10);
+      final r = await file.read(1024 * 10);
 
       if (r.isEmpty) {
         _endOfFile = true;

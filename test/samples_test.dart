@@ -1,3 +1,4 @@
+// ignore: library_annotations
 @TestOn('vm')
 import 'package:exif_reader/exif.dart';
 import 'package:test/test.dart';

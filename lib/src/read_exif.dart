@@ -18,63 +18,73 @@ int _incrementBase(List<int> data, int base) {
 /// Process an image file data.
 /// This is the function that has to deal with all the arbitrary nasty bits
 /// of the EXIF standard.
-Future<Map<String, IfdTag>> readExifFromBytes(List<int> bytes,
-    {String? stopTag,
-    bool details = true,
-    bool strict = false,
-    bool debug = false,
-    bool truncateTags = true}) async {
-  return readExifFromFileReader(FileReader.fromBytes(bytes),
-          stopTag: stopTag,
-          details: details,
-          strict: strict,
-          debug: debug,
-          truncateTags: truncateTags)
-      .tags;
+Future<Map<String, IfdTag>> readExifFromBytes(
+  List<int> bytes, {
+  String? stopTag,
+  bool details = true,
+  bool strict = false,
+  bool debug = false,
+  bool truncateTags = true,
+}) async {
+  final exif = await readExifFromFileReaderAsync(
+    FileReader.fromBytes(bytes),
+    stopTag: stopTag,
+    details: details,
+    strict: strict,
+    debug: debug,
+    truncateTags: truncateTags,
+  );
+  return exif.tags;
 }
 
 /// Streaming version of [readExifFromBytes].
-Future<Map<String, IfdTag>> readExifFromFile(File file,
-    {String? stopTag,
-    bool details = true,
-    bool strict = false,
-    bool debug = false,
-    bool truncateTags = true}) async {
-  final randomAccessFile = file.openSync();
+Future<Map<String, IfdTag>> readExifFromFile(
+  File file, {
+  String? stopTag,
+  bool details = true,
+  bool strict = false,
+  bool debug = false,
+  bool truncateTags = true,
+}) async {
+  final randomAccessFile = await file.open();
   final fileReader = await FileReader.fromFile(randomAccessFile);
-  final r = readExifFromFileReader(fileReader,
-      stopTag: stopTag,
-      details: details,
-      strict: strict,
-      debug: debug,
-      truncateTags: truncateTags);
-  randomAccessFile.closeSync();
+  final r = await readExifFromFileReaderAsync(
+    fileReader,
+    stopTag: stopTag,
+    details: details,
+    strict: strict,
+    debug: debug,
+    truncateTags: truncateTags,
+  );
+  await randomAccessFile.close();
   return r.tags;
 }
 
 /// Process an image file (expects an open file object).
 /// This is the function that has to deal with all the arbitrary nasty bits
 /// of the EXIF standard.
-ExifData readExifFromFileReader(FileReader f,
-    {String? stopTag,
-    bool details = true,
-    bool strict = false,
-    bool debug = false,
-    bool truncateTags = true}) {
+Future<ExifData> readExifFromFileReaderAsync(
+  FileReader f, {
+  String? stopTag,
+  bool details = true,
+  bool strict = false,
+  bool debug = false,
+  bool truncateTags = true,
+}) async {
   ReadParams readParams;
 
   // determine whether it's a JPEG or TIFF
-  final header = f.readSync(12);
+  final header = await f.read(12);
   if (_isTiff(header)) {
-    readParams = _tiffReadParams(f);
+    readParams = await _tiffReadParams(f);
   } else if (_isHeic(header) || _isAvif(header)) {
-    readParams = _heicReadParams(f);
+    readParams = await _heicReadParams(f);
   } else if (_isJpeg(header)) {
-    readParams = _jpegReadParams(f);
+    readParams = await _jpegReadParams(f);
   } else if (_isPng(header)) {
-    readParams = _pngReadParams(f);
+    readParams = await _pngReadParams(f);
   } else if (_isWebp(header)) {
-    readParams = _webpReadParams(f);
+    readParams = await _webpReadParams(f);
   } else {
     return ExifData.withWarning('File format not recognized.');
   }
@@ -83,44 +93,54 @@ ExifData readExifFromFileReader(FileReader f,
     return ExifData.withWarning(readParams.error);
   }
 
-  final file = IfdReader(Reader(f, readParams.offset, readParams.endian),
-      fakeExif: readParams.fakeExif);
+  final file = IfdReader(
+    Reader(f, readParams.offset, readParams.endian),
+    fakeExif: readParams.fakeExif,
+  );
 
   final hdr = ExifHeader(
-      file: file,
-      strict: strict,
-      debug: debug,
-      detailed: details,
-      truncateTags: truncateTags);
+    file: file,
+    strict: strict,
+    debug: debug,
+    detailed: details,
+    truncateTags: truncateTags,
+  );
 
-  final ifdList = file.listIfd();
+  final ifdList = await file.listIfd();
 
-  ifdList.asMap().forEach((ifdIndex, ifd) {
-    hdr.dumpIfd(ifd, _ifdNameOfIndex(ifdIndex), stopTag: stopTag);
-  });
+  for (int ifdIndex = 0; ifdIndex < ifdList.length; ifdIndex++) {
+    final ifd = ifdList[ifdIndex];
+    await hdr.dumpIfd(ifd, _ifdNameOfIndex(ifdIndex), stopTag: stopTag);
+  }
 
   // EXIF IFD
   final exifOff = hdr.tags['Image ExifOffset'];
   if (exifOff != null && exifOff.tag.values is IfdInts) {
-    hdr.dumpIfd(exifOff.tag.values.firstAsInt(), 'EXIF', stopTag: stopTag);
+    await hdr.dumpIfd(
+      exifOff.tag.values.firstAsInt(),
+      'EXIF',
+      stopTag: stopTag,
+    );
   }
 
   if (details) {
-    DecodeMakerNote(hdr.tags, hdr.file, hdr.dumpIfd).decode();
+    await DecodeMakerNote(hdr.tags, hdr.file, hdr.dumpIfd).decode();
   }
 
   if (details && ifdList.length >= 2) {
-    hdr.extractTiffThumbnail(ifdList[1]);
-    hdr.extractJpegThumbnail();
+    await hdr.extractTiffThumbnail(ifdList[1]);
+    await hdr.extractJpegThumbnail();
   }
 
   // parse XMP tags (experimental)
   if (debug && details) {
-    _parseXmpTags(f, hdr);
+    await _parseXmpTags(f, hdr);
   }
 
   return ExifData(
-      hdr.tags.map((key, value) => MapEntry(key, value.tag)), hdr.warnings);
+    hdr.tags.map((key, value) => MapEntry(key, value.tag)),
+    hdr.warnings,
+  );
 }
 
 String _ifdNameOfIndex(int index) {
@@ -133,7 +153,7 @@ String _ifdNameOfIndex(int index) {
   }
 }
 
-void _parseXmpTags(FileReader f, ExifHeader hdr) {
+Future<void> _parseXmpTags(FileReader f, ExifHeader hdr) async {
   String xmpString = '';
   // Easy we already have them
   final imageApplicationNotes = hdr.tags['Image ApplicationNotes'];
@@ -149,7 +169,7 @@ void _parseXmpTags(FileReader f, ExifHeader hdr) {
     bool xmlFinished = false;
     final reader = LineReader(f);
     while (true) {
-      String line = reader.readLine();
+      String line = await reader.readLine();
       if (line.isEmpty) {
         break;
       }
@@ -192,7 +212,9 @@ void _parseXmpTags(FileReader f, ExifHeader hdr) {
 bool _isTiff(List<int> header) =>
     header.length >= 4 &&
     listContainedIn(
-        header.sublist(0, 4), ['II*\x00'.codeUnits, 'MM\x00*'.codeUnits]);
+      header.sublist(0, 4),
+      ['II*\x00'.codeUnits, 'MM\x00*'.codeUnits],
+    );
 
 bool _isHeic(List<int> header) =>
     listRangeEqual(header, 4, 12, 'ftypheic'.codeUnits);
@@ -210,10 +232,10 @@ bool _isWebp(List<int> header) =>
     listRangeEqual(header, 0, 4, 'RIFF'.codeUnits) &&
     listRangeEqual(header, 8, 12, 'WEBP'.codeUnits);
 
-ReadParams _heicReadParams(FileReader f) {
-  f.setPositionSync(0);
+Future<ReadParams> _heicReadParams(FileReader f) async {
+  await f.setPosition(0);
   final heic = HEICExifFinder(f);
-  final res = heic.findExif();
+  final res = await heic.findExif();
   if (res.length != 2) {
     return ReadParams.error('Possibly corrupted heic data');
   }
@@ -222,16 +244,17 @@ ReadParams _heicReadParams(FileReader f) {
   return ReadParams(endian: endian, offset: offset);
 }
 
-ReadParams _jpegReadParams(FileReader f) {
+Future<ReadParams> _jpegReadParams(FileReader f) async {
   // by default do not fake an EXIF beginning
   var fakeExif = false;
   int offset;
   Endian endian;
 
-  f.setPositionSync(0);
+  await f.setPosition(0);
 
   const headerLength = 12;
-  var data = f.readSync(headerLength);
+  final rawData = await f.read(headerLength);
+  var data = List<int>.from(rawData);
   if (data.length != headerLength) {
     return ReadParams.error('File format not recognized.');
   }
@@ -242,15 +265,15 @@ ReadParams _jpegReadParams(FileReader f) {
         'JFIF'.codeUnits,
         'JFXX'.codeUnits,
         'OLYM'.codeUnits,
-        'Phot'.codeUnits
+        'Phot'.codeUnits,
       ])) {
     final length = data[4] * 256 + data[5];
     // printf("** Length offset is %d", [length]);
-    f.readSync(length - 8);
+    await f.read(length - 8);
     // fake an EXIF beginning of file
     // I don't think this is used. --gd
     data = [0xFF, 0x00];
-    data.addAll(f.readSync(10));
+    data.addAll(await f.read(10));
     fakeExif = true;
     if (base > 2) {
       // print("** Added to base");
@@ -263,10 +286,10 @@ ReadParams _jpegReadParams(FileReader f) {
   }
 
   // Big ugly patch to deal with APP2 (or other) data coming before APP1
-  f.setPositionSync(0);
+  await f.setPosition(0);
   // in theory, this could be insufficient since 64K is the maximum size--gd
   // print('** f.position=${f.positionSync()}, base=$base');
-  data = f.readSync(base + 4000);
+  data = await f.read(base + 4000);
   // print('** data.length=${data.length}');
 
   // base = 2
@@ -329,32 +352,33 @@ ReadParams _jpegReadParams(FileReader f) {
         base += _incrementBase(data, base);
       } on RangeError {
         return ReadParams.error(
-            'Unexpected/unhandled segment type or file content.');
+          'Unexpected/unhandled segment type or file content.',
+        );
       }
     }
   }
 
-  f.setPositionSync(base + 12);
+  await f.setPosition(base + 12);
   if (data[2 + base] == 0xFF &&
       listRangeEqual(data, 6 + base, 10 + base, 'Exif'.codeUnits)) {
     // detected EXIF header
-    offset = f.positionSync();
-    endian = Reader.endianOfByte(f.readByteSync());
+    offset = await f.position();
+    endian = Reader.endianOfByte(await f.readByte());
     //HACK TEST:  endian = 'M'
   } else if (data[2 + base] == 0xFF &&
       listRangeEqual(data, 6 + base, 10 + base + 1, 'Ducky'.codeUnits)) {
     // detected Ducky header.
     // printf("** EXIF-like header (normally 0xFF and code): 0x%X and %s",
     //              [data[2 + base], data.sublist(6 + base,10 + base + 1)]);
-    offset = f.positionSync();
-    endian = Reader.endianOfByte(f.readByteSync());
+    offset = await f.position();
+    endian = Reader.endianOfByte(await f.readByte());
   } else if (data[2 + base] == 0xFF &&
       listRangeEqual(data, 6 + base, 10 + base + 1, 'Adobe'.codeUnits)) {
     // detected APP14 (Adobe);
     // printf("** EXIF-like header (normally 0xFF and code): 0x%X and %s",
     //              [data[2 + base], data.sublist(6 + base,10 + base + 1)]);
-    offset = f.positionSync();
-    endian = Reader.endianOfByte(f.readByteSync());
+    offset = await f.position();
+    endian = Reader.endianOfByte(await f.readByte());
   } else {
     // print("** No EXIF header expected data[2+base]==0xFF and data[6+base:10+base]===Exif (or Duck)");
     // printf("** Did get 0x%X and %s",
@@ -365,30 +389,30 @@ ReadParams _jpegReadParams(FileReader f) {
   return ReadParams(endian: endian, offset: offset, fakeExif: fakeExif);
 }
 
-ReadParams _pngReadParams(FileReader f) {
-  f.setPositionSync(8);
+Future<ReadParams> _pngReadParams(FileReader f) async {
+  await f.setPosition(8);
   while (true) {
-    final data = f.readSync(8);
+    final data = await f.read(8);
     final chunk = String.fromCharCodes(data.sublist(4, 8));
 
     if (chunk.isEmpty || chunk == 'IEND') {
       break;
     }
     if (chunk == 'eXIf') {
-      final offset = f.positionSync();
-      final endian = Reader.endianOfByte(f.readByteSync());
+      final offset = await f.position();
+      final endian = Reader.endianOfByte(await f.readByte());
       return ReadParams(endian: endian, offset: offset);
     }
 
     final chunkSize =
         Int8List.fromList(data.sublist(0, 4)).buffer.asByteData().getInt32(0);
-    f.setPositionSync(f.positionSync() + chunkSize + 4);
+    await f.setPosition(await f.position() + chunkSize + 4);
   }
 
   return ReadParams.error('No EXIF information found');
 }
 
-ReadParams _webpReadParams(FileReader f) {
+Future<ReadParams> _webpReadParams(FileReader f) async {
   // Each RIFF box is a 4-byte ASCII tag, followed by a little-endian uint32
   // length, and  finally that number of bytes of data. The file starts with an
   // outer box with the tag 'RIFF', whose content is the file format ('WEBP')
@@ -396,9 +420,9 @@ ReadParams _webpReadParams(FileReader f) {
   //
   // The outer box encapsulates the entire file, so we can safely skip forward
   // to the first inner box.
-  f.setPositionSync(12);
+  await f.setPosition(12);
   while (true) {
-    final header = f.readSync(8);
+    final header = await f.read(8);
     if (header.isEmpty) {
       return ReadParams.error('No EXIF information found');
     } else if (header.length < 8) {
@@ -417,27 +441,29 @@ ReadParams _webpReadParams(FileReader f) {
       // Look for Exif\x00\x00, and skip it if present. The WebP implementation
       // in Exiv2 also handles a \xFF\x01\xFF\xE1\x00\x00 prefix, but with no
       // explanation or test file present, so we ignore that for now.
-      final exifHeader = f.readSync(6);
+      final exifHeader = await f.read(6);
       if (!listEqual(
-          exifHeader, Uint8List.fromList('Exif\x00\x00'.codeUnits))) {
+        exifHeader,
+        Uint8List.fromList('Exif\x00\x00'.codeUnits),
+      )) {
         // There was no Exif\x00\x00 marker, rewind
-        f.setPositionSync(f.positionSync() - exifHeader.length);
+        await f.setPosition(await f.position() - exifHeader.length);
       }
 
-      final offset = f.positionSync();
-      final endian = Reader.endianOfByte(f.readByteSync());
+      final offset = await f.position();
+      final endian = Reader.endianOfByte(await f.readByte());
       return ReadParams(endian: endian, offset: offset);
     }
 
     // Skip forward to the next box.
-    f.setPositionSync(f.positionSync() + length);
+    await f.setPosition(await f.position() + length);
   }
 }
 
-ReadParams _tiffReadParams(FileReader f) {
-  f.setPositionSync(0);
-  final endian = Reader.endianOfByte(f.readByteSync());
-  f.readSync(1);
+Future<ReadParams> _tiffReadParams(FileReader f) async {
+  await f.setPosition(0);
+  final endian = Reader.endianOfByte(await f.readByte());
+  await f.read(1);
   return ReadParams(endian: endian, offset: 0);
 }
 

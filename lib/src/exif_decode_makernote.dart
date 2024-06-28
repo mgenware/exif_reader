@@ -16,15 +16,19 @@ class DecodeMakerNote {
   final Map<String, IfdTagImpl> tags;
   final IfdReader file;
 
-  void Function(int ifd, String ifdName,
-      {Map<int, MakerTag>? tagDict, bool relative}) dumpIfdFunc;
+  Future<void> Function(
+    int ifd,
+    String ifdName, {
+    Map<int, MakerTag>? tagDict,
+    bool relative,
+  }) dumpIfdFunc;
 
   DecodeMakerNote(this.tags, this.file, this.dumpIfdFunc);
 
   // deal with MakerNote contained in EXIF IFD
   // (Some apps use MakerNote tags but do not use a format for which we
   // have a description, do not process these).
-  void decode() {
+  Future<void> decode() async {
     final note = tags['EXIF MakerNote'];
     if (note == null) {
       return;
@@ -37,7 +41,7 @@ class DecodeMakerNote {
       return;
     }
 
-    _decodeMakerNote(note: note, make: make);
+    await _decodeMakerNote(note: note, make: make);
   }
 
   // Decode all the camera-specific MakerNote formats
@@ -58,33 +62,36 @@ class DecodeMakerNote {
   // follow EXIF format internally.  Once they did, it's ambiguous whether
   // the offsets should be from the header at the start of all the EXIF info,
   // or from the header at the start of the makernote.
-  void _decodeMakerNote({required IfdTagImpl note, required String make}) {
-    if (_decodeNikon(note, make)) {
+  Future<void> _decodeMakerNote({
+    required IfdTagImpl note,
+    required String make,
+  }) async {
+    if (await _decodeNikon(note, make)) {
       return;
     }
 
-    if (_decodeOlympus(note, make)) {
+    if (await _decodeOlympus(note, make)) {
       return;
     }
 
-    if (_decodeCasio(note, make)) {
+    if (await _decodeCasio(note, make)) {
       return;
     }
 
-    if (_decodeFujifilm(note, make)) {
+    if (await _decodeFujifilm(note, make)) {
       return;
     }
 
-    if (_decodeApple(note, make)) {
+    if (await _decodeApple(note, make)) {
       return;
     }
 
-    if (_decodeCanon(note, make)) {
+    if (await _decodeCanon(note, make)) {
       return;
     }
   }
 
-  bool _decodeNikon(IfdTagImpl note, String make) {
+  Future<bool> _decodeNikon(IfdTagImpl note, String make) async {
     // Nikon
     // The maker note usually starts with the word Nikon, followed by the
     // type of the makernote (1 or 2, as a short).  If the word Nikon is
@@ -95,30 +102,37 @@ class DecodeMakerNote {
     }
 
     if (listHasPrefix(
-        note.tag.values.toList(), [78, 105, 107, 111, 110, 0, 1])) {
+      note.tag.values.toList(),
+      [78, 105, 107, 111, 110, 0, 1],
+    )) {
       // Looks like a type 1 Nikon MakerNote
-      _dumpIfd(note.fieldOffset + 8, tagDict: MakerNoteNikon.tagsOld);
+      await _dumpIfd(note.fieldOffset + 8, tagDict: MakerNoteNikon.tagsOld);
     } else if (listHasPrefix(
-        note.tag.values.toList(), [78, 105, 107, 111, 110, 0, 2])) {
+      note.tag.values.toList(),
+      [78, 105, 107, 111, 110, 0, 2],
+    )) {
       // Looks like a labeled type 2 Nikon MakerNote
       if (!listHasPrefix(note.tag.values.toList(), [0, 42], start: 12) &&
           !listHasPrefix(note.tag.values.toList(), [42, 0], start: 12)) {
         throw const FormatException("Missing marker tag '42' in MakerNote.");
         // skip the Makernote label and the TIFF header
       }
-      _dumpIfd(note.fieldOffset + 10 + 8,
-          tagDict: MakerNoteNikon.tagsNew, relative: true);
+      await _dumpIfd(
+        note.fieldOffset + 10 + 8,
+        tagDict: MakerNoteNikon.tagsNew,
+        relative: true,
+      );
     } else {
       // E99x or D1
       // Looks like an unlabeled type 2 Nikon MakerNote
-      _dumpIfd(note.fieldOffset, tagDict: MakerNoteNikon.tagsNew);
+      await _dumpIfd(note.fieldOffset, tagDict: MakerNoteNikon.tagsNew);
     }
     return true;
   }
 
-  bool _decodeOlympus(IfdTagImpl note, String make) {
+  Future<bool> _decodeOlympus(IfdTagImpl note, String make) async {
     if (make.startsWith('OLYMPUS')) {
-      _dumpIfd(note.fieldOffset + 8, tagDict: MakerNoteOlympus.tags);
+      await _dumpIfd(note.fieldOffset + 8, tagDict: MakerNoteOlympus.tags);
       // TODO
       //for i in (('MakerNote Tag 0x2020', makernote.OLYMPUS_TAG_0x2020),):
       //    this.decode_olympus_tag(tags[i[0]].values, i[1])
@@ -128,15 +142,15 @@ class DecodeMakerNote {
     return false;
   }
 
-  bool _decodeCasio(IfdTagImpl note, String make) {
+  Future<bool> _decodeCasio(IfdTagImpl note, String make) async {
     if (make.contains('CASIO') || make.contains('Casio')) {
-      _dumpIfd(note.fieldOffset, tagDict: MakerNoteCasio.tags);
+      await _dumpIfd(note.fieldOffset, tagDict: MakerNoteCasio.tags);
       return true;
     }
     return false;
   }
 
-  bool _decodeFujifilm(IfdTagImpl note, String make) {
+  Future<bool> _decodeFujifilm(IfdTagImpl note, String make) async {
     if (make != 'FUJIFILM') {
       return false;
     }
@@ -150,46 +164,54 @@ class DecodeMakerNote {
     final newBaseOffset = file.baseOffset + note.fieldOffset;
 
     // process note with bogus values (note is actually at offset 12)
-    _dumpIfd2(12,
-        tagDict: MakerNoteFujifilm.tags,
-        baseOffset: newBaseOffset,
-        endian: endian);
+    await _dumpIfd2(
+      12,
+      tagDict: MakerNoteFujifilm.tags,
+      baseOffset: newBaseOffset,
+      endian: endian,
+    );
 
     return true;
   }
 
-  bool _decodeApple(IfdTagImpl note, String make) {
+  Future<bool> _decodeApple(IfdTagImpl note, String make) async {
     if (!_makerIsApple(note, make)) {
       return false;
     }
 
     final newBaseOffset = file.baseOffset + note.fieldOffset + 14;
 
-    _dumpIfd2(0,
-        tagDict: MakerNoteApple.tags,
-        baseOffset: newBaseOffset,
-        endian: file.endian);
+    await _dumpIfd2(
+      0,
+      tagDict: MakerNoteApple.tags,
+      baseOffset: newBaseOffset,
+      endian: file.endian,
+    );
 
     return true;
   }
 
   bool _makerIsApple(IfdTagImpl note, String make) =>
       make == 'Apple' &&
-      listHasPrefix(note.tag.values.toList(),
-          [65, 112, 112, 108, 101, 32, 105, 79, 83, 0]);
+      listHasPrefix(
+        note.tag.values.toList(),
+        [65, 112, 112, 108, 101, 32, 105, 79, 83, 0],
+      );
 
-  bool _decodeCanon(IfdTagImpl note, String make) {
+  Future<bool> _decodeCanon(IfdTagImpl note, String make) async {
     if (make != 'Canon') {
       return false;
     }
 
-    _dumpIfd(note.fieldOffset, tagDict: MakerNoteCanon.tags);
+    await _dumpIfd(note.fieldOffset, tagDict: MakerNoteCanon.tags);
 
     MakerNoteCanon.tagsXxx.forEach((name, makerTags) {
       final tag = tags[name];
       if (tag != null) {
         _canonDecodeTag(
-            tag.tag.values.toList().whereType<int>().toList(), makerTags);
+          tag.tag.values.toList().whereType<int>().toList(),
+          makerTags,
+        );
         tags.remove(name);
       }
     });
@@ -277,23 +299,28 @@ class DecodeMakerNote {
     }
   }
 
-  void _dumpIfd(int ifd,
-      {required Map<int, MakerTag> tagDict, bool relative = false}) {
-    dumpIfdFunc(ifd, 'MakerNote', tagDict: tagDict, relative: relative);
+  Future<void> _dumpIfd(
+    int ifd, {
+    required Map<int, MakerTag> tagDict,
+    bool relative = false,
+  }) async {
+    await dumpIfdFunc(ifd, 'MakerNote', tagDict: tagDict, relative: relative);
   }
 
-  void _dumpIfd2(int ifd,
-      {required Map<int, MakerTag>? tagDict,
-      bool relative = false,
-      required int baseOffset,
-      required Endian endian}) {
+  Future<void> _dumpIfd2(
+    int ifd, {
+    required Map<int, MakerTag>? tagDict,
+    bool relative = false,
+    required int baseOffset,
+    required Endian endian,
+  }) async {
     final originalEndian = file.endian;
     final originalOffset = file.baseOffset;
 
     file.endian = endian;
     file.baseOffset = baseOffset;
 
-    dumpIfdFunc(ifd, 'MakerNote', tagDict: tagDict, relative: relative);
+    await dumpIfdFunc(ifd, 'MakerNote', tagDict: tagDict, relative: relative);
 
     file.endian = originalEndian;
     file.baseOffset = originalOffset;

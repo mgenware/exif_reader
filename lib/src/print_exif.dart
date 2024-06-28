@@ -1,13 +1,17 @@
 import 'file_interface.dart';
 import 'read_exif.dart';
 
-Future<String> printExifOfBytes(List<int> bytes,
-    {String? stopTag,
-    bool details = true,
-    bool strict = false,
-    bool debug = false}) async {
-  final data =
-      readExifFromFileReader(FileReader.fromBytes(bytes), stopTag: stopTag);
+Future<String> printExifOfBytes(
+  List<int> bytes, {
+  String? stopTag,
+  bool details = true,
+  bool strict = false,
+  bool debug = false,
+}) async {
+  final data = await readExifFromFileReaderAsync(
+    FileReader.fromBytes(bytes),
+    stopTag: stopTag,
+  );
 
   if (data.tags.isEmpty) {
     return 'No EXIF information found';

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'file_interface_generic.dart'
     if (dart.library.html) 'package:exif_reader/src/file_interface_html.dart'
@@ -13,13 +14,13 @@ abstract class FileReader {
     return _BytesReader(bytes);
   }
 
-  int readByteSync();
+  Future<int> readByte();
 
-  List<int> readSync(int bytes);
+  Future<Uint8List> read(int bytes);
 
-  int positionSync();
+  Future<int> position();
 
-  void setPositionSync(int position);
+  Future<void> setPosition(int position);
 }
 
 class _BytesReader implements FileReader {
@@ -29,20 +30,20 @@ class _BytesReader implements FileReader {
   _BytesReader(this.bytes);
 
   @override
-  int positionSync() {
+  Future<int> position() async {
     return readPos;
   }
 
   @override
-  int readByteSync() {
+  Future<int> readByte() async {
     return bytes[readPos++];
   }
 
   @override
-  List<int> readSync(int n) {
+  Future<Uint8List> read(int n) async {
     final start = readPos;
     if (start >= bytes.length) {
-      return [];
+      return Uint8List(0);
     }
 
     var end = readPos + n;
@@ -51,11 +52,11 @@ class _BytesReader implements FileReader {
     }
     final r = bytes.sublist(start, end);
     readPos += end - start;
-    return r;
+    return Uint8List.fromList(r);
   }
 
   @override
-  void setPositionSync(int position) {
+  Future<void> setPosition(int position) async {
     readPos = position;
   }
 }

@@ -323,7 +323,9 @@ class MakerNoteCanon extends TagsBase {
     }),
     0x0013: _make('ThumbnailImageValidArea'),
     0x0015: _withMap(
-        'SerialNumberFormat', {0x90000000: 'Format 1', 0xA0000000: 'Format 2'}),
+      'SerialNumberFormat',
+      {0x90000000: 'Format 1', 0xA0000000: 'Format 2'},
+    ),
     0x001a:
         _withMap('SuperMacro', {0: 'Off', 1: 'On const ()', 2: 'On const ()'}),
     0x001c: _withMap('DateStampMode', {
@@ -355,31 +357,39 @@ class MakerNoteCanon extends TagsBase {
     1: _withMap('Macromode', {1: 'Macro', 2: 'Normal'}),
     2: _make('SelfTimer'),
     3: _withMap(
-        'Quality', {1: 'Economy', 2: 'Normal', 3: 'Fine', 5: 'Superfine'}),
-    4: _withMap('FlashMode', {
-      0: 'Flash Not Fired',
-      1: 'Auto',
-      2: 'On',
-      3: 'Red-Eye Reduction',
-      4: 'Slow Synchro',
-      5: 'Auto + Red-Eye Reduction',
-      6: 'On + Red-Eye Reduction',
-      16: 'external flash'
-    }),
+      'Quality',
+      {1: 'Economy', 2: 'Normal', 3: 'Fine', 5: 'Superfine'},
+    ),
+    4: _withMap(
+      'FlashMode',
+      {
+        0: 'Flash Not Fired',
+        1: 'Auto',
+        2: 'On',
+        3: 'Red-Eye Reduction',
+        4: 'Slow Synchro',
+        5: 'Auto + Red-Eye Reduction',
+        6: 'On + Red-Eye Reduction',
+        16: 'external flash',
+      },
+    ),
     5: _withMap('ContinuousDriveMode', {
       0: 'Single Or Timer',
       1: 'Continuous',
       2: 'Movie',
     }),
-    7: _withMap('FocusMode', {
-      0: 'One-Shot',
-      1: 'AI Servo',
-      2: 'AI Focus',
-      3: 'MF',
-      4: 'Single',
-      5: 'Continuous',
-      6: 'MF'
-    }),
+    7: _withMap(
+      'FocusMode',
+      {
+        0: 'One-Shot',
+        1: 'AI Servo',
+        2: 'AI Focus',
+        3: 'MF',
+        4: 'Single',
+        5: 'Continuous',
+        6: 'MF',
+      },
+    ),
     9: _withMap('RecordMode', {
       1: 'JPEG',
       2: 'CRW+THM',
@@ -388,7 +398,7 @@ class MakerNoteCanon extends TagsBase {
       5: 'TIF+JPEG',
       6: 'CR2',
       7: 'CR2+JPEG',
-      9: 'Video'
+      9: 'Video',
     }),
     10: _withMap('ImageSize', {0: 'Large', 1: 'Medium', 2: 'Small'}),
     11: _withMap('EasyShootingMode', {
@@ -416,7 +426,7 @@ class MakerNoteCanon extends TagsBase {
       16: '50',
       17: '100',
       18: '200',
-      19: '400'
+      19: '400',
     }),
     17: _withMap('MeteringMode', {
       0: 'Default',
@@ -424,20 +434,20 @@ class MakerNoteCanon extends TagsBase {
       2: 'Average',
       3: 'Evaluative',
       4: 'Partial',
-      5: 'Center-weighted'
+      5: 'Center-weighted',
     }),
     18: _withMap('FocusType', {
       0: 'Manual',
       1: 'Auto',
       3: 'Close-Up (Macro)',
-      8: 'Locked (Pan Mode)'
+      8: 'Locked (Pan Mode)',
     }),
     19: _withMap('AFPointSelected', {
       0x3000: 'None (MF)',
       0x3001: 'Auto-Selected',
       0x3002: 'Right',
       0x3003: 'Center',
-      0x3004: 'Left'
+      0x3004: 'Left',
     }),
     20: _withMap('ExposureMode', {
       0: 'Easy Shooting',
@@ -445,7 +455,7 @@ class MakerNoteCanon extends TagsBase {
       2: 'Tv-priority',
       3: 'Av-priority',
       4: 'Manual',
-      5: 'A-DEP'
+      5: 'A-DEP',
     }),
     22: _make('LensType'),
     23: _make('LongFocalLengthOfLensInFocalUnits'),
@@ -461,7 +471,7 @@ class MakerNoteCanon extends TagsBase {
       7: '2nd("Rear")-Curtain Sync Used',
       11: 'FP Sync Used',
       13: 'Internal Flash',
-      14: 'External E-TTL'
+      14: 'External E-TTL',
     }),
     32: _withMap('FocusMode', {0: 'Single', 1: 'Continuous', 8: 'Manual'}),
     33: _withMap('AESetting', {
@@ -469,7 +479,7 @@ class MakerNoteCanon extends TagsBase {
       1: 'Exposure Compensation',
       2: 'AE Lock',
       3: 'AE Lock + Exposure Comp.',
-      4: 'No AE'
+      4: 'No AE',
     }),
     34: _withMap('ImageStabilization', {
       0: 'Off',
@@ -481,15 +491,18 @@ class MakerNoteCanon extends TagsBase {
       257: 'On',
       258: 'Shoot Only',
       259: 'Panning',
-      260: 'Dynamic'
+      260: 'Dynamic',
     }),
-    39: _withMap('SpotMeteringMode', {0: 'Center', 1: 'AF Point'}),
+    39: _withMap('SpotMeteringMode', {
+      0: 'Center',
+      1: 'AF Point',
+    }),
     41: _withMap('ManualFlashOutput', {
       0x0: 'n/a',
       0x500: 'Full',
       0x502: 'Medium',
       0x504: 'Low',
-      0x7fff: 'n/a'
+      0x7fff: 'n/a',
     }),
   };
 
@@ -511,10 +524,15 @@ class MakerNoteCanon extends TagsBase {
       3: 'Tungsten',
       4: 'Fluorescent',
       5: 'Flash',
-      6: 'Custom'
+      6: 'Custom',
     }),
-    8: _withMap('SlowShutter',
-        {-1: 'n/a', 0: 'Off', 1: 'Night Scene', 2: 'On', 3: 'None'}),
+    8: _withMap('SlowShutter', {
+      -1: 'n/a',
+      0: 'Off',
+      1: 'Night Scene',
+      2: 'On',
+      3: 'None',
+    }),
     9: _make('SequenceNumber'),
     14: _make('AFPointUsed'),
     15: _withMap('FlashBias', {
@@ -534,7 +552,7 @@ class MakerNoteCanon extends TagsBase {
       0x002c: '1.33 EV',
       0x0030: '1.50 EV',
       0x0034: '1.67 EV',
-      0x0040: '2 EV'
+      0x0040: '2 EV',
     }),
     19: _make('SubjectDistance'),
   };
@@ -577,7 +595,7 @@ class MakerNoteCanon extends TagsBase {
       3: 'Fine',
       4: 'RAW',
       5: 'Superfine',
-      130: 'Normal Movie'
+      130: 'Normal Movie',
     }),
     7: _withMap('RawJpgSize', {
       0: 'Large',
@@ -598,14 +616,26 @@ class MakerNoteCanon extends TagsBase {
       137: '1280x720 Movie',
       142: '1920x1080 Movie',
     }),
-    8: _withMap('LongExposureNoiseReduction2',
-        {0: 'Off', 1: 'On (1D)', 2: 'On', 3: 'Auto'}),
-    9: _withMap(
-        'WBBracketMode', {0: 'Off', 1: 'On (shift AB)', 2: 'On (shift GM)'}),
+    8: _withMap('LongExposureNoiseReduction2', {
+      0: 'Off',
+      1: 'On (1D)',
+      2: 'On',
+      3: 'Auto',
+    }),
+    9: _withMap('WBBracketMode', {
+      0: 'Off',
+      1: 'On (shift AB)',
+      2: 'On (shift GM)',
+    }),
     12: _make('WBBracketValueAB'),
     13: _make('WBBracketValueGM'),
-    14: _withMap('FilterEffect',
-        {0: 'None', 1: 'Yellow', 2: 'Orange', 3: 'Red', 4: 'Green'}),
+    14: _withMap('FilterEffect', {
+      0: 'None',
+      1: 'Yellow',
+      2: 'Orange',
+      3: 'Red',
+      4: 'Green',
+    }),
     15: _withMap('ToningEffect', {
       0: 'None',
       1: 'Sepia',
@@ -615,7 +645,7 @@ class MakerNoteCanon extends TagsBase {
     }),
     16: _make('MacroMagnification'),
     19: _withMap('LiveViewShooting', {0: 'Off', 1: 'On'}),
-    25: _withMap('FlashExposureLock', {0: 'Off', 1: 'On'})
+    25: _withMap('FlashExposureLock', {0: 'Off', 1: 'On'}),
   };
 
   static String addOneFunc(int value) {

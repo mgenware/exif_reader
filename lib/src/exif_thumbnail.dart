@@ -13,7 +13,7 @@ class Thumbnail {
   // Extract uncompressed TIFF thumbnail.
   // Take advantage of the pre-existing layout in the thumbnail IFD as
   // much as possible
-  List<int>? extractTiffThumbnail(int thumbIfd) {
+  Future<List<int>?> extractTiffThumbnail(int thumbIfd) async {
     final thumb = tags['Thumbnail Compression'];
     if (thumb == null || thumb.tag.printable != 'Uncompressed TIFF') {
       return null;
@@ -23,7 +23,7 @@ class Thumbnail {
     int stripOff = 0;
     int stripLen = 0;
 
-    final entries = file.readInt(thumbIfd, 2);
+    final entries = await file.readInt(thumbIfd, 2);
     // this is header plus offset to IFD ...
     if (file.endian == Endian.big) {
       tiff = 'MM\x00*\x00\x00\x00\x08'.codeUnits;
@@ -32,17 +32,17 @@ class Thumbnail {
       // ... plus thumbnail IFD data plus a null "next IFD" pointer
     }
 
-    tiff.addAll(file.readSlice(thumbIfd, entries * 12 + 2));
+    tiff.addAll(await file.readSlice(thumbIfd, entries * 12 + 2));
     tiff.addAll([0, 0, 0, 0]);
 
     // fix up large value offset pointers into data area
     for (int i = 0; i < entries; i++) {
       final entry = thumbIfd + 2 + 12 * i;
-      final tag = file.readInt(entry, 2);
-      final fieldType = file.readInt(entry + 2, 2);
+      final tag = await file.readInt(entry, 2);
+      final fieldType = await file.readInt(entry + 2, 2);
       final typeLength = fieldTypes[fieldType].length;
-      final count = file.readInt(entry + 4, 4);
-      final oldOffset = file.readInt(entry + 8, 4);
+      final count = await file.readInt(entry + 4, 4);
+      final oldOffset = await file.readInt(entry + 8, 4);
       // start of the 4-byte pointer area in entry
       final ptr = i * 12 + 18;
       // remember strip offsets location
@@ -65,7 +65,7 @@ class Thumbnail {
           stripLen = 4;
         }
         // get original data and store it
-        tiff.addAll(file.readSlice(oldOffset, count * typeLength));
+        tiff.addAll(await file.readSlice(oldOffset, count * typeLength));
       }
     }
 
@@ -85,7 +85,12 @@ class Thumbnail {
       tiff.addAll(tiff0.sublist(stripOff + stripLen));
       stripOff += stripLen;
       // add pixel strip to end
-      tiff.addAll(file.readSlice(oldOffsets[i] as int, oldCounts[i] as int));
+      tiff.addAll(
+        await file.readSlice(
+          oldOffsets[i] as int,
+          oldCounts[i] as int,
+        ),
+      );
     }
 
     return tiff;
@@ -93,12 +98,13 @@ class Thumbnail {
 
   // Extract JPEG thumbnail.
   // (Thankfully the JPEG data is stored as a unit.)
-  List<int>? extractJpegThumbnail() {
+  Future<List<int>?> extractJpegThumbnail() async {
     final thumbFmt = tags['Thumbnail JPEGInterchangeFormat'];
     final thumbFmtLen = tags['Thumbnail JPEGInterchangeFormatLength'];
     if (thumbFmt != null && thumbFmtLen != null) {
       final size = thumbFmtLen.tag.values.firstAsInt();
-      final values = file.readSlice(thumbFmt.tag.values.firstAsInt(), size);
+      final values =
+          await file.readSlice(thumbFmt.tag.values.firstAsInt(), size);
       return values;
     }
 
@@ -106,8 +112,10 @@ class Thumbnail {
     // since it's not allowed in a uncompressed TIFF IFD
     final thumbnail = tags['MakerNote JPEGThumbnail'];
     if (thumbnail != null) {
-      final values = file.readSlice(
-          thumbnail.tag.values.firstAsInt(), thumbnail.fieldLength);
+      final values = await file.readSlice(
+        thumbnail.tag.values.firstAsInt(),
+        thumbnail.fieldLength,
+      );
       return values;
     }
 

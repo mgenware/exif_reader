@@ -69,14 +69,19 @@ Stream<SampleFile> readIanareSamples() async* {
 Map<String, String> readDumpFile(String dumpFile) {
   final fileDumps = io.File(dumpFile).readAsStringSync().trim().split('\n\n');
 
-  final nameAndDumps = fileDumps.map((e) => e.split('\n')).map((e) => MapEntry(
-      e[0].split('Opening: ')[1],
-      e
-          .sublist(1)
-          .where((e) =>
-              !e.startsWith('Possibly corrupted ') &&
-              !e.startsWith('No values found for '))
-          .join('\n')));
+  final nameAndDumps = fileDumps.map((e) => e.split('\n')).map(
+        (e) => MapEntry(
+          e[0].split('Opening: ')[1],
+          e
+              .sublist(1)
+              .where(
+                (e) =>
+                    !e.startsWith('Possibly corrupted ') &&
+                    !e.startsWith('No values found for '),
+              )
+              .join('\n'),
+        ),
+      );
 
   return Map.fromEntries(nameAndDumps);
 }

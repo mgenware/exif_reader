@@ -13,8 +13,12 @@ class ValuesToPrintable {
 
   const ValuesToPrintable.malformed(this.value) : malformed = true;
 
-  factory ValuesToPrintable.convert(IfdValues values, IfdEntry entry,
-      {required MakerTag? tagEntry, required bool truncateTags}) {
+  factory ValuesToPrintable.convert(
+    IfdValues values,
+    IfdEntry entry, {
+    required MakerTag? tagEntry,
+    required bool truncateTags,
+  }) {
     // compute printable version of values
     if (tagEntry != null) {
       // optional 2nd tag element is present
@@ -44,7 +48,8 @@ class ValuesToPrintable {
       } on FormatException {
         if (truncateTags && bytes.length > 20) {
           return ValuesToPrintable.malformed(
-              'b"${bytesToStringRepr(bytes.sublist(0, 20))}, ... ]');
+            'b"${bytesToStringRepr(bytes.sublist(0, 20))}, ... ]',
+          );
         }
         return ValuesToPrintable.malformed("b'${bytesToStringRepr(bytes)}'");
       }
