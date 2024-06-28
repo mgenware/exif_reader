@@ -32,8 +32,8 @@ class HeicBox {
         ISO boxes come in 'old' and 'full' variants.
         The 'full' variant contains version and flags information.
      */
-    version = vflags >> 24;
-    flags = vflags & 0x00ffffff;
+    version = (vflags >> 24) & 0xff;
+    flags = vflags & 0xffffff;
   }
 }
 
