@@ -75,7 +75,7 @@ Future<ExifData> readExifFromFileReaderAsync(
 }) async {
   ReadParams readParams;
 
-  // determine whether it's a JPEG or TIFF
+  // Determine whether it's a JPEG or TIFF.
   final header = await f.read(12);
   if (_isTiff(header)) {
     readParams = await _tiffReadParams(f);

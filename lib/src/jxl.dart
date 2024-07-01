@@ -25,20 +25,22 @@ class JxlExifReader {
           return JxlExifReaderResult(
               child.dataOffset
                   // Skip full box flag.
+                  // https://github.com/libjxl/libjxl/issues/3236
                   +
                   4,
               null);
         } else if (child.type == 'brob') {
-          final brobBytes = await child.extractData();
-          final header = brobBytes.sublist(0, 4);
+          final boxBytes = await child.extractData();
+          final header = boxBytes.sublist(0, 4);
           final headerString = String.fromCharCodes(header);
           if (headerString == 'Exif') {
-            // Skip header.
-            final contentBytes = brobBytes.sublist(4);
-            final decodedBytes = brotli.decode(contentBytes);
+            // Skip to 'Exif' header (which is compressed and right before compressed data).
+            final brotliBytes = boxBytes.sublist(4);
+            final decodedBytes = brotli.decode(brotliBytes);
             return JxlExifReaderResult(
                 null,
                 // Skip full box flag.
+                // https://github.com/libjxl/libjxl/issues/3236
                 decodedBytes.sublist(4));
           }
         }
