@@ -1,0 +1,75 @@
+EXIF ApertureValue (Ratio): 3/2
+EXIF BrightnessValue (Signed Ratio): 903/100
+EXIF ColorSpace (Short): sRGB
+EXIF ComponentsConfiguration (Undefined): YCbCr
+EXIF Contrast (Short): Normal
+EXIF CustomRendered (Short): Custom
+EXIF DateTimeDigitized (ASCII): 2023:10:08 15:18:44
+EXIF DateTimeOriginal (ASCII): 2023:10:08 15:18:44
+EXIF DigitalZoomRatio (Ratio): 0
+EXIF ExifImageLength (Short): 3072
+EXIF ExifImageWidth (Short): 4080
+EXIF ExifVersion (Undefined): 0232
+EXIF ExposureBiasValue (Signed Ratio): 0
+EXIF ExposureMode (Short): Auto Exposure
+EXIF ExposureProgram (Short): Program Normal
+EXIF ExposureTime (Ratio): 443/500000
+EXIF FNumber (Ratio): 42/25
+EXIF Flash (Short): Flash did not fire, compulsory flash mode
+EXIF FlashPixVersion (Undefined): 0100
+EXIF FocalLength (Ratio): 69/10
+EXIF FocalLengthIn35mmFilm (Short): 49
+EXIF ISOSpeedRatings (Short): 19
+EXIF InteroperabilityOffset (Long): 929
+EXIF LensMake (ASCII): Google
+EXIF LensModel (ASCII): Pixel 8 Pro back camera 6.9mm f/1.68
+EXIF MaxApertureValue (Ratio): 3/2
+EXIF MeteringMode (Short): CenterWeightedAverage
+EXIF OffsetTime (ASCII): +02:00
+EXIF OffsetTimeDigitized (ASCII): +02:00
+EXIF OffsetTimeOriginal (ASCII): +02:00
+EXIF Saturation (Short): Normal
+EXIF SceneCaptureType (Short): Standard
+EXIF SceneType (Undefined): Directly Photographed
+EXIF SensingMethod (Short): One-chip color area
+EXIF Sharpness (Short): Normal
+EXIF ShutterSpeedValue (Signed Ratio): 507/50
+EXIF SubSecTime (ASCII): 737
+EXIF SubSecTimeDigitized (ASCII): 737
+EXIF SubSecTimeOriginal (ASCII): 737
+EXIF SubjectDistance (Ratio): 4294967295
+EXIF SubjectDistanceRange (Short): 3
+EXIF Tag 0xA460 (Short): 3
+EXIF WhiteBalance (Short): Auto
+GPS GPSAltitude (Ratio): 705
+GPS GPSAltitudeRef (Byte): 0
+GPS GPSDate (ASCII): 2023:10:08
+GPS GPSImgDirection (Ratio): 31
+GPS GPSImgDirectionRef (ASCII): M
+GPS GPSLatitude (Ratio): [40, 25, 853/100]
+GPS GPSLatitudeRef (ASCII): N
+GPS GPSLongitude (Ratio): [3, 41, 3293/100]
+GPS GPSLongitudeRef (ASCII): W
+GPS GPSTimeStamp (Ratio): [13, 18, 16]
+GPS GPSVersionID (Byte): [2, 2, 0, 0]
+Image DateTime (ASCII): 2023:10:08 15:18:44
+Image ExifOffset (Long): 222
+Image GPSInfo (Long): 959
+Image Make (ASCII): Google
+Image Model (ASCII): Pixel 8 Pro
+Image Orientation (Short): Horizontal (normal)
+Image ResolutionUnit (Short): Pixels/Inch
+Image Software (ASCII): HDR+ 1.0.570503588zd
+Image XResolution (Ratio): 72
+Image YCbCrPositioning (Short): Centered
+Image YResolution (Ratio): 72
+Interoperability InteroperabilityIndex (ASCII): R98
+Interoperability InteroperabilityVersion (Undefined): [48, 49, 48, 48]
+JPEGThumbnail (Proprietary): 
+Thumbnail Compression (Short): JPEG (old-style)
+Thumbnail JPEGInterchangeFormat (Long): 1302
+Thumbnail JPEGInterchangeFormatLength (Long): 25453
+Thumbnail Orientation (Short): Horizontal (normal)
+Thumbnail ResolutionUnit (Short): Pixels/Inch
+Thumbnail XResolution (Ratio): 72
+Thumbnail YResolution (Ratio): 72

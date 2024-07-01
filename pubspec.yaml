@@ -1,20 +1,20 @@
 name: exif_reader
 version: 3.6.0
-description: >-
-  Decode Exif metadata from digital image files.
+description: Decode Exif metadata from digital image files.
 homepage: https://www.github.com/mgenware/exif_reader
 environment:
   sdk: ">=2.12.0 <4.0.0"
 dependencies:
   collection: ^1.15.0
   convert: ^3.0.0
+  es_compression: ^2.0.12
   iso_base_media: ^1.4.0
   json_annotation: ^4.3.0
   sprintf: ^7.0.0
 dev_dependencies:
   archive: ^3.1.2
   http: ">=1.0.0 <2.0.0"
-  mgenware_dart_lints: ^6.5.1
+  mgenware_dart_lints: ^6.5.2
   path: ^1.8.0
   stream_channel: ^2.1.0
   test: ^1.16.8

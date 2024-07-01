@@ -97,10 +97,19 @@ Future<ExifData> readExifFromFileReaderAsync(
     return ExifData.withWarning(readParams.error);
   }
 
-  final file = IfdReader(
-    Reader(f, readParams.offset, readParams.endian),
-    fakeExif: readParams.fakeExif,
-  );
+  IfdReader file;
+  if (readParams.data != null) {
+    file = IfdReader(
+      Reader(BytesFileReader(readParams.data!), readParams.offset,
+          readParams.endian),
+      fakeExif: readParams.fakeExif,
+    );
+  } else {
+    file = IfdReader(
+      Reader(f, readParams.offset, readParams.endian),
+      fakeExif: readParams.fakeExif,
+    );
+  }
 
   final hdr = ExifHeader(
     file: file,
@@ -258,14 +267,17 @@ Future<ReadParams> _heicReadParams(FileReader f) async {
 Future<ReadParams> _jxlReadParams(FileReader f) async {
   if (f is RafFileReader) {
     final jxlReader = JxlExifReader(f.file);
-    var offset = await jxlReader.findExif();
-    if (offset == null) {
+    final res = await jxlReader.findExif();
+    if (res.exifData != null && res.exifData!.isNotEmpty) {
+      final endian = Reader.endianOfByte(res.exifData![0]);
+      return ReadParams(endian: endian, data: res.exifData, offset: 0);
+    }
+    if (res.exifOffset == null) {
       return ReadParams.error('No exif found');
     }
-    await f.read(4);
+    final offset = res.exifOffset!;
     final endianByte = await f.readByte();
     final endian = Reader.endianOfByte(endianByte);
-    offset += 4;
     return ReadParams(endian: endian, offset: offset);
   }
   throw Exception('JXL bytes reader is not supported yet.');
@@ -499,16 +511,19 @@ class ReadParams {
   final Endian endian;
   final int offset;
   final String error;
+  final List<int>? data;
 
   ReadParams({
     required this.endian,
     required this.offset,
     // by default do not fake an EXIF beginning
     this.fakeExif = false,
+    this.data,
   }) : error = '';
 
   ReadParams.error(this.error)
       : endian = Endian.little,
         offset = 0,
+        data = null,
         fakeExif = false;
 }
