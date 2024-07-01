@@ -1,3 +1,7 @@
+## 3.7.0
+
+- Support JXL brob EXIF boxes
+
 ## 3.6.0
 
 - Add support for JPEG XL EXIF (uncompressed)

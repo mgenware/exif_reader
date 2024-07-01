@@ -1,4 +1,4 @@
-library exif;
+library exif_reader;
 
 export 'src/exif_types.dart';
 export 'src/print_exif.dart' show printExifOfBytes;

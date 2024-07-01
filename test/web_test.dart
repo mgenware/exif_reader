@@ -2,7 +2,7 @@
 @TestOn('browser')
 import 'dart:convert';
 
-import 'package:exif_reader/exif.dart';
+import 'package:exif_reader/exif_reader.dart';
 import 'package:test/test.dart';
 
 import 'sample_file.dart';
