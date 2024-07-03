@@ -1,3 +1,7 @@
+## 3.7.1
+
+- Fix brotli decoding issues
+
 ## 3.7.0
 
 - Support JXL brob EXIF boxes
