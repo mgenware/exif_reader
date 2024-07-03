@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:es_compression/brotli.dart';
+import 'package:brotli/brotli.dart';
 import 'package:iso_base_media/iso_base_media.dart';
 
 class JxlExifReaderResult {
