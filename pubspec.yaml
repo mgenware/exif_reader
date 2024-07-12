@@ -1,5 +1,5 @@
 name: exif_reader
-version: 3.7.2
+version: 3.7.3
 description: Decode Exif metadata from digital image files.
 homepage: https://www.github.com/mgenware/exif_reader
 environment:
@@ -8,7 +8,7 @@ dependencies:
   collection: ^1.15.0
   convert: ^3.0.0
   brotli: ^0.6.0
-  iso_base_media: ^2.0.0
+  iso_base_media: ^2.1.0
   sprintf: ^7.0.0
 dev_dependencies:
   archive: ^3.1.2
