@@ -19,7 +19,7 @@ class JxlExifReader {
     final fileBox = await ISOFileBox.openRandomAccessFile(raf);
     ISOBox? child;
     do {
-      child = await fileBox.nextChild();
+      child = await fileBox.nextChild(isContainerCallback: null);
       if (child != null) {
         if (child.type == 'Exif') {
           return JxlExifReaderResult(
