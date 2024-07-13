@@ -432,6 +432,9 @@ Future<ReadParams> _pngReadParams(FileReader f) async {
   await f.setPosition(8);
   while (true) {
     final data = await f.read(8);
+    if (data.length < 8) {
+      return ReadParams.error('Invalid PNG encoding');
+    }
     final chunk = String.fromCharCodes(data.sublist(4, 8));
 
     if (chunk.isEmpty || chunk == 'IEND') {
@@ -462,9 +465,7 @@ Future<ReadParams> _webpReadParams(FileReader f) async {
   await f.setPosition(12);
   while (true) {
     final header = await f.read(8);
-    if (header.isEmpty) {
-      return ReadParams.error('No EXIF information found');
-    } else if (header.length < 8) {
+    if (header.length < 8) {
       return ReadParams.error('Invalid RIFF encoding');
     }
 
