@@ -1,7 +1,7 @@
 # exif_reader
 
 [![pub package](https://img.shields.io/pub/v/exif_reader.svg)](https://pub.dev/packages/exif_reader)
-[![Build Status](https://github.com/mgenware/exif_reader/workflows/Build/badge.svg)](https://github.com/mgenware/exif_reader/actions)
+[![Build Status](https://github.com/mgenware/exif_reader/workflows/Dart/badge.svg)](https://github.com/mgenware/exif_reader/actions)
 
 Dart package to decode Exif data from TIFF, JPEG, HEIC, PNG, WebP, JXL (JPEG XL) files. Fork of [exifdart](https://github.com/bigflood/dartexif).
 
