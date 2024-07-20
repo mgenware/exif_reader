@@ -185,9 +185,4 @@ class ExifHeader {
       tags['JPEGThumbnail'] = IfdTagImpl(values: IfdBytes.fromList(values));
     }
   }
-
-  void parseXmp(String xmpString) {
-    tags['Image ApplicationNotes'] =
-        IfdTagImpl(printable: xmpString, fieldType: FieldType.byte);
-  }
 }

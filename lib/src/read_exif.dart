@@ -145,11 +145,6 @@ Future<ExifData> readExifFromFileReaderAsync(
     await hdr.extractJpegThumbnail();
   }
 
-  // parse XMP tags (experimental)
-  if (debug && details) {
-    await _parseXmpTags(f, hdr);
-  }
-
   return ExifData(
     hdr.tags.map((key, value) => MapEntry(key, value.tag)),
     hdr.warnings,
@@ -163,62 +158,6 @@ String _ifdNameOfIndex(int index) {
     return 'Thumbnail';
   } else {
     return 'IFD $index';
-  }
-}
-
-Future<void> _parseXmpTags(FileReader f, ExifHeader hdr) async {
-  String xmpString = '';
-  // Easy we already have them
-  final imageApplicationNotes = hdr.tags['Image ApplicationNotes'];
-  if (imageApplicationNotes != null) {
-    // XMP present in Exif
-    final tag = imageApplicationNotes.tag;
-    xmpString =
-        (tag is IfdInts) ? makeString((tag as IfdInts).ints) : tag.toString();
-    // We need to look in the entire file for the XML
-  } else {
-    // XMP not in Exif, searching file for XMP info...
-    bool xmlStarted = false;
-    bool xmlFinished = false;
-    final reader = LineReader(f);
-    while (true) {
-      String line = await reader.readLine();
-      if (line.isEmpty) {
-        break;
-      }
-
-      final openTag = line.indexOf('<x:xmpmeta');
-      final closeTag = line.indexOf('</x:xmpmeta>');
-
-      if (openTag != -1) {
-        xmlStarted = true;
-        line = line.substring(openTag);
-        // printf('** XMP found opening tag at line position %s', [open_tag]);
-      }
-
-      if (closeTag != -1) {
-        // printf('** XMP found closing tag at line position %s', [close_tag]);
-        int lineOffset = 0;
-        if (openTag != -1) {
-          lineOffset = openTag;
-        }
-        line = line.substring(0, (closeTag - lineOffset) + 12);
-        xmlFinished = true;
-      }
-
-      if (xmlStarted) {
-        xmpString += line;
-      }
-
-      if (xmlFinished) {
-        break;
-      }
-    }
-
-    // print('** XMP Finished searching for info');
-    if (xmpString.isNotEmpty) {
-      hdr.parseXmp(xmpString);
-    }
   }
 }
 
