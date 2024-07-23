@@ -5,6 +5,8 @@ import 'package:iso_base_media/iso_base_media.dart';
 import 'makernote_canon.dart';
 import 'read_exif.dart';
 import 'reader.dart';
+import 'tags.dart';
+import 'tags_info.dart';
 import 'util.dart';
 
 class Cr3ExifReader {
@@ -38,11 +40,17 @@ class Cr3ExifReader {
             continue;
           }
           final endian = Reader.endianOfByte(exifData[0]);
+          Map<int, MakerTag>? tagDict;
+          if (exifBox.type == 'CMT3') {
+            tagDict = MakerNoteCanon.tags;
+          } else if (exifBox.type == 'CMT4') {
+            tagDict = StandardTags.gpsTags;
+          }
           res.add(ReadParams(
             endian: endian,
             offset: 0,
             data: exifData,
-            tagDict: exifBox.type == 'CMT3' ? MakerNoteCanon.tags : null,
+            tagDict: tagDict,
             ifdNameCallback: (index) {
               switch (exifBox.type) {
                 case 'CMT1':

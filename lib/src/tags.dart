@@ -29,7 +29,7 @@ class StandardTags extends TagsBase {
       MakerTagsWithName(name: 'Interoperability', tags: _interopTags);
 
   // GPS tags
-  static final Map<int, MakerTag> _gpsTags = {
+  static final Map<int, MakerTag> gpsTags = {
     0x0000: _make('GPSVersionID'),
     0x0001: _make('GPSLatitudeRef'),
     0x0002: _make('GPSLatitude'),
@@ -64,7 +64,7 @@ class StandardTags extends TagsBase {
   };
 
   static final MakerTagsWithName _gpsInfo =
-      MakerTagsWithName(name: 'GPS', tags: _gpsTags);
+      MakerTagsWithName(name: 'GPS', tags: gpsTags);
 
   // Main Exif tag names
   static final Map<int, MakerTag> tags = {
