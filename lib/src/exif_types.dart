@@ -148,4 +148,10 @@ class ExifData {
   const ExifData(this.tags, this.warnings);
 
   ExifData.withWarning(String warning) : this(const {}, [warning]);
+
+  static ExifData merge(ExifData a, ExifData b) {
+    a.tags.addAll(b.tags);
+    a.warnings.addAll(b.warnings);
+    return a;
+  }
 }

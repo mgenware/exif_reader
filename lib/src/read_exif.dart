@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'cr3.dart';
 import 'exif_decode_makernote.dart';
 import 'exif_types.dart';
 import 'exifheader.dart';
@@ -9,8 +10,8 @@ import 'file_interface.dart';
 import 'file_interface_io.dart';
 import 'heic.dart';
 import 'jxl.dart';
-import 'linereader.dart';
 import 'reader.dart';
+import 'tags_info.dart';
 import 'util.dart';
 
 int _incrementBase(List<int> data, int base) {
@@ -73,30 +74,82 @@ Future<ExifData> readExifFromFileReaderAsync(
   bool debug = false,
   bool truncateTags = true,
 }) async {
-  ReadParams readParams;
+  final List<ReadParams> readParamsList = [];
 
   // Determine whether it's a JPEG or TIFF.
   final header = await f.read(12);
   if (_isTiff(header)) {
-    readParams = await _tiffReadParams(f);
+    final readParams = await _tiffReadParams(f);
+    readParamsList.add(readParams);
   } else if (_isHeic(header) || _isAvif(header)) {
-    readParams = await _heicReadParams(f);
+    final readParams = await _heicReadParams(f);
+    readParamsList.add(readParams);
   } else if (_isJpeg(header)) {
-    readParams = await _jpegReadParams(f);
+    final readParams = await _jpegReadParams(f);
+    readParamsList.add(readParams);
   } else if (_isPng(header)) {
-    readParams = await _pngReadParams(f);
+    final readParams = await _pngReadParams(f);
+    readParamsList.add(readParams);
   } else if (_isWebp(header)) {
-    readParams = await _webpReadParams(f);
+    final readParams = await _webpReadParams(f);
+    readParamsList.add(readParams);
   } else if (_isJxl(header)) {
-    readParams = await _jxlReadParams(f);
+    final readParams = await _jxlReadParams(f);
+    readParamsList.add(readParams);
+  } else if (_isCr3(header)) {
+    final readParamList = await _cr3ReadParams(f);
+    if (readParamList.isNotEmpty) {
+      readParamsList.addAll(readParamList);
+    } else {
+      return ExifData.withWarning('No EXIF data found.');
+    }
   } else {
     return ExifData.withWarning('File format not recognized.');
   }
 
-  if (readParams.error != '') {
-    return ExifData.withWarning(readParams.error);
+  for (final readParams in readParamsList) {
+    String err = '';
+    if (readParams.error.isNotEmpty) {
+      err += '${readParams.error}\n';
+    }
+    if (err.isNotEmpty) {
+      return ExifData.withWarning(err);
+    }
   }
 
+  ExifData? exifData;
+  for (final readParams in readParamsList) {
+    final data = await _readExifFromReadParams(
+      fileReader: f,
+      readParams: readParams,
+      stopTag: stopTag,
+      details: details,
+      strict: strict,
+      debug: debug,
+      truncateTags: truncateTags,
+    );
+    if (exifData != null) {
+      exifData = ExifData.merge(exifData, data);
+    } else {
+      exifData = data;
+    }
+  }
+
+  if (exifData == null) {
+    return ExifData.withWarning('No EXIF information found.');
+  }
+  return exifData;
+}
+
+Future<ExifData> _readExifFromReadParams({
+  required FileReader fileReader,
+  required ReadParams readParams,
+  required String? stopTag,
+  required bool details,
+  required bool strict,
+  required bool debug,
+  required bool truncateTags,
+}) async {
   IfdReader file;
   if (readParams.data != null) {
     file = IfdReader(
@@ -106,7 +159,7 @@ Future<ExifData> readExifFromFileReaderAsync(
     );
   } else {
     file = IfdReader(
-      Reader(f, readParams.offset, readParams.endian),
+      Reader(fileReader, readParams.offset, readParams.endian),
       fakeExif: readParams.fakeExif,
     );
   }
@@ -123,7 +176,13 @@ Future<ExifData> readExifFromFileReaderAsync(
 
   for (int ifdIndex = 0; ifdIndex < ifdList.length; ifdIndex++) {
     final ifd = ifdList[ifdIndex];
-    await hdr.dumpIfd(ifd, _ifdNameOfIndex(ifdIndex), stopTag: stopTag);
+    await hdr.dumpIfd(
+        ifd,
+        readParams.ifdNameCallback != null
+            ? readParams.ifdNameCallback!(ifdIndex)
+            : _ifdNameOfIndex(ifdIndex),
+        tagDict: readParams.tagDict,
+        stopTag: stopTag);
   }
 
   // EXIF IFD
@@ -174,6 +233,9 @@ bool _isHeic(List<int> header) =>
 bool _isAvif(List<int> header) =>
     listRangeEqual(header, 4, 12, 'ftypavif'.codeUnits);
 
+bool _isCr3(List<int> header) =>
+    listRangeEqual(header, 4, 12, 'ftypcrx '.codeUnits);
+
 bool _isJxl(List<int> header) => listRangeEqual(
       header,
       0,
@@ -220,6 +282,15 @@ Future<ReadParams> _jxlReadParams(FileReader f) async {
     return ReadParams(endian: endian, offset: offset);
   }
   throw Exception('JXL bytes reader is not supported yet.');
+}
+
+Future<List<ReadParams>> _cr3ReadParams(FileReader f) async {
+  if (f is RafFileReader) {
+    final reader = Cr3ExifReader(f.file);
+    final res = await reader.findExif();
+    return res;
+  }
+  throw Exception('CR3 bytes reader is not supported yet.');
 }
 
 Future<ReadParams> _jpegReadParams(FileReader f) async {
@@ -451,7 +522,10 @@ class ReadParams {
   final Endian endian;
   final int offset;
   final String error;
+  // If not null, use this data instead of the file.
   final List<int>? data;
+  final String Function(int index)? ifdNameCallback;
+  final Map<int, MakerTag>? tagDict;
 
   ReadParams({
     required this.endian,
@@ -459,11 +533,15 @@ class ReadParams {
     // by default do not fake an EXIF beginning
     this.fakeExif = false,
     this.data,
+    this.ifdNameCallback,
+    this.tagDict,
   }) : error = '';
 
   ReadParams.error(this.error)
       : endian = Endian.little,
         offset = 0,
         data = null,
+        ifdNameCallback = null,
+        tagDict = null,
         fakeExif = false;
 }

@@ -5,6 +5,8 @@ import 'package:iso_base_media/iso_base_media.dart';
 
 class JxlExifReaderResult {
   final int? exifOffset;
+  // Not null if exif data is compressed.
+  // If exif data is not compressed, only [exifOffset] is set.
   final List<int>? exifData;
 
   JxlExifReaderResult(this.exifOffset, this.exifData);
@@ -16,10 +18,10 @@ class JxlExifReader {
   const JxlExifReader(this.raf);
 
   Future<JxlExifReaderResult> findExif() async {
-    final fileBox = await ISOFileBox.openRandomAccessFile(raf);
+    final fileBox = ISOSourceBox.fromRandomAccessFile(raf);
     ISOBox? child;
     do {
-      child = await fileBox.nextChild(isContainerCallback: null);
+      child = await fileBox.nextChild();
       if (child != null) {
         if (child.type == 'Exif') {
           return JxlExifReaderResult(

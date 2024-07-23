@@ -8,7 +8,7 @@ dependencies:
   collection: ^1.15.0
   convert: ^3.0.0
   brotli: ^0.6.0
-  iso_base_media: ^2.1.0
+  iso_base_media: ^3.2.2
   sprintf: ^7.0.0
 dev_dependencies:
   archive: ^3.1.2

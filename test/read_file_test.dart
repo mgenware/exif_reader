@@ -53,6 +53,14 @@ void main() {
     final expected = await io.File('$filename.dump').readAsString();
     expect(output, equals(expected.trim()));
   });
+
+  test('CR3', () async {
+    const filename = 'test/data/t.CR3';
+    final file = io.File(filename);
+    final output = tagsToString(await readExifFromFile(file));
+    final expected = await io.File('$filename.dump').readAsString();
+    expect(output, equals(expected.trim()));
+  });
 }
 
 String tagsToString(Map<String, IfdTag> tags) {
