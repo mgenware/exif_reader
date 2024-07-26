@@ -204,11 +204,16 @@ class DecodeMakerNote {
     }
 
     await _dumpIfd(note.fieldOffset, tagDict: MakerNoteCanon.tags);
+    postProcessCanonTags(tags);
+    return true;
+  }
 
+  static void postProcessCanonTags(Map<String, IfdTagImpl> tags) {
     MakerNoteCanon.tagsXxx.forEach((name, makerTags) {
       final tag = tags[name];
       if (tag != null) {
         _canonDecodeTag(
+          tags,
           tag.tag.values.toList().whereType<int>().toList(),
           makerTags,
         );
@@ -218,11 +223,9 @@ class DecodeMakerNote {
 
     final cannonTag = tags[MakerNoteCanon.cameraInfoTagName];
     if (cannonTag != null) {
-      _canonDecodeCameraInfo(cannonTag);
+      _canonDecodeCameraInfo(tags, cannonTag);
       tags.remove(MakerNoteCanon.cameraInfoTagName);
     }
-
-    return true;
   }
 
   // TODO Decode Olympus MakerNote tag based on offset within tag
@@ -230,7 +233,8 @@ class DecodeMakerNote {
 
   // Decode Canon MakerNote tag based on offset within tag.
   // See http://www.burren.cx/david/canon.html by David Burren
-  void _canonDecodeTag(List<int> value, Map<int, MakerTag> mnTags) {
+  static void _canonDecodeTag(Map<String, IfdTagImpl> tags, List<int> value,
+      Map<int, MakerTag> mnTags) {
     for (int i = 1; i < value.length; i++) {
       final tag = mnTags[i] ?? MakerTag.make('Unknown');
       final name = tag.name;
@@ -248,7 +252,8 @@ class DecodeMakerNote {
   }
 
   // Decode the variable length encoded camera info section.
-  void _canonDecodeCameraInfo(IfdTagImpl cameraInfoTag) {
+  static void _canonDecodeCameraInfo(
+      Map<String, IfdTagImpl> tags, IfdTagImpl cameraInfoTag) {
     final modelTag = tags['Image Model'];
     if (modelTag == null) {
       return;

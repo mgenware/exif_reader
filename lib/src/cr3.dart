@@ -41,8 +41,10 @@ class Cr3ExifReader {
           }
           final endian = Reader.endianOfByte(exifData[0]);
           Map<int, MakerTag>? tagDict;
+          bool cr3MakerNote = false;
           if (exifBox.type == 'CMT3') {
             tagDict = MakerNoteCanon.tags;
+            cr3MakerNote = true;
           } else if (exifBox.type == 'CMT4') {
             tagDict = StandardTags.gpsTags;
           }
@@ -50,6 +52,7 @@ class Cr3ExifReader {
             endian: endian,
             offset: 0,
             data: exifData,
+            cr3MakerNote: cr3MakerNote,
             tagDict: tagDict,
             ifdNameCallback: (index) {
               switch (exifBox.type) {

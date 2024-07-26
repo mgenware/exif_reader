@@ -184,6 +184,9 @@ Future<ExifData> _readExifFromReadParams({
         tagDict: readParams.tagDict,
         stopTag: stopTag);
   }
+  if (readParams.cr3MakerNote) {
+    DecodeMakerNote.postProcessCanonTags(hdr.tags);
+  }
 
   // EXIF IFD
   final exifOff = hdr.tags['Image ExifOffset'];
@@ -526,6 +529,8 @@ class ReadParams {
   final List<int>? data;
   final String Function(int index)? ifdNameCallback;
   final Map<int, MakerTag>? tagDict;
+  // Used to force parsing maker note of CMT3 section of CR3 files.
+  final bool cr3MakerNote;
 
   ReadParams({
     required this.endian,
@@ -535,6 +540,7 @@ class ReadParams {
     this.data,
     this.ifdNameCallback,
     this.tagDict,
+    this.cr3MakerNote = false,
   }) : error = '';
 
   ReadParams.error(this.error)
@@ -543,5 +549,6 @@ class ReadParams {
         data = null,
         ifdNameCallback = null,
         tagDict = null,
+        cr3MakerNote = false,
         fakeExif = false;
 }

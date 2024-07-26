@@ -1,5 +1,158 @@
-Image ImageDescription (ASCII): Your description here
+EXIF ApertureValue (Ratio): 3
+EXIF BodySerialNumber (ASCII): 000203900025
+EXIF CameraOwnerName (ASCII): 
+EXIF ColorSpace (Short): sRGB
+EXIF ComponentsConfiguration (Undefined): YCbCr
+EXIF CustomRendered (Short): Normal
+EXIF DateTimeDigitized (ASCII): 2024:06:27 12:53:52
+EXIF DateTimeOriginal (ASCII): 2024:06:27 12:53:52
+EXIF ExifImageLength (Short): 4000
+EXIF ExifImageWidth (Short): 6000
+EXIF ExifVersion (Undefined): 0231
+EXIF ExposureBiasValue (Signed Ratio): 0
+EXIF ExposureMode (Short): Manual Exposure
+EXIF ExposureProgram (Short): Manual
+EXIF ExposureTime (Ratio): 1/1250
+EXIF FNumber (Ratio): 14/5
+EXIF Flash (Short): Flash did not fire
+EXIF FlashPixVersion (Undefined): 0100
+EXIF FocalLength (Ratio): 66
+EXIF FocalPlaneResolutionUnit (Short): 2
+EXIF FocalPlaneXResolution (Ratio): 6000000/1417
+EXIF FocalPlaneYResolution (Ratio): 800000/189
+EXIF ISOSpeedRatings (Short): 4000
+EXIF LensModel (ASCII): RF24-70mm F2.8 L IS USM
+EXIF LensSerialNumber (ASCII): 8003001497
+EXIF LensSpecification (Ratio): [24, 70, 0, 0]
+EXIF MeteringMode (Short): Pattern
+EXIF OffsetTime (ASCII): +00:00
+EXIF OffsetTimeDigitized (ASCII): +00:00
+EXIF OffsetTimeOriginal (ASCII): +00:00
+EXIF RecommendedExposureIndex (Long): 4000
+EXIF SceneCaptureType (Short): Standard
+EXIF SensitivityType (Short): Recommended Exposure Index
+EXIF ShutterSpeedValue (Signed Ratio): 83/8
+EXIF SubSecTime (ASCII): 54
+EXIF SubSecTimeDigitized (ASCII): 54
+EXIF SubSecTimeOriginal (ASCII): 54
+EXIF UserComment (Undefined): 
+EXIF WhiteBalance (Short): Auto
+GPS GPSVersionID (Byte): [2, 3, 0, 0]
+Image Artist (ASCII): 
+Image BitsPerSample (Short): [8, 8, 8]
+Image Compression (Short): JPEG (old-style)
+Image Copyright (ASCII): 
+Image DateTime (ASCII): 2024:06:27 12:53:52
+Image ImageLength (Short): 4000
+Image ImageWidth (Short): 6000
+Image Make (ASCII): Canon
+Image Model (ASCII): Canon EOS R1
+Image Orientation (Short): Horizontal (normal)
 Image ResolutionUnit (Short): Pixels/Inch
-Image XResolution (Ratio): 72
-Image YCbCrPositioning (Short): Centered
-Image YResolution (Ratio): 72
+Image XResolution (Ratio): 350
+Image YResolution (Ratio): 350
+MakerNote AESetting (Proprietary): Unknown
+MakerNote AFPointSelected (Proprietary): Unknown
+MakerNote AFPointUsed (Proprietary): 0
+MakerNote AspectInfo (Long): [0, 6000, 4000, 0, 0]
+MakerNote BracketMode (Proprietary): Off
+MakerNote BracketShotNumber (Proprietary): 0
+MakerNote BracketValue (Proprietary): 0
+MakerNote ColorSpace (Short): sRGB
+MakerNote ContinuousDriveMode (Proprietary): Unknown
+MakerNote Contrast (Proprietary): Normal
+MakerNote CropInfo  (Short): [0, 0, 0, 0]
+MakerNote DigitalZoom (Proprietary): None
+MakerNote DustRemovalData  (Undefined): []
+MakerNote EasyShootingMode (Proprietary): Manual
+MakerNote ExposureMode (Proprietary): Manual
+MakerNote FileNumber (Proprietary): 0
+MakerNote FilterEffect (Proprietary): Unknown
+MakerNote FirmwareVersion (ASCII): Firmware Version 0.4.0
+MakerNote FlashActivity (Proprietary): Did Not Fire
+MakerNote FlashBias (Proprietary): 0 EV
+MakerNote FlashDetails (Proprietary): Unknown
+MakerNote FlashExposureLock (Proprietary): Off
+MakerNote FlashInfo (Short): [0, 0, 0, 0]
+MakerNote FlashMode (Proprietary): Flash Not Fired
+MakerNote FocalLength (Proprietary): 48249
+MakerNote FocalType (Proprietary): Unknown
+MakerNote FocalUnitsPerMM (Proprietary): 1
+MakerNote FocusMode (Proprietary): Single
+MakerNote FocusType (Proprietary): Auto
+MakerNote ISO (Proprietary): Auto
+MakerNote ImageSize (Proprietary): Large
+MakerNote ImageStabilization (Proprietary): On
+MakerNote ImageType (ASCII): Canon EOS R1
+MakerNote ImageUniqueID (Byte): [37, 6, 145, 12, 246, 44, 76, 85, 149, 134, 132, 98, 130, 169, 109, 97]
+MakerNote InternalSerialNumber  (ASCII): QQ0001138
+MakerNote LensModel (ASCII): RF24-70mm F2.8 L IS USM
+MakerNote LensType (Proprietary): 61182
+MakerNote LiveViewShooting (Proprietary): On
+MakerNote LongExposureNoiseReduction2 (Proprietary): Unknown
+MakerNote LongFocalLengthOfLensInFocalUnits (Proprietary): 70
+MakerNote MacroMagnification (Proprietary): 125
+MakerNote Macromode (Proprietary): Normal
+MakerNote ManualFlashOutput (Proprietary): n/a
+MakerNote MeteringMode (Proprietary): Evaluative
+MakerNote ModelID (Long): 2147484821
+MakerNote OwnerName (ASCII): 
+MakerNote Quality (Proprietary): Unknown
+MakerNote RawJpgQuality (Proprietary): Unknown
+MakerNote RawJpgSize (Proprietary): Large
+MakerNote RecordMode (Proprietary): Unknown
+MakerNote Saturation (Proprietary): Normal
+MakerNote SelfTimer (Proprietary): 0
+MakerNote SequenceNumber (Proprietary): 0
+MakerNote Sharpness (Proprietary): Unknown
+MakerNote ShortFocalLengthOfLensInFocalUnits (Proprietary): 24
+MakerNote SlowShutter (Proprietary): None
+MakerNote SpotMeteringMode (Proprietary): Unknown
+MakerNote SubjectDistance (Proprietary): 529
+MakerNote Tag 0x0019 (Short): 1
+MakerNote Tag 0x0032 (Long): [44, 1, 5, 216860412, 1431055606, 1652852373, 1634576770, 0, 0, 0, 0]
+MakerNote Tag 0x0033 (Long): [3444643209, 1431101452, 1652852373, 1634576770]
+MakerNote Tag 0x0035 (Long): [16, 0, 20, 0]
+MakerNote Tag 0x0038 (Undefined): [76, 0, 0, 0, 76, 80, 45, 69, 49, 57, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+MakerNote Tag 0x003F (Long): 17
+MakerNote Tag 0x0099 (Long): [1012, 3, 1, 260, 16, 257, 1, 0, 258, 1, 0, 260, 1, 0, 261, 1, 0, 262, 2, 3, ... ]
+MakerNote Tag 0x00A0 (Short): [38, 0, 4, 0, 0, 0, 0, 0, 65535, 5200, 129, 0, 0, 0, 2, 3, 10, 65535, 65535]
+MakerNote Tag 0x00AA (Short): [12, 740, 1024, 1024, 567, 0]
+MakerNote Tag 0x00D0 (Long): 0
+MakerNote Tag 0x00E0 (Short): [34, 6160, 4144, 1, 1, 144, 136, 6143, 4135, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote Tag 0x4008 (Short): [129, 129, 129]
+MakerNote Tag 0x4009 (Short): [0, 0, 0]
+MakerNote Tag 0x4010 (ASCII): 
+MakerNote Tag 0x4011 (Undefined): [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+MakerNote Tag 0x4012 (ASCII): 
+MakerNote Tag 0x4013 (Long): [44, 0, 0, 10, 4294967295, 0, 10, 0, 10, 0, 10]
+MakerNote Tag 0x4016 (Long): [44, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0]
+MakerNote Tag 0x4018 (Long): [64, 0, 3, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0]
+MakerNote Tag 0x4019 (Undefined): [128, 3, 0, 20, 151, 135, 0, 52, 51, 4, 3, 56, 0, 3, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote Tag 0x4020 (Long): [32, 0, 0, 0, 2147483647, 0, 1, 1]
+MakerNote Tag 0x4021 (Long): [20, 0, 0, 0, 1]
+MakerNote Tag 0x4025 (Long): [48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote Tag 0x4027 (Long): [24, 459522, 1241514001, 0, 13684944, 65543]
+MakerNote Tag 0x4028 (Long): [128, 2147483647, 2147483647, 2147483647, 2147483647, 0, 0, 2, 1, 0, 0, 0, 32639, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1, 1, 1, 0, 4294967295, 1, 0, 1]
+MakerNote Tag 0x402C (Long): [8, 0]
+MakerNote Tag 0x4035 (Undefined): [30, 37, 16, 28, 37, 21, 150, 16, 74, 12, 154, 8, 72, 6, 54, 5, 109, 4, 119, 3, ... ]
+MakerNote Tag 0x4037 (Undefined): [128, 2, 170, 1, 1, 0, 0, 0, 0, 0, 5, 0, 206, 1, 14, 1, 62, 0, 0, 0, 138, 0, 0, 0]
+MakerNote Tag 0x4039 (Byte): [34, 6, 145, 12, 246, 44, 76, 85, 149, 134, 132, 98, 130, 169, 109, 97]
+MakerNote Tag 0x403C (Long): [16, 1, 0, 0]
+MakerNote Tag 0x403F (Long): [12, 0, 0]
+MakerNote Tag 0x4040 (Long): [40, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+MakerNote Tag 0x4049 (Short): [8, 0, 0, 0]
+MakerNote Tag 0x404B (Short): [65535, 65535]
+MakerNote Tag 0x404E (Long): [12, 0, 0]
+MakerNote Tag 0x4053 (Long): [36, 0, 0, 0, 0, 0, 0, 0, 0]
+MakerNote Tag 0x4054 (Long): [512, 1, 0, 1129071616, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ]
+MakerNote Tag 0x4055 (Short): [16, 0, 0, 1, 0, 0, 0, 0]
+MakerNote Tag 0x4056 (Short): [11111, 2332, 6528, 2364, 6560, 2232, 38, 18, 462, 222, 50, 50, 65528, 65528, 65448, 0, 65530, 0, 0, 0, ... ]
+MakerNote Tag 0x405B (Undefined): []
+MakerNote ThumbnailImageValidArea (Short): [0, 159, 6, 113]
+MakerNote ToningEffect (Proprietary): Unknown
+MakerNote Unknown (Proprietary): 154
+MakerNote WBBracketMode (Proprietary): Off
+MakerNote WBBracketValueAB (Proprietary): 0
+MakerNote WBBracketValueGM (Proprietary): 0
+MakerNote WhiteBalance (Proprietary): Auto
