@@ -276,9 +276,9 @@ Future<ReadParams> _heicReadParams(FileReader f) async {
 }
 
 Future<ReadParams> _rafReadParams(FileReader f) async {
-  await f.setPosition(0);
   if (f is RafFileReader) {
-    final reader = RafExifReader(f.file);
+    await f.setPosition(0);
+    final reader = RafExifReader(File(f.file.path));
     final readParams = await reader.findExif();
     if (readParams != null) {
       return readParams;

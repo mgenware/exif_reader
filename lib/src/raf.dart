@@ -1,35 +1,33 @@
+import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'read_exif.dart';
 import 'reader.dart';
 
+final _exifHeader = AsciiCodec().decode([0x45, 0x78, 0x69, 0x66, 0x00, 0x00]);
+
 class RafExifReader {
-  final RandomAccessFile raf;
+  final File file;
 
-  const RafExifReader(this.raf);
+  const RafExifReader(this.file);
 
-  Future<ReadParams?> findExif() async {}
-}
-
-// https://stackoverflow.com/questions/65194980/search-for-sequence-in-uint8list
-extension IndexOfElements<T> on List<T> {
-  int indexOfElements(List<T> elements, [int start = 0]) {
-    if (elements.isEmpty) return start;
-    var end = length - elements.length;
-    if (start > end) return -1;
-    var first = elements.first;
-    var pos = start;
-    while (true) {
-      pos = indexOf(first, pos);
-      if (pos < 0 || pos > end) return -1;
-      for (var i = 1; i < elements.length; i++) {
-        if (this[pos + i] != elements[i]) {
-          pos++;
-          continue;
-        }
-      }
-      return pos;
+  Future<ReadParams?> findExif() async {
+    final bytes = await file.readAsBytes();
+    final asciiString = AsciiCodec().decode(bytes, allowInvalid: true);
+    final index = asciiString.indexOf(_exifHeader);
+    if (index == -1) {
+      return null;
     }
+    // Get the staring position of the Exif data.
+    final exifStart = index + _exifHeader.length;
+    if (exifStart + 2 >= bytes.length) {
+      return null;
+    }
+    final endianByte = bytes[exifStart];
+    final endian = Reader.endianOfByte(endianByte);
+    return ReadParams(
+      offset: exifStart,
+      endian: endian,
+    );
   }
 }
