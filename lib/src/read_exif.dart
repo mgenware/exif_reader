@@ -10,6 +10,7 @@ import 'file_interface.dart';
 import 'file_interface_io.dart';
 import 'heic.dart';
 import 'jxl.dart';
+import 'raf.dart';
 import 'reader.dart';
 import 'tags_info.dart';
 import 'util.dart';
@@ -103,6 +104,9 @@ Future<ExifData> readExifFromFileReaderAsync(
     } else {
       return ExifData.withWarning('No EXIF data found.');
     }
+  } else if (_isRaf(header)) {
+    final readParams = await _rafReadParams(f);
+    readParamsList.add(readParams);
   } else {
     return ExifData.withWarning('File format not recognized.');
   }
@@ -239,6 +243,9 @@ bool _isAvif(List<int> header) =>
 bool _isCr3(List<int> header) =>
     listRangeEqual(header, 4, 12, 'ftypcrx '.codeUnits);
 
+bool _isRaf(List<int> header) =>
+    listRangeEqual(header, 0, 15, 'FUJIFILMCCD-'.codeUnits);
+
 bool _isJxl(List<int> header) => listRangeEqual(
       header,
       0,
@@ -266,6 +273,19 @@ Future<ReadParams> _heicReadParams(FileReader f) async {
   final int offset = res[0];
   final Endian endian = Reader.endianOfByte(res[1]);
   return ReadParams(endian: endian, offset: offset);
+}
+
+Future<ReadParams> _rafReadParams(FileReader f) async {
+  await f.setPosition(0);
+  if (f is RafFileReader) {
+    final reader = RafExifReader(f.file);
+    final readParams = await reader.findExif();
+    if (readParams != null) {
+      return readParams;
+    }
+    return ReadParams.error('No EXIF information found');
+  }
+  throw Exception('RAF bytes reader is not supported yet.');
 }
 
 Future<ReadParams> _jxlReadParams(FileReader f) async {
