@@ -1,3 +1,7 @@
+## 3.9.0
+
+- Update Canon tags.
+
 ## 3.8.0
 
 - Add support for RAF files.
