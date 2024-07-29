@@ -42,7 +42,7 @@ Stream<SampleFile> readIanareSamples() async* {
     'https://github.com/ianare/exif-samples/archive/$commit.tar.gz',
   );
 
-  final data = io.File(path).readAsBytesSync();
+  final data = await io.File(path).readAsBytes();
 
   final ar = TarDecoder().decodeBytes(GZipDecoder().decodeBytes(data));
 

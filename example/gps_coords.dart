@@ -8,7 +8,7 @@ Future<void> main(List<String> arguments) async {
   for (final filename in arguments) {
     print('read $filename ..');
 
-    final fileBytes = File(filename).readAsBytesSync();
+    final fileBytes = await File(filename).readAsBytes();
     final data = await readExifFromBytes(fileBytes);
 
     if (data.isEmpty) {
