@@ -13,6 +13,7 @@ class MakerNoteCanon extends TagsBase {
   static final tags = {
     0x0002: _make('FocalLength'),
     0x0003: _make('FlashInfo'),
+    0x0005: _make('PanoramaInfo'),
     0x0006: _make('ImageType'),
     0x0007: _make('FirmwareVersion'),
     0x0008: _make('ImageNumber'),
@@ -35,11 +36,16 @@ class MakerNoteCanon extends TagsBase {
     0x001e: _make('FirmwareRevision'),
     0x0028: _make('ImageUniqueID'),
     0x0095: _make('LensModel'),
-    0x0096: _make('InternalSerialNumber '),
+    0x0096: _make('InternalSerialNumber'),
     0x0097: _make('DustRemovalData '),
-    0x0098: _make('CropInfo '),
+    0x0098: _make('CropInfo'),
     0x009a: _make('AspectInfo'),
     0x00b4: _withMap('ColorSpace', {1: 'sRGB', 2: 'Adobe RGB'}),
+    0x00e0: _make('SensorInfo'),
+    0x4003: _make('ColorInfo'),
+    0x4019: _make('LensInfo'),
+    0x4024: _make('FilterInfo'),
+    0x4025: _make('HDRInfo'),
   };
 
   static final tagsXxx = {

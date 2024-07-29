@@ -61,7 +61,7 @@ MakerNote BracketValue (Proprietary): 0
 MakerNote ColorSpace (Short): sRGB
 MakerNote ContinuousDriveMode (Proprietary): Unknown
 MakerNote Contrast (Proprietary): Normal
-MakerNote CropInfo  (Short): [0, 0, 0, 0]
+MakerNote CropInfo (Short): [0, 0, 0, 0]
 MakerNote DigitalZoom (Proprietary): None
 MakerNote DustRemovalData  (Undefined): []
 MakerNote EasyShootingMode (Proprietary): Manual
@@ -79,12 +79,14 @@ MakerNote FocalLength (Short): [2, 66, 48249, 19351]
 MakerNote FocalUnitsPerMM (Proprietary): 1
 MakerNote FocusMode (Proprietary): Single
 MakerNote FocusType (Proprietary): Auto
+MakerNote HDRInfo (Long): [48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 MakerNote ISO (Proprietary): Auto
 MakerNote ImageSize (Proprietary): Large
 MakerNote ImageStabilization (Proprietary): On
 MakerNote ImageType (ASCII): Canon EOS R1
 MakerNote ImageUniqueID (Byte): [37, 6, 145, 12, 246, 44, 76, 85, 149, 134, 132, 98, 130, 169, 109, 97]
-MakerNote InternalSerialNumber  (ASCII): QQ0001138
+MakerNote InternalSerialNumber (ASCII): QQ0001138
+MakerNote LensInfo (Undefined): [128, 3, 0, 20, 151, 135, 0, 52, 51, 4, 3, 56, 0, 3, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 MakerNote LensModel (ASCII): RF24-70mm F2.8 L IS USM
 MakerNote LensType (Proprietary): 61182
 MakerNote LiveViewShooting (Proprietary): On
@@ -102,6 +104,7 @@ MakerNote RawJpgSize (Proprietary): Large
 MakerNote RecordMode (Proprietary): Unknown
 MakerNote Saturation (Proprietary): Normal
 MakerNote SelfTimer (Proprietary): 0
+MakerNote SensorInfo (Short): [34, 6160, 4144, 1, 1, 144, 136, 6143, 4135, 0, 0, 0, 0, 0, 0, 0, 0]
 MakerNote SequenceNumber (Proprietary): 0
 MakerNote Sharpness (Proprietary): Unknown
 MakerNote ShortFocalLengthOfLensInFocalUnits (Proprietary): 24
@@ -118,7 +121,6 @@ MakerNote Tag 0x0099 (Long): [1012, 3, 1, 260, 16, 257, 1, 0, 258, 1, 0, 260, 1,
 MakerNote Tag 0x00A0 (Short): [38, 0, 4, 0, 0, 0, 0, 0, 65535, 5200, 129, 0, 0, 0, 2, 3, 10, 65535, 65535]
 MakerNote Tag 0x00AA (Short): [12, 740, 1024, 1024, 567, 0]
 MakerNote Tag 0x00D0 (Long): 0
-MakerNote Tag 0x00E0 (Short): [34, 6160, 4144, 1, 1, 144, 136, 6143, 4135, 0, 0, 0, 0, 0, 0, 0, 0]
 MakerNote Tag 0x4008 (Short): [129, 129, 129]
 MakerNote Tag 0x4009 (Short): [0, 0, 0]
 MakerNote Tag 0x4010 (ASCII): 
@@ -127,10 +129,8 @@ MakerNote Tag 0x4012 (ASCII):
 MakerNote Tag 0x4013 (Long): [44, 0, 0, 10, 4294967295, 0, 10, 0, 10, 0, 10]
 MakerNote Tag 0x4016 (Long): [44, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0]
 MakerNote Tag 0x4018 (Long): [64, 0, 3, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0]
-MakerNote Tag 0x4019 (Undefined): [128, 3, 0, 20, 151, 135, 0, 52, 51, 4, 3, 56, 0, 3, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 MakerNote Tag 0x4020 (Long): [32, 0, 0, 0, 2147483647, 0, 1, 1]
 MakerNote Tag 0x4021 (Long): [20, 0, 0, 0, 1]
-MakerNote Tag 0x4025 (Long): [48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 MakerNote Tag 0x4027 (Long): [24, 459522, 1241514001, 0, 13684944, 65543]
 MakerNote Tag 0x4028 (Long): [128, 2147483647, 2147483647, 2147483647, 2147483647, 0, 0, 2, 1, 0, 0, 0, 32639, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1, 1, 1, 0, 4294967295, 1, 0, 1]
 MakerNote Tag 0x402C (Long): [8, 0]
