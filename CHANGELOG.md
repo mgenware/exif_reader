@@ -1,3 +1,7 @@
+## 3.8.0
+
+- Add support for RAF files.
+
 ## 3.7.1
 
 - Fix brotli decoding issues

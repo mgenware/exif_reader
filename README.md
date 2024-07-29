@@ -3,7 +3,7 @@
 [![pub package](https://img.shields.io/pub/v/exif_reader.svg)](https://pub.dev/packages/exif_reader)
 [![Build Status](https://github.com/mgenware/exif_reader/workflows/Dart/badge.svg)](https://github.com/mgenware/exif_reader/actions)
 
-Dart package to decode EXIF data from TIFF, JPEG, HEIC, PNG, WebP, JXL (JPEG XL), ARW, RAW, DNG, CRW, CR3, NRW, NEF files. Fork of [exifdart](https://github.com/bigflood/dartexif).
+Dart package to decode EXIF data from TIFF, JPEG, HEIC, PNG, WebP, JXL (JPEG XL), ARW, RAW, DNG, CRW, CR3, NRW, NEF, RAF files. Fork of [exifdart](https://github.com/bigflood/dartexif).
 
 ## Usage
 
