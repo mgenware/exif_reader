@@ -5,70 +5,45 @@ import 'dart:io' as io;
 import 'package:exif_reader/exif_reader.dart';
 import 'package:test/test.dart';
 
+Future<void> _testFile(String name) async {
+  final filename = 'test/data/$name';
+  final file = io.File(filename);
+  final output = tagsToString(await readExifFromFile(file));
+  final expected = await io.File('$filename.dump').readAsString();
+  expect(output, equals(expected.trim()));
+}
+
 void main() {
   test('read heic file', () async {
-    const filename = 'test/data/heic-test.heic';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('heic-test.heic');
   });
 
   test('read png file', () async {
-    const filename = 'test/data/png-test.png';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('png-test.png');
   });
 
   test('read avif file', () async {
-    const filename = 'test/data/avif-test.avif';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('avif-test.avif');
   });
 
   test('read jxl file (uncompressed)', () async {
-    const filename = 'test/data/jxl-test.jxl';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('jxl-test.jxl');
   });
 
   test('read jxl file (brob)', () async {
-    const filename = 'test/data/jxl_meta_brob.jxl';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('jxl_meta_brob.jxl');
   });
 
   test('read webp file', () async {
-    const filename = 'test/data/webp-test.webp';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('webp-test.webp');
   });
 
   test('read raf file', () async {
-    const filename = 'test/data/t.RAF';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('t.RAF');
   });
 
   test('CR3', () async {
-    const filename = 'test/data/t.CR3';
-    final file = io.File(filename);
-    final output = tagsToString(await readExifFromFile(file));
-    await io.File('$filename.dump').writeAsString(output);
-    final expected = await io.File('$filename.dump').readAsString();
-    expect(output, equals(expected.trim()));
+    await _testFile('t.CR3');
   });
 }
 

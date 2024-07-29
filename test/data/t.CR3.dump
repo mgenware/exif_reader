@@ -75,8 +75,7 @@ MakerNote FlashDetails (Proprietary): Unknown
 MakerNote FlashExposureLock (Proprietary): Off
 MakerNote FlashInfo (Short): [0, 0, 0, 0]
 MakerNote FlashMode (Proprietary): Flash Not Fired
-MakerNote FocalLength (Proprietary): 48249
-MakerNote FocalType (Proprietary): Unknown
+MakerNote FocalLength (Short): [2, 66, 48249, 19351]
 MakerNote FocalUnitsPerMM (Proprietary): 1
 MakerNote FocusMode (Proprietary): Single
 MakerNote FocusType (Proprietary): Auto
