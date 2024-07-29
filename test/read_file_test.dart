@@ -66,6 +66,7 @@ void main() {
     const filename = 'test/data/t.CR3';
     final file = io.File(filename);
     final output = tagsToString(await readExifFromFile(file));
+    await io.File('$filename.dump').writeAsString(output);
     final expected = await io.File('$filename.dump').readAsString();
     expect(output, equals(expected.trim()));
   });
