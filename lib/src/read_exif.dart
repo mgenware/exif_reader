@@ -51,17 +51,20 @@ Future<Map<String, IfdTag>> readExifFromFile(
   bool truncateTags = true,
 }) async {
   final randomAccessFile = await file.open();
-  final fileReader = await FileReader.fromFile(randomAccessFile);
-  final r = await readExifFromFileReaderAsync(
-    fileReader,
-    stopTag: stopTag,
-    details: details,
-    strict: strict,
-    debug: debug,
-    truncateTags: truncateTags,
-  );
-  await randomAccessFile.close();
-  return r.tags;
+  try {
+    final fileReader = await FileReader.fromFile(randomAccessFile);
+    final r = await readExifFromFileReaderAsync(
+      fileReader,
+      stopTag: stopTag,
+      details: details,
+      strict: strict,
+      debug: debug,
+      truncateTags: truncateTags,
+    );
+    return r.tags;
+  } finally {
+    await randomAccessFile.close();
+  }
 }
 
 /// Process an image file (expects an open file object).
