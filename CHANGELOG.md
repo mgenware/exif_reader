@@ -1,3 +1,7 @@
+## 3.10.0
+
+- Return hex value in IfdBytes.toString
+
 ## 3.9.0
 
 - Update Canon tags.
