@@ -112,10 +112,13 @@ int s2nLittleEndian(List<int> s, {bool signed = false}) {
   return x;
 }
 
-String uint8ListToHex(Uint8List bytes) {
+String uint8ListToHex(Uint8List bytes, {String separator = ''}) {
   final StringBuffer buffer = StringBuffer();
   for (final byte in bytes) {
     buffer.write(byte.toRadixString(16).padLeft(2, '0'));
+    if (separator.isNotEmpty) {
+      buffer.write(separator);
+    }
   }
   return buffer.toString();
 }
