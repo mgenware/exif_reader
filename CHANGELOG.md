@@ -1,3 +1,8 @@
+## 3.11.0
+
+- Handle iinf version when reading count
+- Update `iso_base_media` to v4.0.0
+
 ## 3.10.0
 
 - Return hex value in IfdBytes.toString
