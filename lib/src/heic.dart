@@ -151,7 +151,13 @@ class HEICExifFinder {
 
   Future<void> _parseIinf(HeicBox box) async {
     box.setFull(ByteData.view((await getBytes(4)).buffer).getInt32(0));
-    final count = ByteData.view((await getBytes(2)).buffer).getInt16(0);
+    int count;
+    if (box.version == 0) {
+      count = ByteData.view((await getBytes(2)).buffer).getInt16(0);
+    } else {
+      count = ByteData.view((await getBytes(4)).buffer).getInt32(0);
+    }
+
     box.exifInfe = null;
     for (var i = 0; i < count; i += 1) {
       final infe = await expectParse('infe');
