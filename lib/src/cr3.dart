@@ -16,7 +16,7 @@ class Cr3ExifReader {
 
   Future<List<ReadParams>> findExif() async {
     final res = <ReadParams>[];
-    final fileBox = ISOSourceBox.fromRandomAccessFile(raf);
+    final fileBox = ISOBox.fileBoxFromRandomAccessFile(raf);
     final moov = await fileBox.getDirectChildByTypes({'moov'});
     if (moov != null) {
       final uuidList = await moov.getDirectChildrenByTypes({'uuid'});
@@ -31,7 +31,7 @@ class Cr3ExifReader {
           continue;
         }
         final contentBytes = data.sublist(16);
-        final contentBox = ISOSourceBox.fromBytes(contentBytes);
+        final contentBox = ISOBox.fileBoxFromBytes(contentBytes);
         final exifBoxes = await contentBox
             .getDirectChildrenByTypes({'CMT1', 'CMT2', 'CMT3', 'CMT4'});
         for (final exifBox in exifBoxes) {

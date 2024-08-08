@@ -18,7 +18,7 @@ class JxlExifReader {
   const JxlExifReader(this.raf);
 
   Future<JxlExifReaderResult> findExif() async {
-    final fileBox = ISOSourceBox.fromRandomAccessFile(raf);
+    final fileBox = ISOBox.fileBoxFromRandomAccessFile(raf);
     ISOBox? child;
     do {
       child = await fileBox.nextChild();
