@@ -1,3 +1,7 @@
+## 3.12.0
+
+- Add `GPSHPositioningError`.
+
 ## 3.11.0
 
 - Handle iinf version when reading count
