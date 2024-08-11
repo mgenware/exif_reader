@@ -36,6 +36,7 @@ GPS GPSAltitudeRef (Byte): 0
 GPS GPSDate (ASCII): 2018:03:30
 GPS GPSDestBearing (Ratio): 21278/339
 GPS GPSDestBearingRef (ASCII): M
+GPS GPSHPositioningError (Ratio): 6619/1103
 GPS GPSImgDirection (Ratio): 21278/339
 GPS GPSImgDirectionRef (ASCII): M
 GPS GPSLatitude (Ratio): [37, 45, 907/25]
@@ -45,7 +46,6 @@ GPS GPSLongitudeRef (ASCII): W
 GPS GPSSpeed (Ratio): 5709/10354
 GPS GPSSpeedRef (ASCII): K
 GPS GPSTimeStamp (Ratio): [19, 14, 1813/100]
-GPS Tag 0x001F (Ratio): 6619/1103
 Image DateTime (ASCII): 2018:03:30 12:14:19
 Image ExifOffset (Long): 204
 Image GPSInfo (Long): 1818

@@ -61,6 +61,7 @@ class StandardTags extends TagsBase {
     0x001C: _make('GPSAreaInformation'),
     0x001D: _make('GPSDate'),
     0x001E: _make('GPSDifferential'),
+    0x001f: _make('GPSHPositioningError'),
   };
 
   static final MakerTagsWithName _gpsInfo =
