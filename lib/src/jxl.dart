@@ -23,7 +23,7 @@ class JxlExifReader {
     do {
       child = await fileBox.nextChild();
       if (child != null) {
-        if (child.type == 'Exif') {
+        if (child.type.toLowerCase() == 'exif') {
           return JxlExifReaderResult(
               child.dataOffset
                   // Skip full box flag.
@@ -35,7 +35,7 @@ class JxlExifReader {
           final boxBytes = await child.extractData();
           final header = boxBytes.sublist(0, 4);
           final headerString = String.fromCharCodes(header);
-          if (headerString == 'Exif') {
+          if (headerString.toLowerCase() == 'exif') {
             // Skip to 'Exif' header (which is compressed and right before compressed data).
             final brotliBytes = boxBytes.sublist(4);
             final decodedBytes = brotli.decode(brotliBytes);

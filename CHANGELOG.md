@@ -1,3 +1,7 @@
+## 3.12.1
+
+- Ignore header case when parsing JXL EXIF boxes
+
 ## 3.12.0
 
 - Add `GPSHPositioningError`.
