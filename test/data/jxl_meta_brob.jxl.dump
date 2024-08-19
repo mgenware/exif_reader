@@ -2,6 +2,7 @@ EXIF ApertureValue (Ratio): 3/2
 EXIF BrightnessValue (Signed Ratio): 903/100
 EXIF ColorSpace (Short): sRGB
 EXIF ComponentsConfiguration (Undefined): YCbCr
+EXIF CompositeImage (Short): 3
 EXIF Contrast (Short): Normal
 EXIF CustomRendered (Short): Custom
 EXIF DateTimeDigitized (ASCII): 2023:10:08 15:18:44
@@ -39,7 +40,6 @@ EXIF SubSecTimeDigitized (ASCII): 737
 EXIF SubSecTimeOriginal (ASCII): 737
 EXIF SubjectDistance (Ratio): 4294967295
 EXIF SubjectDistanceRange (Short): 3
-EXIF Tag 0xA460 (Short): 3
 EXIF WhiteBalance (Short): Auto
 GPS GPSAltitude (Ratio): 705
 GPS GPSAltitudeRef (Byte): 0

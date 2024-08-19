@@ -1,3 +1,7 @@
+## 3.14.0
+
+- Add more known EXIF tags
+
 ## 3.13.0
 
 - Add InteropIndex and InteropVersion

@@ -71,6 +71,7 @@ class StandardTags extends TagsBase {
   static final Map<int, MakerTag> tags = {
     0x0001: _make('InteropIndex'),
     0x0002: _make('InteropVersion'),
+    0x000b: _make('ProcessingSoftware'),
     0x00FE: _withMap('SubfileType', {
       0x0: 'Full-resolution Image',
       0x1: 'Reduced-resolution image',
@@ -236,6 +237,7 @@ class StandardTags extends TagsBase {
     0x0155: _make('SMaxSampleValue'),
     0x0156: _make('TransferRange'),
     0x0157: _make('ClipPath'),
+    0x015a: _make('Indexed'),
     0x0200: _make('JPEGProc'),
     0x0201: _make('JPEGInterchangeFormat'),
     0x0202: _make('JPEGInterchangeFormatLength'),
@@ -368,6 +370,8 @@ class StandardTags extends TagsBase {
     0x9291: _make('SubSecTimeOriginal'),
     0x9292: _make('SubSecTimeDigitized'),
 
+    0x9405: _make('CameraElevationAngle'),
+
     // used by Windows Explorer
     0x9C9B: _make('XPTitle'),
     0x9C9C: _make('XPComment'),
@@ -445,8 +449,16 @@ class StandardTags extends TagsBase {
     0xA433: _make('LensMake'),
     0xA434: _make('LensModel'),
     0xA435: _make('LensSerialNumber'),
+    0xa436: _make('Title'),
+    0xa437: _make('Photographer'),
+    0xa438: _make('ImageEditor'),
+    0xa439: _make('CameraFirmware'),
+    0xa43a: _make('RAWDevelopingSoftware'),
+    0xa43b: _make('ImageEditingSoftware'),
+    0xa460: _make('CompositeImage'),
     0xA500: _make('Gamma'),
     0xC4A5: _make('PrintIM'),
+    0xc573: _make('OriginalFileName'),
     0xC612: _make('DNGVersion'),
     0xC613: _make('DNGBackwardVersion'),
     0xC614: _make('UniqueCameraModel'),
