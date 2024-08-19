@@ -69,6 +69,8 @@ class StandardTags extends TagsBase {
 
   // Main Exif tag names
   static final Map<int, MakerTag> tags = {
+    0x0001: _make('InteropIndex'),
+    0x0002: _make('InteropVersion'),
     0x00FE: _withMap('SubfileType', {
       0x0: 'Full-resolution Image',
       0x1: 'Reduced-resolution image',
