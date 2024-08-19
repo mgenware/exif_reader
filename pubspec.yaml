@@ -1,5 +1,5 @@
 name: exif_reader
-version: 3.12.1
+version: 3.13.0
 description: Decode EXIF data from image files.
 homepage: https://www.github.com/mgenware/exif_reader
 environment:

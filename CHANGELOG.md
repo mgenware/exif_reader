@@ -1,3 +1,7 @@
+## 3.13.0
+
+- Add InteropIndex and InteropVersion
+
 ## 3.12.1
 
 - Ignore header case when parsing JXL EXIF boxes
