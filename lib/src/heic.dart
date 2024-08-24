@@ -276,7 +276,6 @@ class HEICExifFinder {
     // according to "ISO/IEC 23008-12, 2017-12", both of them are legal
     final exifTiffHeaderOffset =
         ByteData.view((await getBytes(4)).buffer).getInt32(0);
-    assert(exifTiffHeaderOffset >= 6);
     await getBytes(exifTiffHeaderOffset);
     // assert self.get(exif_tiff_header_offset)[-6:] == b'Exif\x00\x00'
     final offset = await fileReader.position();
