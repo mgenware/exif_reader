@@ -1,3 +1,7 @@
+## 3.14.1
+
+- Remove unwanted assertion when parsing some AVIF files
+
 ## 3.14.0
 
 - Add more known EXIF tags
