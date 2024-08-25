@@ -13,7 +13,7 @@ class Reader {
 
   Reader(this.file, this.baseOffset, this.endian);
 
-  Future<List<int>> readSlice(int relativePos, int length) async {
+  Future<Uint8List> readSlice(int relativePos, int length) async {
     await file.setPosition(baseOffset + relativePos);
     return await file.read(length);
   }
@@ -161,7 +161,7 @@ class IfdReader {
     return file.readInt(offset, length, signed: signed);
   }
 
-  Future<List<int>> readSlice(int relativePos, int length) async {
+  Future<Uint8List> readSlice(int relativePos, int length) async {
     return file.readSlice(relativePos, length);
   }
 
@@ -212,7 +212,7 @@ class IfdReader {
       if (i >= 0) {
         values = values.sublist(0, i);
       }
-      return IfdBytes(Uint8List.fromList(values));
+      return IfdBytes(values);
     } catch (e) {
       // warnings.add("exception($e) at position: $filePosition, length: $count");
       return IfdBytes.empty();

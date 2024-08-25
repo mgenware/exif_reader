@@ -25,12 +25,12 @@ class Cr3ExifReader {
         if (data.length < 17) {
           continue;
         }
-        final first16Bytes = data.sublist(0, 16);
+        final first16Bytes = data.subView(0, 16);
         final uuidString = uint8ListToHex(first16Bytes);
         if (uuidString != '85c0b687820f11e08111f4ce462b6a48') {
           continue;
         }
-        final contentBytes = data.sublist(16);
+        final contentBytes = data.subView(16);
         final contentBox = ISOBox.fileBoxFromBytes(contentBytes);
         final exifBoxes = await contentBox
             .getDirectChildrenByTypes({'CMT1', 'CMT2', 'CMT3', 'CMT4'});

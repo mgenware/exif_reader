@@ -122,3 +122,9 @@ String uint8ListToHex(Uint8List bytes, {String separator = ''}) {
   }
   return buffer.toString();
 }
+
+extension Uint8ListExt on Uint8List {
+  Uint8List subView(int start, [int? end]) {
+    return Uint8List.sublistView(this, start, end);
+  }
+}
