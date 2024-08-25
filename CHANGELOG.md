@@ -1,3 +1,8 @@
+## 3.14.5
+
+- Fix CR3 parsing regression
+- Performance improvements
+
 ## 3.14.1
 
 - Remove unwanted assertion when parsing some AVIF files
