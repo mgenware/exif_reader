@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'exifheader.dart';
 import 'field_types.dart';
 import 'reader.dart';
-import 'util.dart';
+import 'uint8list_extension.dart';
 
 class Thumbnail {
   final Map<String, IfdTagImpl> tags;

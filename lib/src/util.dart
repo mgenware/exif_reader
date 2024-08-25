@@ -1,7 +1,6 @@
 // ignore_for_file: strict_raw_type, inference_failure_on_instance_creation
 
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:collection/collection.dart' show ListEquality;
 import 'package:sprintf/sprintf.dart' show sprintf;
@@ -110,21 +109,4 @@ int s2nLittleEndian(List<int> s, {bool signed = false}) {
   }
 
   return x;
-}
-
-String uint8ListToHex(Uint8List bytes, {String separator = ''}) {
-  final StringBuffer buffer = StringBuffer();
-  for (final byte in bytes) {
-    buffer.write(byte.toRadixString(16).padLeft(2, '0'));
-    if (separator.isNotEmpty) {
-      buffer.write(separator);
-    }
-  }
-  return buffer.toString();
-}
-
-extension Uint8ListExt on Uint8List {
-  Uint8List subView(int start, [int? end]) {
-    return Uint8List.sublistView(this, start, end);
-  }
 }

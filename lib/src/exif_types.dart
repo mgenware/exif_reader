@@ -2,7 +2,7 @@
 
 import 'dart:typed_data';
 
-import 'util.dart';
+import 'uint8list_extension.dart';
 
 class IfdTag {
   /// tag ID number
@@ -108,7 +108,7 @@ class IfdBytes extends IfdValues {
   int firstAsInt() => bytes[0];
 
   @override
-  String toString() => uint8ListToHex(bytes, separator: ' ');
+  String toString() => bytes.toHex(separator: ' ');
 }
 
 /// Ratio object that eventually will be able to reduce itself to lowest

@@ -7,7 +7,7 @@ environment:
 dependencies:
   collection: ^1.15.0
   brotli: ^0.6.0
-  iso_base_media: ^4.0.1
+  iso_base_media: ^4.0.2
   sprintf: ^7.0.0
 dev_dependencies:
   archive: ^3.1.2

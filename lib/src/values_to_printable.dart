@@ -4,7 +4,7 @@ import 'exif_types.dart';
 import 'field_types.dart';
 import 'reader.dart';
 import 'tags_info.dart';
-import 'util.dart';
+import 'uint8list_extension.dart';
 
 class ValuesToPrintable {
   final String value;
@@ -52,7 +52,7 @@ class ValuesToPrintable {
             'b"${bytesToStringRepr(bytes.sublist(0, 20))}, ... ]',
           );
         }
-        return ValuesToPrintable.malformed(uint8ListToHex(bytes));
+        return ValuesToPrintable.malformed(bytes.toHex());
       }
     } else if (entry.count == 1) {
       return ValuesToPrintable(values.toList()[0].toString());

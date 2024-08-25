@@ -7,7 +7,7 @@ import 'read_exif.dart';
 import 'reader.dart';
 import 'tags.dart';
 import 'tags_info.dart';
-import 'util.dart';
+import 'uint8list_extension.dart';
 
 class Cr3ExifReader {
   final RandomAccessFile raf;
@@ -26,7 +26,7 @@ class Cr3ExifReader {
           continue;
         }
         final first16Bytes = data.subView(0, 16);
-        final uuidString = uint8ListToHex(first16Bytes);
+        final uuidString = first16Bytes.toHex();
         if (uuidString != '85c0b687820f11e08111f4ce462b6a48') {
           continue;
         }
