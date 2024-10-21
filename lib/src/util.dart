@@ -1,5 +1,6 @@
 // ignore_for_file: strict_raw_type, inference_failure_on_instance_creation
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:collection/collection.dart' show ListEquality;
@@ -13,6 +14,24 @@ bool listRangeEqual(List list1, int begin, int end, List list2) {
   endIndex = endIndex < list1.length ? endIndex : list1.length;
 
   return listEqual(list1.sublist(beginIndex, endIndex), list2);
+}
+
+String? listRangeToAsciiString(List<int> list, int begin, int end) {
+  try {
+    var beginIndex = begin >= 0 ? begin : 0;
+    beginIndex = beginIndex < list.length ? beginIndex : list.length;
+
+    var endIndex = end >= begin ? end : begin;
+    endIndex = endIndex < list.length ? endIndex : list.length;
+
+    final sublist = list.sublist(beginIndex, endIndex);
+    if (sublist.isEmpty) {
+      return '';
+    }
+    return ascii.decode(sublist);
+  } catch (e) {
+    return null;
+  }
 }
 
 final listEqual = const ListEquality().equals;

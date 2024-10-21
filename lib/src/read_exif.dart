@@ -85,7 +85,7 @@ Future<ExifData> readExifFromFileReaderAsync(
   if (_isTiff(header)) {
     final readParams = await _tiffReadParams(f);
     readParamsList.add(readParams);
-  } else if (_isHeic(header) || _isAvif(header)) {
+  } else if (_isHeif(header) || _isAvif(header)) {
     final readParams = await _heicReadParams(f);
     readParamsList.add(readParams);
   } else if (_isJpeg(header)) {
@@ -237,8 +237,22 @@ bool _isTiff(List<int> header) =>
       ['II*\x00'.codeUnits, 'MM\x00*'.codeUnits],
     );
 
-bool _isHeic(List<int> header) =>
-    listRangeEqual(header, 4, 12, 'ftypheic'.codeUnits);
+final _heifFtyp = {
+  'ftypheic',
+  'ftypheix',
+  'ftyphevc',
+  'ftyphevx',
+  'ftypmif1',
+  'ftypmsf1',
+};
+
+bool _isHeif(List<int> header) {
+  final ftyp = listRangeToAsciiString(header, 4, 12);
+  if (ftyp == null) {
+    return false;
+  }
+  return _heifFtyp.contains(ftyp);
+}
 
 bool _isAvif(List<int> header) =>
     listRangeEqual(header, 4, 12, 'ftypavif'.codeUnits);
