@@ -1,3 +1,7 @@
+## 3.15.0
+
+- Allow more HEIF types.
+
 ## 3.14.5
 
 - Fix CR3 parsing regression
