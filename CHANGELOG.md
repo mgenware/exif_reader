@@ -1,3 +1,7 @@
+## 3.16.0
+
+- Remove HEIC brand assertions.
+
 ## 3.15.0
 
 - Allow more HEIF types.
