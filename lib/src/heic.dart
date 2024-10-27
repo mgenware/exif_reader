@@ -250,12 +250,7 @@ class HEICExifFinder {
   }
 
   Future<List<int>> findExif() async {
-    final ftyp = await expectParse('ftyp');
-    assert(
-      listEqual(ftyp.majorBrand, Uint8List.fromList('heic'.codeUnits)) ||
-          listEqual(ftyp.majorBrand, Uint8List.fromList('avif'.codeUnits)),
-    );
-    assert(ftyp.minorVersion == 0);
+    await expectParse('ftyp');
     final meta = await expectParse('meta');
     final itemId = meta.subs['iinf']?.exifInfe?.itemId;
     if (itemId == null) {
