@@ -247,11 +247,15 @@ final _heifFtyp = {
 };
 
 bool _isHeif(List<int> header) {
-  final ftyp = listRangeToAsciiString(header, 4, 12);
-  if (ftyp == null) {
+  try {
+    final ftyp = listRangeToAsciiString(header, 4, 12);
+    if (ftyp == null) {
+      return false;
+    }
+    return _heifFtyp.contains(ftyp);
+  } catch (e) {
     return false;
   }
-  return _heifFtyp.contains(ftyp);
 }
 
 bool _isAvif(List<int> header) =>
