@@ -1,3 +1,7 @@
+## 3.16.1
+
+- Fix potential crash in `_isHeic` function.
+
 ## 3.16.0
 
 - Remove HEIC brand assertions.
