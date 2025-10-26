@@ -2,20 +2,25 @@
 
 import 'dart:typed_data';
 
-import 'uint8list_extension.dart';
+import 'helpers/uint8list_extension.dart';
 
+/// Represents a tag in an Image File Directory (IFD) with its associated data.
+///
+/// Contains the tag ID, type, printable value, and the raw values.
 class IfdTag {
-  /// tag ID number
+  /// Tag ID number.
   final int tag;
 
+  /// The type of the tag (e.g., ASCII, Short, Long, etc.).
   final String tagType;
 
-  /// printable version of data
+  /// Printable version of the tag's data.
   final String printable;
 
-  /// list of data items (int(char or number) or Ratio)
+  /// List of data items (int, char, number, or Ratio).
   final IfdValues values;
 
+  /// Creates an [IfdTag] with the given properties.
   IfdTag({
     required this.tag,
     required this.tagType,
@@ -27,17 +32,26 @@ class IfdTag {
   String toString() => printable;
 }
 
+/// Abstract base class for IFD value types.
+///
+/// Subclasses represent different types of EXIF tag values.
 abstract class IfdValues {
+  /// Creates an [IfdValues] instance.
   const IfdValues();
 
+  /// Returns the values as a list.
   List toList();
 
+  /// Returns the number of items in the values.
   int get length;
 
+  /// Returns the first value as an integer.
   int firstAsInt();
 }
 
+/// Represents an empty set of IFD values.
 class IfdNone extends IfdValues {
+  /// Creates an empty [IfdNone] instance.
   const IfdNone();
 
   @override
@@ -53,9 +67,12 @@ class IfdNone extends IfdValues {
   String toString() => '[]';
 }
 
+/// Represents a set of [Ratio] values in an IFD tag.
 class IfdRatios extends IfdValues {
+  /// The list of [Ratio] values.
   final List<Ratio> ratios;
 
+  /// Creates an [IfdRatios] instance from a list of ratios.
   const IfdRatios(this.ratios);
 
   @override
@@ -71,9 +88,12 @@ class IfdRatios extends IfdValues {
   String toString() => ratios.toString();
 }
 
+/// Represents a set of integer values in an IFD tag.
 class IfdInts extends IfdValues {
+  /// The list of integer values.
   final List<int> ints;
 
+  /// Creates an [IfdInts] instance from a list of integers.
   const IfdInts(this.ints);
 
   @override
@@ -89,13 +109,18 @@ class IfdInts extends IfdValues {
   String toString() => ints.toString();
 }
 
+/// Represents a set of byte values in an IFD tag.
 class IfdBytes extends IfdValues {
+  /// The bytes stored in this value.
   final Uint8List bytes;
 
+  /// Creates an [IfdBytes] instance from a [Uint8List].
   IfdBytes(this.bytes);
 
+  /// Creates an empty [IfdBytes] instance.
   IfdBytes.empty() : bytes = Uint8List(0);
 
+  /// Creates an [IfdBytes] instance from a list of integers.
   IfdBytes.fromList(List<int> list) : bytes = Uint8List.fromList(list);
 
   @override
@@ -111,12 +136,16 @@ class IfdBytes extends IfdValues {
   String toString() => bytes.toHex(separator: ' ');
 }
 
-/// Ratio object that eventually will be able to reduce itself to lowest
-/// common denominator for printing.
+/// Represents a rational number (numerator/denominator) for EXIF tags.
+/// Automatically reduces itself to the lowest common denominator for printing.
 class Ratio {
+  /// The numerator of the ratio.
   final int numerator;
+
+  /// The denominator of the ratio.
   final int denominator;
 
+  /// Creates a [Ratio] and reduces it to the lowest terms.
   factory Ratio(int num, int den) {
     if (den < 0) {
       num *= -1;
@@ -132,25 +161,35 @@ class Ratio {
     return Ratio._internal(num, den);
   }
 
+  /// Internal constructor for [Ratio].
   Ratio._internal(this.numerator, this.denominator);
 
   @override
   String toString() =>
       (denominator == 1) ? '$numerator' : '$numerator/$denominator';
 
+  /// Converts the ratio to an integer using integer division.
   int toInt() => numerator ~/ denominator;
 
+  /// Converts the ratio to a double.
   double toDouble() => numerator / denominator;
 }
 
+/// Represents the extracted EXIF data, including tags and warnings.
 class ExifData {
+  /// The map of tag names to [IfdTag] objects.
   final Map<String, IfdTag> tags;
+
+  /// List of warnings encountered during EXIF extraction.
   final List<String> warnings;
 
+  /// Creates an [ExifData] instance with tags and warnings.
   const ExifData(this.tags, this.warnings);
 
+  /// Creates an [ExifData] instance with a single warning and no tags.
   ExifData.withWarning(String warning) : this(const {}, [warning]);
 
+  /// Merges two [ExifData] instances into one.
   static ExifData merge(ExifData a, ExifData b) {
     a.tags.addAll(b.tags);
     a.warnings.addAll(b.warnings);

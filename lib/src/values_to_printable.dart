@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'exif_types.dart';
 import 'field_types.dart';
-import 'reader.dart';
-import 'tags_info.dart';
-import 'uint8list_extension.dart';
+import 'helpers/uint8list_extension.dart';
+import 'readers/reader.dart';
+import 'tags/maker_tags.dart';
 
 class ValuesToPrintable {
   final String value;
