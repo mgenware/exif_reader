@@ -1,4 +1,4 @@
-## 3.17.0-wip
+## 3.17.0 (@d-markey)
 
 - Migrate from `dart:html` to `web` package (also bumps SDK min version to 3.4.0).
 - Create stubs for CR3 and JXL; these are currently `dart:io`-only and introduced dependencies on `dart:io` and `iso_base_media` that made the package incompatible with Web platforms. This refactoring does not fully address the compatiblility issue (CR3 and JXL will still be supported only when loading from a `RandomAccessFile` which implies `dart:io`) but restores this package's compatibility with Web platforms.
