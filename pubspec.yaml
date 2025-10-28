@@ -3,7 +3,7 @@ version: 3.17.0
 description: Decode EXIF data from image files (improved fork of https://github.com/bigflood/dartexif). Supports VM, JavaScript and Web Assembly.
 homepage: https://www.github.com/mgenware/exif_reader
 environment:
-  sdk: ">=3.4.0"
+  sdk: "^3.4.0"
 dependencies:
   collection: ^1.15.0
   brotli: ^0.6.0
