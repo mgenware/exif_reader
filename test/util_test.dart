@@ -1,4 +1,4 @@
-import 'package:exif_reader/src/util.dart';
+import 'package:exif_reader/src/helpers/util.dart';
 import 'package:test/test.dart';
 
 void main() {

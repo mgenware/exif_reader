@@ -1,3 +1,11 @@
+## 3.17.0-wip
+
+- Migrate from `dart:html` to `web` package (also bumps SDK min version to 3.4.0).
+- Create stubs for CR3 and JXL; these are currently `dart:io`-only and introduced dependencies on `dart:io` and `iso_base_media` that made the package incompatible with Web platforms. This refactoring does not fully address the compatiblility issue (CR3 and JXL will still be supported only when loading from a `RandomAccessFile` which implies `dart:io`) but restores this package's compatibility with Web platforms.
+- Add tests for Web platforms (JavaScript + Web Assembly).
+- Reorganized files for improved readability/maintainabiliyt (hopefully!).
+- Add Dart doc comments for pub.dev compliance.
+
 ## 3.16.1
 
 - Fix potential crash in `_isHeic` function.

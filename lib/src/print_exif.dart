@@ -1,16 +1,31 @@
-import 'file_interface.dart';
 import 'read_exif.dart';
+import 'readers/file_reader.dart';
 
+/// Extracts EXIF tags and formats them as a readable string.
+///
+/// [bytes]: The image file bytes to extract EXIF data from.
+/// [stopTag]: Optional tag name to stop parsing at.
+/// [details]: Whether to include detailed information (default: true).
+/// [strict]: Whether to use strict parsing (default: false).
+/// [debug]: Whether to enable debug output (default: false).
+/// [truncateTags]: Whether to truncate long tag values (default: true).
+///
+/// Returns a string with formatted EXIF tags and warnings, or a message if no EXIF data is found.
 Future<String> printExifOfBytes(
   List<int> bytes, {
   String? stopTag,
   bool details = true,
   bool strict = false,
   bool debug = false,
+  bool truncateTags = true,
 }) async {
   final data = await readExifFromFileReaderAsync(
     FileReader.fromBytes(bytes),
     stopTag: stopTag,
+    details: details,
+    strict: strict,
+    debug: debug,
+    truncateTags: truncateTags,
   );
 
   if (data.tags.isEmpty) {

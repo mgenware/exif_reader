@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:exif_reader/exif_reader.dart';
+import 'package:exif_reader/exif_reader_vm.dart';
 
 Future<void> main(List<String> arguments) async {
   for (final filename in arguments) {
