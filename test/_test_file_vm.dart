@@ -14,6 +14,9 @@ Future<void> testFile(String name) async {
   final output = tagsToString(exif.tags);
 
   final control = io.File('$filename.dump');
+  // Uncomment this line to update control files.
+  // await control.writeAsString(output);
+
   final expected = (await control.readAsString()).trim();
 
   expect(output, equals(expected));

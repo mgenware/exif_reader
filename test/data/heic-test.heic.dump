@@ -1,80 +1,114 @@
-EXIF ApertureValue (Ratio): 4845/1918
-EXIF BrightnessValue (Signed Ratio): 7187/850
+EXIF ApertureValue (Ratio): 42657/25639
+EXIF BrightnessValue (Signed Ratio): -10012/9411
 EXIF ColorSpace (Short): Uncalibrated
-EXIF ComponentsConfiguration (Undefined): YCbCr
-EXIF CustomRendered (Short): 2
-EXIF DateTimeDigitized (ASCII): 2018:03:30 12:14:19
-EXIF DateTimeOriginal (ASCII): 2018:03:30 12:14:19
-EXIF ExifImageLength (Long): 3024
-EXIF ExifImageWidth (Long): 4032
-EXIF ExifVersion (Undefined): 0221
+EXIF CustomRendered (Short): Custom
+EXIF DateTimeDigitized (ASCII): 2024:05:14 23:27:27
+EXIF DateTimeOriginal (ASCII): 2024:05:14 23:27:27
+EXIF ExifImageLength (Long): 6048
+EXIF ExifImageWidth (Long): 8064
+EXIF ExifVersion (Undefined): 0232
 EXIF ExposureBiasValue (Signed Ratio): 0
 EXIF ExposureMode (Short): Auto Exposure
 EXIF ExposureProgram (Short): Program Normal
-EXIF ExposureTime (Ratio): 1/209
-EXIF FNumber (Ratio): 12/5
+EXIF ExposureTime (Ratio): 1/50
+EXIF FNumber (Ratio): 1244236/699009
 EXIF Flash (Short): Flash did not fire, compulsory flash mode
-EXIF FlashPixVersion (Undefined): 0100
-EXIF FocalLength (Ratio): 6
-EXIF FocalLengthIn35mmFilm (Short): 52
-EXIF ISOSpeedRatings (Short): 16
+EXIF FocalLength (Ratio): 251773/37217
+EXIF FocalLengthIn35mmFilm (Short): 24
+EXIF ISOSpeedRatings (Short): 320
 EXIF LensMake (ASCII): Apple
-EXIF LensModel (ASCII): iPhone X back dual camera 6mm f/2.4
-EXIF LensSpecification (Ratio): [4, 6, 9/5, 12/5]
-EXIF MakerNote (Undefined): [65, 112, 112, 108, 101, 32, 105, 79, 83, 0, 0, 1, 77, 77, 0, 21, 0, 1, 0, 9, ... ]
+EXIF LensModel (ASCII): iPhone 15 Pro Max back triple camera 6.765mm f/1.78
+EXIF LensSpecification (Ratio): [1551800/699009, 2052196/131047, 1244236/699009, 14/5]
+EXIF MakerNote (Undefined): [65, 112, 112, 108, 101, 32, 105, 79, 83, 0, 0, 1, 77, 77, 0, 56, 0, 1, 0, 9, ... ]
 EXIF MeteringMode (Short): Pattern
-EXIF SceneCaptureType (Short): Standard
+EXIF OffsetTime (ASCII): +08:00
+EXIF OffsetTimeDigitized (ASCII): +08:00
+EXIF OffsetTimeOriginal (ASCII): +08:00
 EXIF SceneType (Undefined): Directly Photographed
 EXIF SensingMethod (Short): One-chip color area
-EXIF ShutterSpeedValue (Signed Ratio): 7789/1011
-EXIF SubSecTimeDigitized (ASCII): 365
-EXIF SubSecTimeOriginal (ASCII): 365
-EXIF SubjectArea (Short): [2007, 1503, 2209, 1327]
+EXIF ShutterSpeedValue (Signed Ratio): 34019/6027
+EXIF SubSecTimeDigitized (ASCII): 157
+EXIF SubSecTimeOriginal (ASCII): 157
+EXIF SubjectArea (Short): [4018, 3011, 4418, 2649]
 EXIF WhiteBalance (Short): Auto
-GPS GPSAltitude (Ratio): 6568/1433
+GPS GPSAltitude (Ratio): 371877/51587
 GPS GPSAltitudeRef (Byte): 0
-GPS GPSDate (ASCII): 2018:03:30
-GPS GPSDestBearing (Ratio): 21278/339
-GPS GPSDestBearingRef (ASCII): M
-GPS GPSHPositioningError (Ratio): 6619/1103
-GPS GPSImgDirection (Ratio): 21278/339
-GPS GPSImgDirectionRef (ASCII): M
-GPS GPSLatitude (Ratio): [37, 45, 907/25]
+GPS GPSDate (ASCII): 2024:05:14
+GPS GPSDestBearing (Ratio): 760247/3185
+GPS GPSDestBearingRef (ASCII): T
+GPS GPSHPositioningError (Ratio): 106419/7465
+GPS GPSImgDirection (Ratio): 760247/3185
+GPS GPSImgDirectionRef (ASCII): T
+GPS GPSLatitude (Ratio): [31, 15, 293/20]
 GPS GPSLatitudeRef (ASCII): N
-GPS GPSLongitude (Ratio): [122, 30, 861/25]
-GPS GPSLongitudeRef (ASCII): W
-GPS GPSSpeed (Ratio): 5709/10354
+GPS GPSLongitude (Ratio): [120, 36, 4729/100]
+GPS GPSLongitudeRef (ASCII): E
+GPS GPSSpeed (Ratio): 11413/50740
 GPS GPSSpeedRef (ASCII): K
-GPS GPSTimeStamp (Ratio): [19, 14, 1813/100]
-Image DateTime (ASCII): 2018:03:30 12:14:19
-Image ExifOffset (Long): 204
-Image GPSInfo (Long): 1818
+GPS GPSTimeStamp (Ratio): [15, 27, 26]
+Image DateTime (ASCII): 2024:05:14 23:27:27
+Image ExifOffset (Long): 244
+Image GPSInfo (Long): 2586
+Image HostComputer (ASCII): iPhone 15 Pro Max
 Image Make (ASCII): Apple
-Image Model (ASCII): iPhone X
-Image Orientation (Short): Rotated 180
+Image Model (ASCII): iPhone 15 Pro Max
 Image ResolutionUnit (Short): Pixels/Inch
-Image Software (ASCII): 12.0
+Image Software (ASCII): 17.4.1
+Image TileLength (Long): 1024
+Image TileWidth (Long): 896
 Image XResolution (Ratio): 72
-Image YCbCrPositioning (Short): Centered
 Image YResolution (Ratio): 72
-MakerNote HDRImageType (Signed Long): 2
-MakerNote Tag 0x0001 (Signed Long): 10
-MakerNote Tag 0x0002 (Undefined): [2, 1, 122, 0, 107, 0, 120, 0, 67, 0, 69, 0, 59, 0, 57, 0, 28, 1, 85, 2, ... ]
+MakerNote Tag 0x0001 (Signed Long): 14
+MakerNote Tag 0x0002 (Undefined): [7, 0, 8, 0, 12, 0, 17, 0, 21, 0, 22, 0, 29, 0, 44, 0, 52, 0, 3, 0, ... ]
 MakerNote Tag 0x0003 (Undefined): [6, 7, 8, 85, 102, 108, 97, 103, 115, 85, 118, 97, 108, 117, 101, 89, 116, 105, 109, 101, ... ]
 MakerNote Tag 0x0004 (Signed Long): 1
-MakerNote Tag 0x0005 (Signed Long): 173
-MakerNote Tag 0x0006 (Signed Long): 170
+MakerNote Tag 0x0005 (Signed Long): 175
+MakerNote Tag 0x0006 (Signed Long): 24
 MakerNote Tag 0x0007 (Signed Long): 1
-MakerNote Tag 0x0008 (Signed Ratio): [-69926911/22675456, 22145/723, 256/7305]
-MakerNote Tag 0x000C (Signed Ratio): [2100775/105295456, 1/200]
-MakerNote Tag 0x000D (Signed Long): 25
+MakerNote Tag 0x0008 (Signed Ratio): [1438580735/1986330624, -1213, 256/3]
+MakerNote Tag 0x000C (Signed Ratio): [64, 9728311/892366336]
+MakerNote Tag 0x000D (Signed Long): 2
 MakerNote Tag 0x000E (Signed Long): 4
+MakerNote Tag 0x000F (Signed Long): 2
 MakerNote Tag 0x0010 (Signed Long): 1
-MakerNote Tag 0x0014 (Signed Long): 3
-MakerNote Tag 0x0017 (Signed Long): 2048
-MakerNote Tag 0x0019 (Signed Long): 34
-MakerNote Tag 0x001A (ASCII): C55AB7
-MakerNote Tag 0x001D (Signed Ratio): 218813911/175351561
-MakerNote Tag 0x001F (Signed Long): 1
-MakerNote Tag 0x0020 (ASCII): 48FC-9F8C-9CCF675F4C62
-MakerNote Tag 0x0021 (Signed Ratio): 1/6
+MakerNote Tag 0x0014 (Signed Long): 1
+MakerNote Tag 0x0019 (Signed Long): 8192
+MakerNote Tag 0x001A (ASCII): -A8C3-
+MakerNote Tag 0x001C (Signed Long): 1
+MakerNote Tag 0x001F (Signed Long): 0
+MakerNote Tag 0x0020 (ASCII): 40D0-89C8-D00041D33DFD
+MakerNote Tag 0x0021 (Signed Ratio): 143360/11
+MakerNote Tag 0x0023 (Signed Long): [344850434, -1163591680]
+MakerNote Tag 0x0026 (Signed Long): 3
+MakerNote Tag 0x0027 (Signed Ratio): 943992119/1128477229
+MakerNote Tag 0x002B (ASCII): 4D8F-9303-D30B51E2D37B
+MakerNote Tag 0x002D (Signed Long): 2995
+MakerNote Tag 0x002E (Signed Long): 1
+MakerNote Tag 0x002F (Signed Long): 98
+MakerNote Tag 0x0030 (Signed Ratio): 808506369/33752069
+MakerNote Tag 0x0033 (Signed Long): 0
+MakerNote Tag 0x0034 (Signed Long): 1
+MakerNote Tag 0x0035 (Signed Long): 0
+MakerNote Tag 0x0036 (Signed Long): 35
+MakerNote Tag 0x0037 (Signed Long): 8
+MakerNote Tag 0x0038 (Signed Long): 108
+MakerNote Tag 0x0039 (Signed Long): 0
+MakerNote Tag 0x003A (Signed Long): 0
+MakerNote Tag 0x003B (Signed Long): 0
+MakerNote Tag 0x003C (Signed Long): 4
+MakerNote Tag 0x003D (Signed Long): 100
+MakerNote Tag 0x003F (Signed Long): 0
+MakerNote Tag 0x0040 (Undefined): [6, 6, 7, 81, 51, 81, 49, 81, 50, 81, 48, 16, 0, 34, 0, 0, 0, 0, 16, 1, ... ]
+MakerNote Tag 0x0041 (Signed Long): 0
+MakerNote Tag 0x0042 (Signed Long): 0
+MakerNote Tag 0x0043 (Signed Long): 0
+MakerNote Tag 0x0044 (Signed Long): 0
+MakerNote Tag 0x0045 (Signed Long): 0
+MakerNote Tag 0x0046 (Signed Long): 0
+MakerNote Tag 0x0048 (Signed Long): 0
+MakerNote Tag 0x0049 (Signed Long): 0
+MakerNote Tag 0x004A (Signed Long): 2
+MakerNote Tag 0x004D (Signed Ratio): 808505857/33752145
+MakerNote Tag 0x004E (Undefined): [49, 81, 50, 16, 1, 162, 5, 10, 210, 6, 7, 8, 9, 83, 50, 46, 49, 83, 50, 46, ... ]
+MakerNote Tag 0x004F (Undefined): [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 23, 173, 184, 0, 10, 170, 129, 0, 31, 80, 100, 0, 1]
+MakerNote Tag 0x0052 (Signed Long): 0
