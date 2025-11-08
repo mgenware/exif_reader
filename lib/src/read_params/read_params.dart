@@ -17,7 +17,7 @@ class ReadParams {
   final String error;
 
   /// If not null, use this data instead of the file.
-  final List<int>? data;
+  final Uint8List? data;
 
   /// Callback to name IFDs by index.
   final String Function(int index)? ifdNameCallback;

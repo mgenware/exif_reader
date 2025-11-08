@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:exif_reader/exif_reader.dart';
 import 'package:test/test.dart';
 
@@ -16,7 +18,7 @@ void main() {
     ];
 
     for (final x in data) {
-      final exifDump = await printExifOfBytes(x.codeUnits);
+      final exifDump = await printExifOfBytes(Uint8List.fromList(x.codeUnits));
       expect(exifDump, equals('No EXIF information found'), reason: x);
     }
   });

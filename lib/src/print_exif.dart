@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
+import 'package:random_access_source/random_access_source.dart';
+
 import 'read_exif.dart';
-import 'readers/file_reader.dart';
 
 /// Extracts EXIF tags and formats them as a readable string.
 ///
@@ -12,15 +15,15 @@ import 'readers/file_reader.dart';
 ///
 /// Returns a string with formatted EXIF tags and warnings, or a message if no EXIF data is found.
 Future<String> printExifOfBytes(
-  List<int> bytes, {
+  Uint8List bytes, {
   String? stopTag,
   bool details = true,
   bool strict = false,
   bool debug = false,
   bool truncateTags = true,
 }) async {
-  final data = await readExifFromFileReaderAsync(
-    FileReader.fromBytes(bytes),
+  final data = await readExifFromSourceAsync(
+    BytesRASource(bytes),
     stopTag: stopTag,
     details: details,
     strict: strict,

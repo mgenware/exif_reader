@@ -11,15 +11,22 @@ Future<void> main(List<String> arguments) async {
     final fileBytes = await File(filename).readAsBytes();
     final data = await readExifFromBytes(fileBytes);
 
-    if (data.isEmpty) {
+    if (data.warnings.isNotEmpty) {
+      print('Warnings:');
+      for (final warning in data.warnings) {
+        print('  $warning');
+      }
+    }
+
+    if (data.tags.isEmpty) {
       print('No EXIF information found');
       return;
     }
 
-    final latRef = data['GPS GPSLatitudeRef']?.toString();
-    var latVal = gpsValuesToFloat(data['GPS GPSLatitude']?.values);
-    final lngRef = data['GPS GPSLongitudeRef']?.toString();
-    var lngVal = gpsValuesToFloat(data['GPS GPSLongitude']?.values);
+    final latRef = data.tags['GPS GPSLatitudeRef']?.toString();
+    var latVal = gpsValuesToFloat(data.tags['GPS GPSLatitude']?.values);
+    final lngRef = data.tags['GPS GPSLongitudeRef']?.toString();
+    var lngVal = gpsValuesToFloat(data.tags['GPS GPSLongitude']?.values);
 
     if (latRef == null || latVal == null || lngRef == null || lngVal == null) {
       print('GPS information not found');

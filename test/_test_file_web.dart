@@ -19,7 +19,8 @@ Future<void> testFile(String name) async {
 
   final data = await _download(filename);
   final bytes = (await data.bytes().toDart).toDart;
-  final output = tagsToString(await readExifFromBytes(bytes));
+  final exif = await readExifFromBytes(bytes);
+  final output = tagsToString(exif.tags);
 
   final control = await _download('$filename.dump');
   final expected = (await control.text().toDart).toDart.trim();

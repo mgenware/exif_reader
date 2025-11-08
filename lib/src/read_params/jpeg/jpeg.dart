@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:random_access_source/random_access_source.dart';
+
 import '../../helpers/util.dart';
-import '../../readers/file_reader.dart' show FileReader;
-import '../../readers/reader.dart' show Reader;
+import '../../readers/reader.dart' show BinaryReader;
 import '../read_params.dart';
 
 class JpegExifReader {
@@ -11,18 +12,16 @@ class JpegExifReader {
     return listRangeEqual(header, 0, 2, '\xFF\xD8'.codeUnits);
   }
 
-  /// Reads JPEG EXIF parameters from a [FileReader].
-  /// Returns a [ReadParams] object or error.
-  static Future<ReadParams> readParams(FileReader f) async {
+  static Future<ReadParams> readParams(RandomAccessSource src) async {
     // by default do not fake an EXIF beginning
     var fakeExif = false;
     int offset;
     Endian endian;
 
-    await f.setPosition(0);
+    await src.seek(0);
 
     const headerLength = 12;
-    final rawData = await f.read(headerLength);
+    final rawData = await src.read(headerLength);
     var data = List<int>.from(rawData);
     if (data.length != headerLength) {
       return ReadParams.error('File format not recognized.');
@@ -37,9 +36,9 @@ class JpegExifReader {
           'Phot'.codeUnits,
         ])) {
       final length = data[4] * 256 + data[5];
-      await f.read(length - 8);
+      await src.read(length - 8);
       data = [0xFF, 0x00];
-      data.addAll(await f.read(10));
+      data.addAll(await src.read(10));
       fakeExif = true;
       if (base > 2) {
         base = base + length + 4 - 2;
@@ -49,8 +48,8 @@ class JpegExifReader {
     }
 
     // Patch to deal with APP2 (or other) data before APP1
-    await f.setPosition(0);
-    data = await f.read(base + 4000);
+    await src.seek(0);
+    data = await src.read(base + 4000);
 
     while (true) {
       if (listRangeEqual(data, base, base + 2, [0xFF, 0xE1])) {
@@ -102,27 +101,27 @@ class JpegExifReader {
       }
     }
 
-    await f.setPosition(base + 12);
+    await src.seek(base + 12);
     if (data[2 + base] == 0xFF &&
         listRangeEqual(data, 6 + base, 10 + base, 'Exif'.codeUnits)) {
       // detected EXIF header
-      offset = await f.position();
-      endian = Reader.endianOfByte(await f.readByte());
+      offset = await src.position();
+      endian = BinaryReader.endianOfByte(await src.readByte());
       //HACK TEST:  endian = 'M'
     } else if (data[2 + base] == 0xFF &&
         listRangeEqual(data, 6 + base, 10 + base + 1, 'Ducky'.codeUnits)) {
       // detected Ducky header.
       // printf("** EXIF-like header (normally 0xFF and code): 0x%X and %s",
       //              [data[2 + base], data.sublist(6 + base,10 + base + 1)]);
-      offset = await f.position();
-      endian = Reader.endianOfByte(await f.readByte());
+      offset = await src.position();
+      endian = BinaryReader.endianOfByte(await src.readByte());
     } else if (data[2 + base] == 0xFF &&
         listRangeEqual(data, 6 + base, 10 + base + 1, 'Adobe'.codeUnits)) {
       // detected APP14 (Adobe);
       // printf("** EXIF-like header (normally 0xFF and code): 0x%X and %s",
       //              [data[2 + base], data.sublist(6 + base,10 + base + 1)]);
-      offset = await f.position();
-      endian = Reader.endianOfByte(await f.readByte());
+      offset = await src.position();
+      endian = BinaryReader.endianOfByte(await src.readByte());
     } else {
       // print("** No EXIF header expected data[2+base]==0xFF and data[6+base:10+base]===Exif (or Duck)");
       // printf("** Did get 0x%X and %s",

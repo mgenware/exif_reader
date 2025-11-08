@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:random_access_source/random_access_source.dart';
+
 import '../../helpers/util.dart';
-import '../../readers/file_reader.dart';
 import '../../readers/reader.dart';
 import '../read_params.dart';
 
@@ -12,14 +13,14 @@ class RafExifReader {
   static bool isRaf(List<int> header) =>
       listRangeEqual(header, 0, 15, 'FUJIFILMCCD-'.codeUnits);
 
-  static Future<ReadParams> readParams(FileReader f) async {
-    await f.setPosition(0);
-    final readParams = await _findExif(f);
+  static Future<ReadParams> readParams(RandomAccessSource src) async {
+    await src.seek(0);
+    final readParams = await _findExif(src);
     return readParams ?? ReadParams.error('No EXIF information found');
   }
 
-  static Future<ReadParams?> _findExif(FileReader file) async {
-    final bytes = await file.readAsBytes(false);
+  static Future<ReadParams?> _findExif(RandomAccessSource src) async {
+    final bytes = await src.readToEnd();
     final asciiString = AsciiCodec().decode(bytes, allowInvalid: true);
     final index = asciiString.indexOf(_exifHeader);
     if (index == -1) {
@@ -31,7 +32,7 @@ class RafExifReader {
       return null;
     }
     final endianByte = bytes[exifStart];
-    final endian = Reader.endianOfByte(endianByte);
+    final endian = BinaryReader.endianOfByte(endianByte);
     return ReadParams(
       offset: exifStart,
       endian: endian,

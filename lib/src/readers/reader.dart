@@ -1,21 +1,23 @@
 import 'dart:typed_data';
 
+import 'package:random_access_source/random_access_source.dart';
+
 import '../exif_types.dart';
 import '../field_types.dart';
+import '../helpers/uint8list_extension.dart';
 import '../helpers/util.dart';
 import '../makernotes/makernote_canon.dart' as canon_;
-import 'file_reader.dart';
 
-class Reader {
-  FileReader file;
+class BinaryReader {
+  RandomAccessSource src;
   int baseOffset;
   Endian endian;
 
-  Reader(this.file, this.baseOffset, this.endian);
+  BinaryReader(this.src, this.baseOffset, this.endian);
 
   Future<Uint8List> readSlice(int relativePos, int length) async {
-    await file.setPosition(baseOffset + relativePos);
-    return await file.read(length);
+    await src.seek(baseOffset + relativePos);
+    return await src.read(length);
   }
 
   // Convert slice to integer, based on sign and endian flags.
@@ -65,7 +67,7 @@ class Reader {
 }
 
 class IfdReader {
-  Reader file;
+  BinaryReader file;
   final bool fakeExif;
 
   IfdReader(this.file, {required this.fakeExif});
@@ -210,7 +212,7 @@ class IfdReader {
       // Drop any garbage after a null.
       final i = values.indexOf(0);
       if (i >= 0) {
-        values = values.sublist(0, i);
+        values = values.subView(0, i);
       }
       return IfdBytes(values);
     } catch (e) {

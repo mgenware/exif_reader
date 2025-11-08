@@ -1,5 +1,6 @@
+import 'package:random_access_source/random_access_source.dart';
+
 import '../../helpers/util.dart';
-import '../../readers/file_reader.dart';
 import '../../readers/reader.dart';
 import '../read_params.dart';
 
@@ -13,12 +14,10 @@ class TiffExifReader {
         );
   }
 
-  /// Reads TIFF EXIF parameters from a [FileReader].
-  /// Returns a [ReadParams] object.
-  static Future<ReadParams> readParams(FileReader f) async {
-    await f.setPosition(0);
-    final endian = Reader.endianOfByte(await f.readByte());
-    await f.read(1);
+  static Future<ReadParams> readParams(RandomAccessSource src) async {
+    await src.seek(0);
+    final endian = BinaryReader.endianOfByte(await src.readByte());
+    await src.read(1);
     return ReadParams(endian: endian, offset: 0);
   }
 }

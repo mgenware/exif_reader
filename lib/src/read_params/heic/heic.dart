@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:random_access_source/random_access_source.dart';
+
 import '../../helpers/util.dart';
-import '../../readers/file_reader.dart';
-import '../../readers/reader.dart' show Reader;
+import '../../readers/reader.dart' show BinaryReader;
 import '../read_params.dart';
 
 class HeicBox {
@@ -40,19 +41,19 @@ class HeicBox {
 }
 
 class HEICExifFinder {
-  final FileReader fileReader;
+  final RandomAccessSource src;
 
-  HEICExifFinder(this.fileReader);
+  HEICExifFinder(this.src);
 
-  static Future<ReadParams> readParams(FileReader f) async {
-    await f.setPosition(0);
-    final heic = HEICExifFinder(f);
+  static Future<ReadParams> readParams(RandomAccessSource src) async {
+    await src.seek(0);
+    final heic = HEICExifFinder(src);
     final res = await heic.findExif();
     if (res.length != 2) {
       return ReadParams.error('Possibly corrupted heic data');
     }
     final int offset = res[0];
-    final Endian endian = Reader.endianOfByte(res[1]);
+    final Endian endian = BinaryReader.endianOfByte(res[1]);
     return ReadParams(endian: endian, offset: offset);
   }
 
@@ -72,7 +73,7 @@ class HEICExifFinder {
       listRangeEqual(header, 4, 12, 'ftypavif'.codeUnits);
 
   Future<Uint8List> getBytes(int nbytes) async {
-    final bytes = await fileReader.read(nbytes);
+    final bytes = await src.read(nbytes);
     if (bytes.length != nbytes) {
       throw Exception('Bad size');
     }
@@ -116,7 +117,7 @@ class HEICExifFinder {
   }
 
   Future<HeicBox> nextBox() async {
-    final pos = await fileReader.position();
+    final pos = await src.position();
     int size = ByteData.view((await getBytes(4)).buffer).getInt32(0);
     final kind = String.fromCharCodes(await getBytes(4));
     final box = HeicBox(kind);
@@ -133,7 +134,7 @@ class HEICExifFinder {
       box.size = size - 8;
       box.after = pos + size;
     }
-    box.pos = await fileReader.position();
+    box.pos = await src.position();
     return box;
   }
 
@@ -150,7 +151,7 @@ class HEICExifFinder {
 
   Future<void> _parseMeta(HeicBox meta) async {
     meta.setFull(ByteData.view((await getBytes(4)).buffer).getInt32(0));
-    while (await fileReader.position() < meta.after) {
+    while (await src.position() < meta.after) {
       final box = await nextBox();
       final psub = getParser(box);
       if (psub != null) {
@@ -158,7 +159,7 @@ class HEICExifFinder {
         meta.subs[box.name] = box;
       }
       // skip any unparsed data
-      await fileReader.setPosition(box.after);
+      await src.seek(box.after);
     }
   }
 
@@ -264,7 +265,7 @@ class HEICExifFinder {
     }
     await probe(box);
     //  in case anything is left unread
-    await fileReader.setPosition(box.after);
+    await src.seek(box.after);
     return box;
   }
 
@@ -274,7 +275,7 @@ class HEICExifFinder {
       if (box.name == name) {
         return parseBox(box);
       }
-      await fileReader.setPosition(box.after);
+      await src.seek(box.after);
     }
   }
 
@@ -292,7 +293,7 @@ class HEICExifFinder {
     }
     final int pos = extents[0][0];
     // looks like there's a kind of pseudo-box here.
-    await fileReader.setPosition(pos);
+    await src.seek(pos);
     // the payload of "Exif" item may be start with either
     //  b'\xFF\xE1\xSS\xSSExif\x00\x00' (with APP1 marker, e.g. Android Q)
     //  or
@@ -302,8 +303,8 @@ class HEICExifFinder {
         ByteData.view((await getBytes(4)).buffer).getInt32(0);
     await getBytes(exifTiffHeaderOffset);
     // assert self.get(exif_tiff_header_offset)[-6:] == b'Exif\x00\x00'
-    final offset = await fileReader.position();
-    final endian = (await fileReader.read(1))[0];
+    final offset = await src.position();
+    final endian = (await src.read(1))[0];
     return [offset, endian];
   }
 }

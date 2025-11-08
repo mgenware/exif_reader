@@ -49,7 +49,7 @@ class ValuesToPrintable {
       } on FormatException {
         if (truncateTags && bytes.length > 20) {
           return ValuesToPrintable.malformed(
-            'b"${bytesToStringRepr(bytes.sublist(0, 20))}, ... ]',
+            'b"${bytesToStringRepr(bytes.subView(0, 20))}, ... ]',
           );
         }
         return ValuesToPrintable.malformed(bytes.toHex());

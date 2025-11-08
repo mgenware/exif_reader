@@ -11,12 +11,19 @@ Future<void> main(List<String> arguments) async {
     final fileBytes = await File(filename).readAsBytes();
     final data = await readExifFromBytes(fileBytes);
 
-    if (data.isEmpty) {
+    if (data.warnings.isNotEmpty) {
+      print('Warnings:');
+      for (final warning in data.warnings) {
+        print('  $warning');
+      }
+    }
+
+    if (data.tags.isEmpty) {
       print('No EXIF information found');
       return;
     }
 
-    final datetime = data['EXIF DateTimeOriginal']?.toString();
+    final datetime = data.tags['EXIF DateTimeOriginal']?.toString();
     if (datetime == null) {
       print('datetime information not found');
       return;
