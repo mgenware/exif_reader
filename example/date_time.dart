@@ -9,21 +9,21 @@ Future<void> main(List<String> arguments) async {
     print('read $filename ..');
 
     final fileBytes = await File(filename).readAsBytes();
-    final data = await readExifFromBytes(fileBytes);
+    final exif = await readExifFromBytes(fileBytes);
 
-    if (data.warnings.isNotEmpty) {
+    if (exif.warnings.isNotEmpty) {
       print('Warnings:');
-      for (final warning in data.warnings) {
+      for (final warning in exif.warnings) {
         print('  $warning');
       }
     }
 
-    if (data.tags.isEmpty) {
+    if (exif.tags.isEmpty) {
       print('No EXIF information found');
       return;
     }
 
-    final datetime = data.tags['EXIF DateTimeOriginal']?.toString();
+    final datetime = exif.tags['EXIF DateTimeOriginal']?.toString();
     if (datetime == null) {
       print('datetime information not found');
       return;

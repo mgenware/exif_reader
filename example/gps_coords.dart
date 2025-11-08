@@ -9,24 +9,24 @@ Future<void> main(List<String> arguments) async {
     print('read $filename ..');
 
     final fileBytes = await File(filename).readAsBytes();
-    final data = await readExifFromBytes(fileBytes);
+    final exif = await readExifFromBytes(fileBytes);
 
-    if (data.warnings.isNotEmpty) {
+    if (exif.warnings.isNotEmpty) {
       print('Warnings:');
-      for (final warning in data.warnings) {
+      for (final warning in exif.warnings) {
         print('  $warning');
       }
     }
 
-    if (data.tags.isEmpty) {
+    if (exif.tags.isEmpty) {
       print('No EXIF information found');
       return;
     }
 
-    final latRef = data.tags['GPS GPSLatitudeRef']?.toString();
-    var latVal = gpsValuesToFloat(data.tags['GPS GPSLatitude']?.values);
-    final lngRef = data.tags['GPS GPSLongitudeRef']?.toString();
-    var lngVal = gpsValuesToFloat(data.tags['GPS GPSLongitude']?.values);
+    final latRef = exif.tags['GPS GPSLatitudeRef']?.toString();
+    var latVal = gpsValuesToFloat(exif.tags['GPS GPSLatitude']?.values);
+    final lngRef = exif.tags['GPS GPSLongitudeRef']?.toString();
+    var lngVal = gpsValuesToFloat(exif.tags['GPS GPSLongitude']?.values);
 
     if (latRef == null || latVal == null || lngRef == null || lngVal == null) {
       print('GPS information not found');
