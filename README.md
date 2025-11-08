@@ -12,7 +12,7 @@ Future<void> main(List<String> arguments) async {
   for (final filename in arguments) {
     print('Reading $filename ..');
 
-    final data = await readExifFromFile(File(filename));
+    final data = await readExifFromBytes(File(filename));
 
     if (data.isEmpty) {
       print('No EXIF information found');

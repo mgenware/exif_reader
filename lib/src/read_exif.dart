@@ -34,7 +34,7 @@ Future<ExifData> readExifFromBytes(
   bool debug = false,
   bool truncateTags = true,
 }) async {
-  final exif = await readExifFromSourceAsync(
+  final exif = await readExifFromSource(
     BytesRASource(bytes),
     stopTag: stopTag,
     details: details,
@@ -54,7 +54,7 @@ Future<ExifData> readExifFromBytes(
 /// [truncateTags]: Whether to truncate long tag values (default: true).
 ///
 /// Returns an [ExifData] object containing parsed EXIF tags and warnings.
-Future<ExifData> readExifFromSourceAsync(
+Future<ExifData> readExifFromSource(
   RandomAccessSource src, {
   String? stopTag,
   bool details = true,

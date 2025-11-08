@@ -22,7 +22,7 @@ Future<String> printExifOfBytes(
   bool debug = false,
   bool truncateTags = true,
 }) async {
-  final data = await readExifFromSourceAsync(
+  final data = await readExifFromSource(
     BytesRASource(bytes),
     stopTag: stopTag,
     details: details,
