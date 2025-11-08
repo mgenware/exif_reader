@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:iso_base_media/iso_base_media.dart';
+import 'package:random_access_source/random_access_source.dart';
 
 import '../../helpers/uint8list_extension.dart';
 import '../../makernotes/makernote_canon.dart' as canon_;
@@ -13,11 +16,14 @@ import 'cr3.dart' as cr3_;
 class Cr3ExifReader implements cr3_.Cr3ExifReader {
   @override
   Future<List<ReadParams>> findExif(FileReader f) async {
-    final raf = (f is io_.RandomAccessFileReader)
-        ? f.file
+    final reader = (f is io_.RandomAccessFileReader)
+        ? f
         : throw Exception(
             'CR3 is only supported via a RandomAccessFile reader.');
-    final fileBox = ISOBox.fileBoxFromRandomAccessFile(raf);
+    final raSource =
+        BytesRASource(Uint8List.fromList(await reader.readAsBytes(true)));
+    await raSource.seek(await f.position());
+    final fileBox = ISOBox.fileBox(raSource);
     final moov = await fileBox.getDirectChildByTypes({'moov'});
     final uuidList = await moov?.getDirectChildrenByTypes({'uuid'}) ?? const [];
 

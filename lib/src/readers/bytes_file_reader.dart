@@ -21,8 +21,15 @@ class BytesFileReader implements FileReader {
   }
 
   @override
-  Future<List<int>> readAsBytes() async {
-    return bytes;
+  Future<List<int>> readAsBytes(bool fromStart) async {
+    List<int> result;
+    if (fromStart) {
+      result = bytes;
+    } else {
+      result = bytes.sublist(readPos);
+    }
+    readPos = bytes.length;
+    return result;
   }
 
   /// Reads a single byte from the byte list.

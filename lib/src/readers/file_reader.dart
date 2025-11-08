@@ -22,7 +22,7 @@ abstract class FileReader {
     return BytesFileReader(bytes);
   }
 
-  Future<List<int>> readAsBytes();
+  Future<List<int>> readAsBytes(bool fromStart);
 
   /// Reads a single byte from the file.
   Future<int> readByte();

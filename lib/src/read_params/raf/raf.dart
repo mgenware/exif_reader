@@ -19,7 +19,7 @@ class RafExifReader {
   }
 
   static Future<ReadParams?> _findExif(FileReader file) async {
-    final bytes = await file.readAsBytes();
+    final bytes = await file.readAsBytes(false);
     final asciiString = AsciiCodec().decode(bytes, allowInvalid: true);
     final index = asciiString.indexOf(_exifHeader);
     if (index == -1) {

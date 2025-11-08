@@ -15,7 +15,10 @@ class RandomAccessFileReader implements FileReader {
   }
 
   @override
-  Future<List<int>> readAsBytes() async {
+  Future<List<int>> readAsBytes(bool fromStart) async {
+    if (fromStart) {
+      await file.setPosition(0);
+    }
     final len = await file.length();
     final bytes = Uint8List(len);
     await file.readInto(bytes);

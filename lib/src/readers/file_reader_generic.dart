@@ -13,7 +13,7 @@ class RandomAccessFileReader implements FileReader {
       'RandomAccessFile is not supported on this platform.');
 
   @override
-  Future<List<int>> readAsBytes() => throw UnsupportedError(
+  Future<List<int>> readAsBytes(bool fromStart) => throw UnsupportedError(
       'RandomAccessFile is not supported on this platform.');
 
   @override
