@@ -1,3 +1,9 @@
+## 4.0.0
+
+- [Breaking] Removed `readExifFromFile`. Use `readExifFromSource`. To read EXIF from files, call `readExifFromSource` with a `FileRASource`, which supports `File` (dart:io) and `Blob` (package:web).
+- [Breaking] `readExifFromBytes` now returns `ExifData`.
+- Add web support for JXL and CR3 files.
+
 ## 3.17.0 (@d-markey)
 
 - Migrate from `dart:html` to `web` package (also bumps SDK min version to 3.4.0).
