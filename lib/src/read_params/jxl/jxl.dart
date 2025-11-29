@@ -54,10 +54,10 @@ class JxlExifReader {
   }
 
   static Future<JxlExifReaderResult> _findExif(RandomAccessSource src) async {
-    final fileBox = ISOBox.fileBox(src);
+    final fileBox = ISOBox.createRootBox();
     ISOBox? child;
     do {
-      child = await fileBox.nextChild();
+      child = await fileBox.nextChild(src);
       if (child != null) {
         if (child.type.toLowerCase() == 'exif') {
           return JxlExifReaderResult(
@@ -68,7 +68,7 @@ class JxlExifReader {
                   4,
               null);
         } else if (child.type == 'brob') {
-          final boxBytes = await child.extractData();
+          final boxBytes = await child.extractData(src);
           final header = boxBytes.sublist(0, 4);
           final headerString = String.fromCharCodes(header);
           if (headerString.toLowerCase() == 'exif') {

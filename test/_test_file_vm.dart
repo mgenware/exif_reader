@@ -10,7 +10,7 @@ Future<void> testFile(String name) async {
   final filename = 'test/data/$name';
 
   final data = io.File(filename);
-  final exif = await readExifFromSource(await FileRASource.load(data));
+  final exif = await readExifFromSource(await FileRASource.loadFile(data));
   final output = tagsToString(exif.tags);
 
   final control = io.File('$filename.dump');

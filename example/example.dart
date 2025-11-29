@@ -9,8 +9,9 @@ Future<void> main(List<String> arguments) async {
   for (final filename in arguments) {
     print('Reading $filename ..');
 
-    final exif =
-        await readExifFromSource(await FileRASource.load(File(filename)));
+    final src = await FileRASource.loadFile(File(filename));
+    final exif = await readExifFromSource(src);
+    await src.close();
 
     if (exif.warnings.isNotEmpty) {
       print('Warnings:');

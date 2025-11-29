@@ -52,8 +52,8 @@ To create a `RandomAccessSource`, use the following implementations:
 - Use `BytesRASource` for `Uint8List`.
   - `BytesRASource(Uint8List bytes)`: creates a `BytesRASource` from the given `bytes`.
 - Use `FileRASource` for `File` (`dart:io`) and `Blob` (`package:web`).
-  - `await FileRASource.open(path)`: Opens a `FileRASource` from a file path.
-  - `await FileRASource.load(file)`: Loads a `FileRASource` from a `PlatformFile`.
+  - `await FileRASource.openPath(path)`: Opens a `FileRASource` from a file path.
+  - `await FileRASource.loadFile(file)`: Loads a `FileRASource` from a `PlatformFile`.
 
 ### `ExifData`
 
