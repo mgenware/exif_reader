@@ -9,7 +9,6 @@ dependencies:
   brotli: ^0.6.0
   iso_base_media: ^6.0.0
   sprintf: ^7.0.0
-  js_interop_utils: ^1.0.8
   web: ^1.1.1
   random_access_source: ^4.0.0
 dev_dependencies:
