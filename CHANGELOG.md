@@ -1,3 +1,7 @@
+## 4.0.2
+
+- Remove unused deps.
+
 ## 4.0.0
 
 - [Breaking] Removed `readExifFromFile`. Use `readExifFromSource`. To read EXIF from files, call `readExifFromSource` with a `FileRASource`, which supports `File` (dart:io) and `Blob` (package:web).
