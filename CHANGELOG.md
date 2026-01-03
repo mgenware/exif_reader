@@ -1,3 +1,7 @@
+## 4.1.0
+
+- Fix parsing issue when EXIF segment is not the first segment in APP1.
+
 ## 4.0.2
 
 - Remove unused deps.
