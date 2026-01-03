@@ -11,6 +11,7 @@ dependencies:
   sprintf: ^7.0.0
   web: ^1.1.1
   random_access_source: ^4.0.0
+  jpeg_markers: ^2.7.0
 dev_dependencies:
   mgenware_dart_lints: ^8.1.0
   test: ^1.16.8

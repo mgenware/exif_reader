@@ -125,3 +125,15 @@ int s2nLittleEndian(List<int> s, {bool signed = false}) {
 
   return x;
 }
+
+bool bytesStartWith(List<int> bytes, List<int> prefix) {
+  if (bytes.length < prefix.length) {
+    return false;
+  }
+  for (var i = 0; i < prefix.length; i++) {
+    if (bytes[i] != prefix[i]) {
+      return false;
+    }
+  }
+  return true;
+}

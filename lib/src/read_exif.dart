@@ -80,7 +80,9 @@ Future<ExifData> readExifFromSource(
   } else if (JpegExifReader.isJpeg(header)) {
     // JPEG
     final readParams = await JpegExifReader.readParams(src);
-    readParamsList.add(readParams);
+    if (readParams != null) {
+      readParamsList.add(readParams);
+    }
   } else if (PngExifReader.isPng(header)) {
     // PNG
     final readParams = await PngExifReader.readParams(src);
