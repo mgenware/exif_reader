@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:random_access_source/random_access_source.dart';
@@ -26,17 +27,13 @@ class BinaryReader {
   // For some cameras that use relative tags, this offset may be relative
   // to some other starting point.
   Future<int> readInt(int offset, int length, {bool signed = false}) async {
-    final sliced = await readSlice(offset, length);
-    int val;
-
-    if (endian == Endian.little) {
-      val = s2nLittleEndian(sliced, signed: signed);
-    } else {
-      val = s2nBigEndian(sliced, signed: signed);
-    }
-
-    return val;
+    return _bytesToInt(await readSlice(offset, length), signed: signed);
   }
+
+  int _bytesToInt(Uint8List bytes, {bool signed = false}) =>
+      endian == Endian.little
+          ? s2nLittleEndian(bytes, signed: signed)
+          : s2nBigEndian(bytes, signed: signed);
 
   Future<Ratio> readRatio(int offset, {required bool signed}) async {
     final n = await readInt(offset, 4, signed: signed);
@@ -67,6 +64,8 @@ class BinaryReader {
 }
 
 class IfdReader {
+  static const _maxValuesPerRead = 1000;
+
   BinaryReader file;
   final bool fakeExif;
 
@@ -102,14 +101,24 @@ class IfdReader {
     required bool relative,
   }) async {
     final numEntries = await file.readInt(ifd, 2);
+    if (numEntries == 0) {
+      return [];
+    }
+    final data = await file.readSlice(ifd + 2, numEntries * 12);
+
+    int readInt(int offset, int length) {
+      final bytes = data.subView(offset, offset + length);
+      return file._bytesToInt(bytes);
+    }
 
     final entries = <IfdEntry>[];
     for (int i = 0; i < numEntries; i++) {
       // entry is index of start of this IFD in the file
       final offset = ifd + 2 + 12 * i;
-      final tag = await file.readInt(offset, 2);
-      final fieldType = FieldType.ofValue(await file.readInt(offset + 2, 2));
-      final count = await file.readInt(offset + 4, 4);
+      final dataOffset = 12 * i;
+      final tag = readInt(dataOffset, 2);
+      final fieldType = FieldType.ofValue(readInt(dataOffset + 2, 2));
+      final count = readInt(dataOffset + 4, 4);
 
       final typeLength = fieldType.length;
 
@@ -127,12 +136,12 @@ class IfdReader {
         // other relative offsets, which would have to be computed here
         // slightly differently.
         if (relative) {
-          fieldOffset = await file.readInt(fieldOffset, 4) + ifd - 8;
+          fieldOffset = readInt(dataOffset + 8, 4) + ifd - 8;
           if (fakeExif) {
             fieldOffset += 18;
           }
         } else {
-          fieldOffset = await file.readInt(fieldOffset, 4);
+          fieldOffset = readInt(dataOffset + 8, 4);
         }
       }
 
@@ -169,26 +178,48 @@ class IfdReader {
 
   Future<IfdRatios> _readIfdRatios(IfdEntry entry) async {
     final List<Ratio> values = [];
-    var pos = entry.fieldOffset;
-    for (int dummy = 0; dummy < entry.count; dummy++) {
-      values.add(await file.readRatio(pos, signed: entry.fieldType.isSigned));
-      pos += entry.fieldType.length;
+    if (entry.count == 0) {
+      return IfdRatios(values);
+    }
+    final bytes = await file.readSlice(
+      entry.fieldOffset,
+      entry.count * entry.fieldType.length,
+    );
+    for (int index = 0; index < entry.count; index++) {
+      final offset = index * entry.fieldType.length;
+      values.add(
+        Ratio(
+          file._bytesToInt(
+            bytes.subView(offset, offset + 4),
+            signed: entry.fieldType.isSigned,
+          ),
+          file._bytesToInt(
+            bytes.subView(offset + 4, offset + 8),
+            signed: entry.fieldType.isSigned,
+          ),
+        ),
+      );
     }
     return IfdRatios(values);
   }
 
   Future<IfdInts> _readIfdInts(IfdEntry entry) async {
     final List<int> values = [];
-    var pos = entry.fieldOffset;
-    for (int dummy = 0; dummy < entry.count; dummy++) {
-      values.add(
-        await file.readInt(
-          pos,
-          entry.fieldType.length,
-          signed: entry.fieldType.isSigned,
-        ),
+    for (var start = 0; start < entry.count; start += _maxValuesPerRead) {
+      final count = math.min(_maxValuesPerRead, entry.count - start);
+      final bytes = await file.readSlice(
+        entry.fieldOffset + start * entry.fieldType.length,
+        count * entry.fieldType.length,
       );
-      pos += entry.fieldType.length;
+      for (var index = 0; index < count; index++) {
+        final offset = index * entry.fieldType.length;
+        values.add(
+          file._bytesToInt(
+            bytes.subView(offset, offset + entry.fieldType.length),
+            signed: entry.fieldType.isSigned,
+          ),
+        );
+      }
     }
     return IfdInts(values);
   }
@@ -229,7 +260,7 @@ class IfdReader {
     // XXX investigate
     // some entries get too big to handle could be malformed
     // file or problem with this.s2n
-    if (entry.count < 1000) {
+    if (entry.count < _maxValuesPerRead) {
       if (entry.fieldType == FieldType.ratio ||
           entry.fieldType == FieldType.signedRatio) {
         return _readIfdRatios(entry);
