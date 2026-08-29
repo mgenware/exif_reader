@@ -1,3 +1,7 @@
+## 4.2.0
+
+- Batch IFD and value reads (@neeraj-pilot)
+
 ## 4.1.0
 
 - Fix parsing issue when EXIF segment is not the first segment in APP1.
