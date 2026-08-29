@@ -36,8 +36,12 @@ void main() {
       expect(entries[1].fieldType, FieldType.short);
       expect(entries[1].count, 1);
       expect(entries[1].fieldOffset, 22);
-      expect(source.reads, 2);
-      expect(source.seeks, 2);
+
+      final relativeEntries = await reader.readIfdEntries(0, relative: true);
+
+      expect(relativeEntries[0].fieldOffset, 20);
+      expect(relativeEntries[1].fieldOffset, 22);
+      expect(source.readLengths, [2, 24, 2, 24]);
     }
   });
 
@@ -63,8 +67,7 @@ void main() {
     );
 
     expect(integerValues.toList(), [-1, 2, -3]);
-    expect(integerSource.reads, 1);
-    expect(integerSource.seeks, 1);
+    expect(integerSource.readLengths, [6]);
 
     final ratios = ByteData(16)
       ..setInt32(0, 1)
@@ -91,9 +94,10 @@ void main() {
       ratioValues.toList().map((value) => value.toString()),
       ['1/2', '-3/4'],
     );
-    expect(ratioSource.reads, 1);
-    expect(ratioSource.seeks, 1);
+    expect(ratioSource.readLengths, [16]);
+  });
 
+  test('chunks large numeric array reads', () async {
     final largeSource = _CountingSource(Uint8List(1001));
     final largeReader = IfdReader(
       BinaryReader(largeSource, 0, Endian.little),
@@ -111,26 +115,18 @@ void main() {
     );
 
     expect(largeValues.length, 1001);
-    expect(largeSource.reads, 2);
-    expect(largeSource.seeks, 2);
+    expect(largeSource.readLengths, [1000, 1]);
   });
 }
 
 class _CountingSource extends BytesRASource {
   _CountingSource(super.bytes);
 
-  int reads = 0;
-  int seeks = 0;
+  final readLengths = <int>[];
 
   @override
   Future<Uint8List> read(int count) {
-    reads++;
+    readLengths.add(count);
     return super.read(count);
-  }
-
-  @override
-  Future<void> seek(int position) {
-    seeks++;
-    return super.seek(position);
   }
 }

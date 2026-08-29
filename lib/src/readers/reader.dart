@@ -35,12 +35,6 @@ class BinaryReader {
           ? s2nLittleEndian(bytes, signed: signed)
           : s2nBigEndian(bytes, signed: signed);
 
-  Future<Ratio> readRatio(int offset, {required bool signed}) async {
-    final n = await readInt(offset, 4, signed: signed);
-    final d = await readInt(offset + 4, 4, signed: signed);
-    return Ratio(n, d);
-  }
-
   // Convert offset to string.
   List<int> offsetToBytes(int readOffset, int length) {
     final List<int> s = [];
